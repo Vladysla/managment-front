@@ -5,7 +5,7 @@ import {
 } from './actionTypes'
 
 export const loadProducts = () => dispatch => {
-    return axios.get(`${dataUrl}products`)
+    return axios.get(`${dataUrl}/products`)
             .then(response => {
                 const data = response.data
                 dispatch({ type: FETCH_PRODUCTS, payload: { data } })

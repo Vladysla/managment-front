@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import {
     FETCH_PRODUCTS
 } from './actionTypes'
@@ -12,7 +14,7 @@ const productsReducer = function (state = initialState, {type, payload}) {
         case FETCH_PRODUCTS: {
             return {
                 ...state,
-                data: [...state.data, ...payload.data]
+                ...payload.data
             }
         }
 

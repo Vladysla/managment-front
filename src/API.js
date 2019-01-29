@@ -4,8 +4,8 @@ import {
 } from './Store/Modules/LocalSettings/actions'
 import axios from 'axios'
 
-export const loginUrl = 'login/signin'
-export const dataUrl = 'http://localhost:3000/'
+export const loginUrl = 'api/auth/login'
+export const dataUrl = 'api'
 
 const headers = {
     'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const headers = {
 }
 
 const API = axios.create({
-    baseURL: 'http://localhost/',
+    baseURL: 'http://laravel.home/',
     headers
 })
 

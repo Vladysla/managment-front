@@ -7,12 +7,14 @@ import {
 } from 'react-router-dom'
 
 import ProductsMainPage from '../Components/SidePages/Products'
+import Login from '../Components/Login'
 
 import NotFoundPage from '../Components/NotFoundPage'
 
 export default () => (
     <Router>
         <Switch>
+            <Route path='/login' component={Login} />
             <Route path='/' component={ProductsMainPage} exact />
             <Route component={NotFoundPage} />
         </Switch>

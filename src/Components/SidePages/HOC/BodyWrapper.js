@@ -1,19 +1,20 @@
 import React from 'react'
+import _ from 'lodash'
 
 export default RowComponent => props => {
     const { data } = props
     return (
-        <div> /* Table */
+        <div>
             {
-                !data.length
+                !_.size(data)
                     ? (
                         <h2>Empty row</h2>
                     )
-                    : data.map(dataObj => {
+                    : Object.keys(data).map((key, index) => {
                         return (
                             <RowComponent
-                                key={dataObj.id}
-                                data={dataObj}
+                                key={key}
+                                data={data[key]}
                                 showSidebar={props.showSidebar}
                                 menuActions={props.menuActions}
                             />
