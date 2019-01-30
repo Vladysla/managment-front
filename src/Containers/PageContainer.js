@@ -17,7 +17,6 @@ const PageContainer = WrappedComponent => props => {
         error,
         ...otherProps
     } = props
-
     return (
         !isAuthorized
             ? <Redirect to='/login' />
