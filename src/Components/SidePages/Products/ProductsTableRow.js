@@ -2,27 +2,37 @@ import React from 'react'
 
 import RowWrapper from '../HOC/RowWrapper'
 
+import {
+    ProductDefaultRow,
+    ProductMainCell
+} from './ProductsComponents'
+
 const ProductTableRow = props => {
     const {data, hasActionsMenuOpened, openActionsMenu} = props;
     return (
-        <div>
-            {data.info.model}
-            <div>
+        <ProductDefaultRow>
+            <ProductMainCell>{data.info.brand}</ProductMainCell>
+            <ProductMainCell>{data.info.model}</ProductMainCell>
+            <ProductMainCell>
                 {
-                    Object.keys(data.places).map((key, index) => {
-                        return <div key={key}>
-                                    {key}
-                                    <hr/>
-                                    {Object.keys(data.places[key]).map(key => {
-                                        return <div key={key}>
-                                            {key}
+                    Object.keys(data.places).map((keyPlace) => {
+                        return <div key={keyPlace}>
+                                    {keyPlace}
+                                    {Object.keys(data.places[keyPlace]).map(keySize => {
+                                        return <div key={keySize}>
+                                            {keySize}
+                                            {Object.keys(data.places[keyPlace][keySize]).map(keyColor => {
+                                                return <div key={keyColor}>
+                                                    {`${keyColor}: ${data.places[keyPlace][keySize][keyColor]}`}
+                                                </div>
+                                            })}
                                         </div>
                                     })}
                                 </div>
                     })
                 }
-            </div>
-        </div>
+            </ProductMainCell>
+        </ProductDefaultRow>
     )
 }
 

@@ -1,15 +1,23 @@
 import React from 'react'
 import {
-    compose,
-    bindActionCreators
+    compose
 } from 'redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import {
+    Container,
+    ContentWrapper,
+    ComponentWrapper
+} from './Components'
+
+import {
     showSidebar,
     hideSidebar
 } from '../Store/Modules/LocalSettings/actions'
+
+import Header from '../Components/Header'
+import Sidebar from '../Components/Sidebar'
 
 const PageContainer = WrappedComponent => props => {
     const {
@@ -21,10 +29,15 @@ const PageContainer = WrappedComponent => props => {
         !isAuthorized
             ? <Redirect to='/login' />
             : (
-                <div>
-                    PageContainer
-                    <WrappedComponent { ...otherProps } />
-                </div>
+                <Container>
+                    <ContentWrapper>
+                        <Header />
+                        <Sidebar isSidebarShown={props.isSidebarShown}/>
+                        <ComponentWrapper isSidebarShown={props.isSidebarShown}>
+                            <WrappedComponent { ...otherProps } />
+                        </ComponentWrapper>
+                    </ContentWrapper>
+                </Container>
             )
     )
 }
@@ -36,7 +49,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    showSidebar: (sidebarType, id) => dispatch(showSidebar(sidebarType, id)),
+    showSidebar: () => dispatch(showSidebar()),
     hideSidebar: () => dispatch(hideSidebar())
 })
 

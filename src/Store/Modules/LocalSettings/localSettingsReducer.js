@@ -16,14 +16,10 @@ const initialState = {
 const localSettingsReducer = function (state = initialState, { type, payload }) {
     switch (type) {
         case SHOW_SIDEBAR: {
-            const data = {
-                sidebarType: null,
-                id: null,
-                isSidebarShown: true,
-                ...payload
+            return {
+                ...state,
+                isSidebarShown: true
             }
-
-            return { ...state, ...data }
         }
 
         case HIDE_SIDEBAR: {

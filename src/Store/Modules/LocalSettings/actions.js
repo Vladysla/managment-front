@@ -1,4 +1,3 @@
-import uuid from 'uuid'
 
 import {
     HIDE_SIDEBAR,
@@ -8,14 +7,7 @@ import {
 } from "./actionTypes";
 
 export const hideSidebar = () => ({ type: HIDE_SIDEBAR })
-export const showSidebar = (sidebarType, id = uuid(), additionalData = {}) => ({
-    type: SHOW_SIDEBAR,
-    payload: {
-        sidebarType,
-        id,
-        ...additionalData
-    }
-})
+export const showSidebar = () => ({ type: SHOW_SIDEBAR })
 
 export const signIn = (token, user) => ({
     type: SIGN_IN,

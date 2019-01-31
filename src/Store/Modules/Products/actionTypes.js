@@ -1,7 +1,13 @@
 export const ADD_PRODUCT = "ADD_PRODUCT"
 
-export const FETCH_PRODUCTS = "FETCH_PRODUCTS"
+export const FETCH_PRODUCTS_SUM = "FETCH_PRODUCTS_SUM"
 
 export const EDIT_PRODUCT = "EDIT_PRODUCT"
 
 export const DELETE_PRODUCT = "DELETE_PRODUCT"
+
+export const FETCH_PLACES = "FETCH_PLACES"
+export const FETCH_TYPES = "FETCH_TYPES"
+export const FETCH_SIZES = "FETCH_SIZES"
+export const FETCH_COLORS = "FETCH_COLORS"
+export const FETCH_PRODUCTS = "FETCH_PRODUCTS"

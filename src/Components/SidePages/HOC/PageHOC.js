@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 
+import {
+    ComponentWrapper
+} from '../Components'
+
 import Pagination from '../../Pagination'
 
 
@@ -64,7 +68,7 @@ export default (TableBody, options = {}) => {
         render() {
             const { last_page, per_page, total } = this.props
             return (
-                <div>
+                <ComponentWrapper>
                     <TableBody
                         menuOpenHandler={this.menuOpenHandler}
                         hasMenuOpen={this.state.hasMenuOpen}
@@ -82,7 +86,7 @@ export default (TableBody, options = {}) => {
                             handleNextPageClick={this.handleNextPageClick}
                         />
                     }
-                </div>
+                </ComponentWrapper>
             )
         }
     }

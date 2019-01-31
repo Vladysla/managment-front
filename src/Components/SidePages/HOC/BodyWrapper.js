@@ -1,26 +1,41 @@
 import React from 'react'
 
+import {
+    Table,
+    TBody,
+    Row,
+    Cell
+} from '../../Table'
+
 export default RowComponent => props => {
     const { data } = props
     return (
-        <div>
-            {
-                !Object.keys(data).length
-                    ? (
-                        <h2>Empty row</h2>
-                    )
-                    : Object.keys(data).map((key) => {
-                        return (
-                            <RowComponent
-                                key={key}
-                                data={data[key]}
-                                showSidebar={props.showSidebar}
-                                menuActions={props.menuActions}
-                            />
+        <Table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <TBody>
+                {
+                    !Object.keys(data).length
+                        ? (
+                            <Row>Empty row</Row>
                         )
-                    })
-            }
-
-        </div>
+                        : Object.keys(data).map((key) => {
+                            return (
+                                <RowComponent
+                                    key={key}
+                                    data={data[key]}
+                                    showSidebar={props.showSidebar}
+                                    menuActions={props.menuActions}
+                                />
+                            )
+                        })
+                }
+            </TBody>
+        </Table>
     )
 }
