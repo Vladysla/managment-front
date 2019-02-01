@@ -1,41 +1,50 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import {
     Table,
+    THead,
     TBody,
-    Row,
-    Cell
+    HeadRow,
+    HeadCell
 } from '../../Table'
 
 export default RowComponent => props => {
     const { data } = props
     return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Info</th>
-                </tr>
-            </thead>
-            <TBody>
+        <Fragment>
+            <Table>
+                <THead>
+                <HeadRow>
+                    <HeadCell>Бренд</HeadCell>
+                    <HeadCell>Модель</HeadCell>
+                    <HeadCell>Тип товара</HeadCell>
+                    <HeadCell>Цена товара</HeadCell>
+                    <HeadCell>Цена продажи</HeadCell>
+                    <HeadCell>Приход</HeadCell>
+                    <HeadCell>Продажа</HeadCell>
+                    <HeadCell>Остаток</HeadCell>
+                </HeadRow>
+                </THead>
+                <TBody>
                 {
-                    !Object.keys(data).length
+                    !data.length
                         ? (
-                            <Row>Empty row</Row>
+                            <HeadRow>Empty row</HeadRow>
                         )
-                        : Object.keys(data).map((key) => {
+                        : data.map(product => {
                             return (
                                 <RowComponent
-                                    key={key}
-                                    data={data[key]}
+                                    key={product.product_id}
+                                    data={product}
                                     showSidebar={props.showSidebar}
                                     menuActions={props.menuActions}
+                                    onSelect={props.onSelect}
                                 />
                             )
                         })
                 }
-            </TBody>
-        </Table>
+                </TBody>
+            </Table>
+        </Fragment>
     )
 }

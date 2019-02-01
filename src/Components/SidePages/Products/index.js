@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import pageContainer from '../../../Containers/PageContainer'
 import PageHOC from './../HOC/PageHOC'

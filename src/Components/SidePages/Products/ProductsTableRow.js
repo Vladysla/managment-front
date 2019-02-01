@@ -8,31 +8,18 @@ import {
 } from './ProductsComponents'
 
 const ProductTableRow = props => {
-    const {data, hasActionsMenuOpened, openActionsMenu} = props;
+    const {data, hasActionsMenuOpened, openActionsMenu, onSelect} = props;
     return (
-        <ProductDefaultRow>
-            <ProductMainCell>{data.info.brand}</ProductMainCell>
-            <ProductMainCell>{data.info.model}</ProductMainCell>
-            <ProductMainCell>
-                {
-                    Object.keys(data.places).map((keyPlace) => {
-                        return <div key={keyPlace}>
-                                    {keyPlace}
-                                    {Object.keys(data.places[keyPlace]).map(keySize => {
-                                        return <div key={keySize}>
-                                            {keySize}
-                                            {Object.keys(data.places[keyPlace][keySize]).map(keyColor => {
-                                                return <div key={keyColor}>
-                                                    {`${keyColor}: ${data.places[keyPlace][keySize][keyColor]}`}
-                                                </div>
-                                            })}
-                                        </div>
-                                    })}
-                                </div>
-                    })
-                }
-            </ProductMainCell>
-        </ProductDefaultRow>
+            <ProductDefaultRow onClick={() => onSelect(data.product_id)}>
+                <ProductMainCell>{data.brand}</ProductMainCell>
+                <ProductMainCell>{data.model}</ProductMainCell>
+                <ProductMainCell>{data.type_name}</ProductMainCell>
+                <ProductMainCell>{data.price_arrival}</ProductMainCell>
+                <ProductMainCell>{data.price_sell}</ProductMainCell>
+                <ProductMainCell>{data.total_count}</ProductMainCell>
+                <ProductMainCell>{data.sold_count}</ProductMainCell>
+                <ProductMainCell>{data.avilable_count}</ProductMainCell>
+            </ProductDefaultRow>
     )
 }
 

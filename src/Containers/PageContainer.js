@@ -4,6 +4,7 @@ import {
 } from 'redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import axios from 'axios'
 
 import {
     Container,
@@ -19,7 +20,20 @@ import {
 import Header from '../Components/Header'
 import Sidebar from '../Components/Sidebar'
 
+const loadCurrency = () => {
+    if(localStorage.getItem('currency')) {
+
+    } else {
+        const d = new Date();
+        const date = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear()
+        axios.get(`https://api.privatbank.ua/p24api/exchange_rates?json&date=${date}`)
+            .then(response => {})
+        localStorage.setItem()
+    }
+}
+
 const PageContainer = WrappedComponent => props => {
+    //loadCurrency()
     const {
         isAuthorized,
         error,

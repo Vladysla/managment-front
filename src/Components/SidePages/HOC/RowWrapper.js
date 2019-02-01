@@ -12,6 +12,7 @@ export default RowComponent => props => {
             hasActionsMenuOpened={hasActionsMenuOpened}
             openActionsMenu={openActionsMenu}
             showSidebar={props.showSidebar}
+            onSelect={props.onSelect}
         />
     )
 }
