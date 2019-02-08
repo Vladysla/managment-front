@@ -5,3 +5,5 @@ export const SHOW_SIDEBAR = "SHOW_SIDEBAR";
 
 export const SIGN_IN = 'SIGN_IN';
 export const LOGOUT = 'LOGOUT';
+
+export const SAVE_CURRENCY = 'SAVE_CURRENCY';

@@ -28,7 +28,8 @@ store.subscribe(() => {
 
     const localSettings = {
         authorizationToken: localSettingsState.authorizationToken,
-        user: localSettingsState.user
+        user: localSettingsState.user,
+        currency: localSettingsState.currency
     };
 
     localStorage.setItem(REDUX_STORAGE_NAME, JSON.stringify({ localSettings }))

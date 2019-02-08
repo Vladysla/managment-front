@@ -74,7 +74,6 @@ export default (TableBody, options = {}) => {
             const { last_page, per_page, total } = this.props
             const { selectedProduct } = this.state
             return (
-                <React.Suspense fallback={null}>
                     <ComponentWrapper>
                         <TableBody
                             menuOpenHandler={this.menuOpenHandler}
@@ -94,11 +93,12 @@ export default (TableBody, options = {}) => {
                                 handleNextPageClick={this.handleNextPageClick}
                             />
                         }
+                        <React.Suspense fallback={null}>
                         {
                             selectedProduct && <Modal productId={selectedProduct} onClose={() => this.setState({ selectedProduct: null })} />
                         }
+                        </React.Suspense>
                     </ComponentWrapper>
-                </React.Suspense>
             )
         }
     }
