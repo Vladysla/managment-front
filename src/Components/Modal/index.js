@@ -10,7 +10,7 @@ import {
     CardHead, TypeH, TitleH, Model,
     Prices, PriceTitle, PriceValue, PriceUE,
     TabsWrapper, TabsHead, TabItem, TabText,
-    TabsBody, Places
+    TabsBody, Places, PlaceTitle, PlaceCount
 } from './Components'
 
 class Modal extends Component {
@@ -33,6 +33,7 @@ class Modal extends Component {
     render() {
         const { product, USA } = this.props
         const { activeTab } = this.state
+        console.log(this.props.product)
         return (
             <Wrapper>
                 <ClickOutside onClickOutside={this.closeModal}>
@@ -64,15 +65,28 @@ class Modal extends Component {
                                                         {
                                                             activeTab === 'price' &&
                                                             <Prices>
-                                                                <PriceTitle>Цена закупа: <PriceValue>{`${product[product_id].info.price_arrival}грн. `}<PriceUE>{`(${(product[product_id].info.price_arrival / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
-                                                                <PriceTitle>Цена продажи: <PriceValue>{`${product[product_id].info.price_sell}грн. `}<PriceUE>{`(${(product[product_id].info.price_sell / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
+                                                                <PriceTitle>Цена закупа: <PriceValue>{`${product[product_id].info.price_arrival} грн. `}<PriceUE>{`(${(product[product_id].info.price_arrival / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
+                                                                <PriceTitle>Цена продажи: <PriceValue>{`${product[product_id].info.price_sell} грн. `}<PriceUE>{`(${(product[product_id].info.price_sell / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
                                                             </Prices>
                                                         }
                                                         {
                                                             activeTab === 'place' &&
                                                             <Places>
                                                                 Magazines
-                                                                {Object.keys(places).map(key => console.log(places[key], key))}
+                                                                {Object.keys(places).map(place => {
+                                                                    let count = 0
+                                                                    Object.keys(places[place]).map(size => {
+                                                                        Object.keys(places[place][size]).map(color => {
+                                                                            count+= places[place][size][color]
+                                                                        })
+                                                                    })
+                                                                    return (
+                                                                        <div>
+                                                                            <PlaceTitle>{place}: </PlaceTitle>
+                                                                            <PlaceCount>{count} шт.</PlaceCount>
+                                                                        </div>
+                                                                    )
+                                                                })}
                                                             </Places>
                                                         }
                                                     </TabsBody>

@@ -125,3 +125,13 @@ export const TabsBody = styled.div`
 export const Places = styled.div`
     
 `;
+
+export const PlaceTitle = styled.span`
+    color: darkgrey;
+    font-size: 23px;
+`;
+
+export const PlaceCount = styled.span`
+    color: #fff;
+    font-size: 20px;
+`;
