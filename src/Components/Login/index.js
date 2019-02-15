@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import axios, {dataUrl, loginUrl} from '../../API'
 import { signIn } from '../../Store/Modules/LocalSettings/actions'
@@ -26,12 +27,23 @@ class Login extends Component
         }
 
         return axios.post(loginUrl, body)
-            .then(response => this.props.signIn(response.data["acces_token"], {}))
+            .then(response => this.submitSuccess(response.data["acces_token"]))
             .catch(error => this.setState({error}))
     }
 
+    submitSuccess = (token, user = {}) => {
+        this.props.signIn(token, user);
+        this.props.history.push("/");
+    }
+
     render() {
+
+        const { isAuthorized } = this.props
+
         return(
+            isAuthorized
+            ? <Redirect to="/" />
+            :
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <input onChange={this.handleChange} name="email" placeholder="email" type="text" value={this.state.email} />
@@ -49,6 +61,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-    null,
+    state => ({ isAuthorized: state.localSettings.authorizationToken }),
     mapDispatchToProps
 )(Login)

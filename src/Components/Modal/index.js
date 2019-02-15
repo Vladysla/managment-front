@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+
+import { Accordion, AccordionItem} from '../Accordion'
 
 import { loadProduct, clearProduct } from '../../Store/Modules/Product/actions'
 
@@ -33,7 +35,6 @@ class Modal extends Component {
     render() {
         const { product, USA } = this.props
         const { activeTab } = this.state
-        console.log(this.props.product)
         return (
             <Wrapper>
                 <ClickOutside onClickOutside={this.closeModal}>
@@ -42,10 +43,10 @@ class Modal extends Component {
                             product && Object.keys(product).map((product_id, index) => {
                                 const places = product[product_id].places
                                 return (
-                                    <>
+                                    <Fragment key={index}>
                                         <CardLeft>
                                             <img
-                                                src="https://www.ikea.com/us/en/images/products/strandmon-wing-chair-yellow__0325450_PE517970_S4.JPG"/>
+                                                src="https://www.rei.com/media/product/119294"/>
                                         </CardLeft>
                                         <CardRight key={index}>
                                             <CardHead>
@@ -56,10 +57,16 @@ class Modal extends Component {
                                                     <TabsHead>
                                                         <TabItem
                                                             onClick={() => this.handleTabChange('price')}
-                                                            active={activeTab === 'price'}><TabText>Цена</TabText></TabItem>
+                                                            active={activeTab === 'price'}
+                                                        >
+                                                            <TabText>Цена</TabText>
+                                                        </TabItem>
                                                         <TabItem
                                                             onClick={() => this.handleTabChange('place')}
-                                                            active={activeTab === 'place'}><TabText>Магазин</TabText></TabItem>
+                                                            active={activeTab === 'place'}
+                                                        >
+                                                            <TabText>Магазин</TabText>
+                                                        </TabItem>
                                                     </TabsHead>
                                                     <TabsBody>
                                                         {
@@ -73,27 +80,31 @@ class Modal extends Component {
                                                             activeTab === 'place' &&
                                                             <Places>
                                                                 Magazines
+                                                                <Accordion>
                                                                 {Object.keys(places).map(place => {
-                                                                    let count = 0
+                                                                    let totalCount = 0;
                                                                     Object.keys(places[place]).map(size => {
                                                                         Object.keys(places[place][size]).map(color => {
-                                                                            count+= places[place][size][color]
+                                                                            totalCount+= places[place][size][color]
                                                                         })
                                                                     })
                                                                     return (
-                                                                        <div>
-                                                                            <PlaceTitle>{place}: </PlaceTitle>
-                                                                            <PlaceCount>{count} шт.</PlaceCount>
-                                                                        </div>
+                                                                        <AccordionItem key={place} title={`${place}: ${totalCount} шт.`}>
+                                                                            <div>
+                                                                                <PlaceTitle>{place}: </PlaceTitle>
+                                                                                <PlaceCount>{totalCount} шт.</PlaceCount>
+                                                                            </div>
+                                                                        </AccordionItem>
                                                                     )
                                                                 })}
+                                                                </Accordion>
                                                             </Places>
                                                         }
                                                     </TabsBody>
                                                 </TabsWrapper>
                                             </CardHead>
                                         </CardRight>
-                                    </>
+                                    </Fragment>
                                 )
                             })
                         }

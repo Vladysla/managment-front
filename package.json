@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
     "react-click-outside": "github:tj/react-click-outside",
