@@ -5,11 +5,11 @@ import {
 } from '../Components'
 
 import Pagination from '../../Pagination'
-const ModalPromise = import("../../Modal");
-const Modal = React.lazy(() => ModalPromise);
+const Modal = React.lazy(() => import('../../Modal'));
+const ProductModal = React.lazy(() => import('../Products/ProductModal'));
 
 
-export default (TableBody, options = {}) => {
+export default (TableBody) => {
     return class extends Component {
         state = {
             isDataFetching: true,
@@ -41,12 +41,12 @@ export default (TableBody, options = {}) => {
             this.props.loadData(queryParams)
         }
 
-        handlePage = id => {
-            if(typeof id === 'number') {
-                this.setState({ currentPage: id })
+        switchCurrentPage = pageNumber => {
+            if(typeof pageNumber === 'number') {
+                this.setState({ currentPage: pageNumber })
             }
         }
-        handleNextPageClick = simbol => {
+        switchNextPageClick = simbol => {
             switch (simbol) {
                 case 'next':
                     this.setState(nextState => {
@@ -74,31 +74,34 @@ export default (TableBody, options = {}) => {
             const { last_page, per_page, total } = this.props
             const { selectedProduct } = this.state
             return (
-                    <ComponentWrapper>
-                        <TableBody
-                            menuOpenHandler={this.menuOpenHandler}
-                            hasMenuOpen={this.state.hasMenuOpen}
-                            data={this.props.data}
-                            onSelect={productId => this.setState({ selectedProduct: productId })}
+                <ComponentWrapper>
+                    <TableBody
+                        menuOpenHandler={this.menuOpenHandler}
+                        hasMenuOpen={this.state.hasMenuOpen}
+                        data={this.props.data}
+                        onSelect={productId => this.setState({ selectedProduct: productId })}
+                    />
+                    {
+                        total >= per_page &&
+                        <Pagination
+                            currentPage={this.state.currentPage}
+                            lastPage={last_page}
+                            perPage={per_page}
+                            total={total}
+                            pageNeighbours={2}
+                            switchCurrentPage={this.switchCurrentPage}
+                            switchNextPageClick={this.switchNextPageClick}
                         />
-                        {
-                            total >= per_page &&
-                            <Pagination
-                                currentPage={this.state.currentPage}
-                                lastPage={last_page}
-                                perPage={per_page}
-                                total={total}
-                                pageNeighbours={2}
-                                handlePage={this.handlePage}
-                                handleNextPageClick={this.handleNextPageClick}
-                            />
-                        }
-                        <React.Suspense fallback={null}>
-                        {
-                            selectedProduct && <Modal productId={selectedProduct} onClose={() => this.setState({ selectedProduct: null })} />
-                        }
-                        </React.Suspense>
-                    </ComponentWrapper>
+                    }
+                    <React.Suspense fallback={null}>
+                    {
+                        selectedProduct &&
+                        <Modal onClose={() => this.setState({ selectedProduct: null })}>
+                            <ProductModal productId={selectedProduct}/>
+                        </Modal>
+                    }
+                    </React.Suspense>
+                </ComponentWrapper>
             )
         }
     }

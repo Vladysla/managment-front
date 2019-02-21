@@ -69,20 +69,20 @@ class Pagination extends Component
         return(
             <PaginatorWrapper>
                 <Page
-                    onClick={() => this.props.handleNextPageClick("prev")}
+                    onClick={() => this.props.switchNextPageClick("prev")}
                     disabled={this.props.currentPage === 1}
                 >{"<"}</Page>
                 {this.handlePage().map((page, index) => (
                     <Page
                         key={index}
-                        onClick={() => this.props.handlePage(page)}
+                        onClick={() => this.props.switchCurrentPage(page)}
                         active={this.props.currentPage === page}
                     >
                         {page}
                     </Page>
                 ))}
                 <Page
-                    onClick={() => this.props.handleNextPageClick("next")}
+                    onClick={() => this.props.switchNextPageClick("next")}
                     disabled={this.props.currentPage === this.props.lastPage}
                 >{">"}</Page>
             </PaginatorWrapper>

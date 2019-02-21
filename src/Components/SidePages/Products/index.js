@@ -2,13 +2,13 @@ import { connect } from 'react-redux'
 
 import pageContainer from '../../../Containers/PageContainer'
 import PageHOC from './../HOC/PageHOC'
-import ProductsTableBody from './ProductsTableBody'
+import BodyWrapper from '../HOC/BodyWrapper'
+import ProductsTableRow from './ProductsTableRow'
 
 import {
     loadProducts
 } from '../../../Store/Modules/Products/actions'
 
-import options from './options'
 
 const mapStateToProps = state => state.products
 
@@ -19,4 +19,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(pageContainer(PageHOC(ProductsTableBody, options)))
+)(pageContainer(PageHOC(BodyWrapper(ProductsTableRow))))
