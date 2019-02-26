@@ -1,9 +1,18 @@
 import styled from 'styled-components'
+import Navbar from 'react-bootstrap/Navbar'
 
 import {
     lightBlue,
-    mainShadow
+    mainShadow,
+    mainTransition
 } from '../../Mixins'
+
+export const CustomNavbar = styled(Navbar)`
+  ${mainTransition};
+  ${props => props.active && `
+    margin-left: 265px
+  `}
+`;
 
 export const HeaderWrapper = styled.div`
       display: flex;

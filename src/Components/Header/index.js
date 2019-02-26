@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import Container from 'react-bootstrap/Container'
 
 import {
     showSidebar,
@@ -7,6 +8,7 @@ import {
 } from '../../Store/Modules/LocalSettings/actions'
 
 import {
+    CustomNavbar,
     HeaderWrapper,
     LeftPart
 } from './Components'
@@ -24,12 +26,23 @@ const Header = props => {
     }
 
     return (
-        <HeaderWrapper>
-            <LeftPart>
+            <CustomNavbar active={props.isSidebarShown} bg="dark">
+                <CustomNavbar.Brand href="#home">
+                    <LeftPart>
+                        <img
+                            src="/logo.svg"
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-top"
+                            alt="React Bootstrap logo"
+                        />
+                        <Hamburger active={props.isSidebarShown} onClick={toggleSidebar}/>
+                    </LeftPart>
+                </CustomNavbar.Brand>
+                {/*<LeftPart>
                 <Logo/>
-                <Hamburger active={props.isSidebarShown} onClick={toggleSidebar}/>
-            </LeftPart>
-        </HeaderWrapper>
+            </LeftPart>*/}
+            </CustomNavbar>
     );
 };
 

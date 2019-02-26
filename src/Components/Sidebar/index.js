@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
 import {
-    Wrapper,
-    SidebarOverlay
+    Wrapper
 } from './Components'
 
 class Sidebar extends Component {
@@ -11,7 +10,6 @@ class Sidebar extends Component {
         return (
             <Wrapper isSidebarShown={this.props.isSidebarShown}>
                 Sidebar
-                <SidebarOverlay isSidebarShown={this.props.isSidebarShown}/>
             </Wrapper>
         );
     }

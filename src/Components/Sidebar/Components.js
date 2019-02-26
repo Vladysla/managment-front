@@ -7,12 +7,12 @@ import {
 
 export const Wrapper = styled.div`
     position: fixed;
-    top: 64px;
+    top: 0;
     left: 0;
-    width: 225px;
+    width: 265px;
     padding: 15px 20px;
     background-color: ${darkBlue};
-    height: 400px;
+    height: 800px;
     ${mainTransition};
     transform: translate3d(${props => props.isSidebarShown ? 0 : '-100%'}, 0, 0);
 `;

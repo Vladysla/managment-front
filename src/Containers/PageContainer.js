@@ -5,10 +5,9 @@ import {
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import axios, {dataUrl} from '../API'
+import Container from 'react-bootstrap/Container'
 
 import {
-    Container,
-    ContentWrapper,
     ComponentWrapper
 } from './Components'
 
@@ -54,14 +53,12 @@ const PageContainer = WrappedComponent => props => {
         !isAuthorized
             ? <Redirect to='/login' />
             : (
-                <Container>
-                    <ContentWrapper>
-                        <Header />
-                        <Sidebar isSidebarShown={props.isSidebarShown}/>
-                        <ComponentWrapper isSidebarShown={props.isSidebarShown}>
-                            <WrappedComponent { ...otherProps } />
-                        </ComponentWrapper>
-                    </ContentWrapper>
+                <Container fluid style={{padding: 0}}>
+                    <Header />
+                    <Sidebar isSidebarShown={props.isSidebarShown}/>
+                    <ComponentWrapper isSidebarShown={props.isSidebarShown}>
+                        <WrappedComponent { ...otherProps } />
+                    </ComponentWrapper>
                 </Container>
             )
     )
