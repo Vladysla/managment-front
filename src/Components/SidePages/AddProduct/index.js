@@ -16,9 +16,9 @@ import {
 class AddProduct extends Component {
 
     componentDidMount() {
-        this.props.loadPlaces()
-        this.props.loadColors()
-        this.props.loadSizes()
+        this.props.loadPlaces();
+        this.props.loadColors();
+        this.props.loadSizes();
         this.props.loadTypes()
     }
     state ={

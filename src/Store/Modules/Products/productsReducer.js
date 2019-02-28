@@ -1,10 +1,11 @@
-import _ from 'lodash'
-
 import {
     FETCH_COLORS,
     FETCH_PLACES,
-    FETCH_PRODUCTS,
-    FETCH_PRODUCTS_SUM, FETCH_SIZES, FETCH_TYPES
+    FETCH_PRODUCTS_SUM_START,
+    FETCH_PRODUCTS_SUM,
+    FETCH_PRODUCTS_SUM_FAILURE,
+    FETCH_SIZES,
+    FETCH_TYPES
 } from './actionTypes'
 
 const initialState = {
@@ -14,15 +15,34 @@ const initialState = {
     sizes: [],
     colors: [],
     products: [],
+    productsIsLoading: true,
+    productsError: false
 }
 
 const productsReducer = function (state = initialState, {type, payload}) {
     switch (type) {
 
+        case FETCH_PRODUCTS_SUM_START: {
+            return {
+                ...state,
+                data: [],
+                productsIsLoading: true
+            }
+        }
+
         case FETCH_PRODUCTS_SUM: {
             return {
                 ...state,
-                ...payload.data
+                ...payload.data,
+                productsIsLoading: false
+            }
+        }
+
+        case FETCH_PRODUCTS_SUM_FAILURE: {
+            return {
+                ...state,
+                productsError: payload.productsError,
+                productsIsLoading: false
             }
         }
 

@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 import {
-    darkBlue,
-    mainTransition
+    mainTransition,
+    secondaryColor
 } from '../../Mixins'
 
 export const Wrapper = styled.div`
@@ -10,21 +11,18 @@ export const Wrapper = styled.div`
     top: 0;
     left: 0;
     width: 265px;
-    padding: 15px 20px;
-    background-color: ${darkBlue};
-    height: 800px;
+    height: 100%;
     ${mainTransition};
     transform: translate3d(${props => props.isSidebarShown ? 0 : '-100%'}, 0, 0);
+    background-color: ${secondaryColor};
 `;
 
-export const SidebarOverlay = styled.div`
-    display: ${props => props.isSidebarShown ? 'block' : 'none'};
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 5px;
-    left: 265px;
-    background-color: rgba(0,0,0, .03);
-    ${mainTransition};
-    transform: translate3d(${props => props.isSidebarShown ? 0 : '-100%'},0,0);
-`
+export const ListGroupWrapper = styled(ListGroup)`
+    
+`;
+
+export const ListGroupItemWrapper = styled(ListGroup.Item)`
+    &:first-child, &:last-child {
+        border-radius: 0 !important;
+    }
+`;

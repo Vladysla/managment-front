@@ -5,7 +5,7 @@ import { CardLeft, CardRight,
     CardHead, TypeH, TitleH, Model,
     Prices, PriceTitle, PriceValue, PriceUE,
     TabsWrapper, TabsHead, TabItem, TabText,
-    TabsBody, Places, PlaceTitle, PlaceCount
+    TabsBody, Places
 } from './Components'
 
 import {Accordion, AccordionItem} from "../../../Accordion";
@@ -32,7 +32,9 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                 <Fragment key={index}>
                     <CardLeft>
                         <img
-                            src="https://www.rei.com/media/product/119294"/>
+                            src="https://www.rei.com/media/product/119294"
+                            alt="Product image"
+                        />
                     </CardLeft>
                     <CardRight key={index}>
                         <CardHead>

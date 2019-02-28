@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom'
 import ClickOutside from 'react-click-outside'
 
 import {
-    Wrapper,
+    ModalWrapper,
+    ModalBody,
     Body
 } from './Components'
 
@@ -20,13 +21,19 @@ const Modal = ({ children, onClose }) => {
     })
 
     return ReactDOM.createPortal(
-        <Wrapper>
+        <ModalWrapper
+            size="lg"
+            centered
+            show
+        >
             <ClickOutside onClickOutside={() => onClose()}>
-                <Body>
-                    { children }
-                </Body>
+                <ModalBody>
+                    <Body>
+                        { children }
+                    </Body>
+                </ModalBody>
             </ClickOutside>
-        </Wrapper>,
+        </ModalWrapper>,
         modalElement
     )
 }

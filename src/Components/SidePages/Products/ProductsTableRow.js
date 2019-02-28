@@ -3,24 +3,21 @@ import { connect } from 'react-redux'
 
 import RowWrapper from '../HOC/RowWrapper'
 
-import {
-    ProductDefaultRow,
-    ProductMainCell
-} from './ProductsComponents'
+import { TableRow } from "../../Table"
 
 const ProductTableRow = props => {
-    const {data, hasActionsMenuOpened, openActionsMenu, onSelect, USA} = props;
+    const {data, onSelect, USA} = props;
     return (
-            <ProductDefaultRow onClick={() => onSelect(data.product_id)}>
-                <ProductMainCell>{data.brand}</ProductMainCell>
-                <ProductMainCell>{data.model}</ProductMainCell>
-                <ProductMainCell>{data.type_name}</ProductMainCell>
-                <ProductMainCell>{`${data.price_arrival} грн.  (${(data.price_arrival / USA).toFixed(1)} $)`}</ProductMainCell>
-                <ProductMainCell>{`${data.price_sell} грн.  (${(data.price_sell / USA).toFixed(1)} $)`}</ProductMainCell>
-                <ProductMainCell>{data.total_count}</ProductMainCell>
-                <ProductMainCell>{data.sold_count}</ProductMainCell>
-                <ProductMainCell>{data.avilable_count}</ProductMainCell>
-            </ProductDefaultRow>
+            <TableRow onClick={() => onSelect(data.product_id)}>
+                <td>{data.brand}</td>
+                <td>{data.model}</td>
+                <td>{data.type_name}</td>
+                <td>{`${data.price_arrival} грн.  (${(data.price_arrival / USA).toFixed(1)} $)`}</td>
+                <td>{`${data.price_sell} грн.  (${(data.price_sell / USA).toFixed(1)} $)`}</td>
+                <td>{data.total_count}</td>
+                <td>{data.sold_count}</td>
+                <td>{data.avilable_count}</td>
+            </TableRow>
     )
 }
 

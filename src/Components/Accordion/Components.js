@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { textBordered } from '../../Mixins'
 
 export const AccordionWrapper = styled.div`
     border-radius: 5px;
@@ -17,16 +18,17 @@ export const AccordionItemWrapper = styled.div`
 `;
 
 export const Title = styled.button`
-    background-color: ${props => props.active ? '#eeeeee' : '#f6f6f6'};
-    color: #444;
+    background-color: #59c5ff;
+    color: #fff;
+    ${textBordered};
     cursor: pointer;
-    padding: 15px;
+    padding: 5px;
     width: 100%;
     text-align: left;
     border: none;
     outline: none;
     transition: 0.4s;
-    font-size: 20px;
+    font-size: 18px;
     &:after {
         content: ${props => props.active ? "'\\02795'" : "'\\2796'"};
         font-size: 13px;

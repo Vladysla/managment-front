@@ -4,6 +4,7 @@ import pageContainer from '../../../Containers/PageContainer'
 import PageHOC from './../HOC/PageHOC'
 import BodyWrapper from '../HOC/BodyWrapper'
 import ProductsTableRow from './ProductsTableRow'
+import options from './options'
 
 import {
     loadProducts
@@ -19,4 +20,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(pageContainer(PageHOC(BodyWrapper(ProductsTableRow))))
+)(pageContainer(PageHOC(BodyWrapper(ProductsTableRow), options)))

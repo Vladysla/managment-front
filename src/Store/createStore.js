@@ -1,18 +1,16 @@
 import {
     createStore,
-    applyMiddleware,
-    compose
+    applyMiddleware
 } from 'redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import reducers from './Reducers';
+import { dispatchString } from './Middlewares'
 
 let enhancer = applyMiddleware(thunk);
 if (process.env.NODE_ENV === 'development') {
-    enhancer = compose(
-        applyMiddleware(thunk),
-        window.devToolsExtension
-            ? window.devToolsExtension()
-            : noop => noop
+    enhancer = composeWithDevTools(
+        applyMiddleware(thunk, dispatchString)
     )
 }
 
@@ -34,5 +32,9 @@ store.subscribe(() => {
 
     localStorage.setItem(REDUX_STORAGE_NAME, JSON.stringify({ localSettings }))
 });
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+    module.hot.accept('./Reducers', () => store.replaceReducer(reducers))
+}
 
 export default store;

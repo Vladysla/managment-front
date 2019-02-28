@@ -1,50 +1,74 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import Table from 'react-bootstrap/Table'
 
 import {
-    Table,
-    THead,
-    TBody,
-    HeadRow,
-    HeadCell
+    SortASC,
+    SortDESC,
+    Loader
+} from '../../Icons'
+import {
+    EmptyRow,
+    THLable,
+    TableHead
 } from '../../Table'
 
+
 export default RowComponent => props => {
-    const { data } = props
+    const { data, options, orderBy, orderHandler, productsIsLoading } = props;
+
+    const renderSortIcon = headKey => {
+        if ((orderBy === headKey) && props.orderAsc) {
+            return <SortASC height="18px" />
+        }
+
+        return <SortDESC height="18px" />
+    }
+
+    const handleOrderClick = (isSortable, orderKey) => {
+        if (isSortable) {
+            orderHandler(orderKey);
+        }
+    };
+
     return (
-        <Fragment>
-            <Table>
-                <THead>
-                <HeadRow>
-                    <HeadCell>Бренд</HeadCell>
-                    <HeadCell>Модель</HeadCell>
-                    <HeadCell>Тип товара</HeadCell>
-                    <HeadCell>Цена товара</HeadCell>
-                    <HeadCell>Цена продажи</HeadCell>
-                    <HeadCell>Приход</HeadCell>
-                    <HeadCell>Продажа</HeadCell>
-                    <HeadCell>Остаток</HeadCell>
-                </HeadRow>
-                </THead>
-                <TBody>
+        <Table striped bordered hover variant="dark">
+            <thead>
+            <tr>
                 {
-                    !data.length
-                        ? (
-                            <HeadRow>Empty row</HeadRow>
-                        )
-                        : data.map(product => {
-                            return (
-                                <RowComponent
-                                    key={product.product_id}
-                                    data={product}
-                                    showSidebar={props.showSidebar}
-                                    menuActions={props.menuActions}
-                                    onSelect={props.onSelect}
-                                />
-                            )
-                        })
+                    Object.keys(options.tHead).map(headKey => {
+                        return <TableHead
+                            key={headKey}
+                            onClick={() => handleOrderClick(options.tHead[headKey].sortable, headKey)}
+                        >
+                            <THLable>{options.tHead[headKey].label}</THLable>
+                            { options.tHead[headKey].sortable && renderSortIcon(headKey) }
+                        </TableHead>
+                    })
                 }
-                </TBody>
-            </Table>
-        </Fragment>
+            </tr>
+            </thead>
+            <tbody>
+            {
+                productsIsLoading && <Loader  />
+            }
+            {
+                (!data.length && !productsIsLoading)
+                    ? (
+                        <tr><EmptyRow colSpan="100">Empty row</EmptyRow></tr>
+                    )
+                    : data.map(product => {
+                        return (
+                            <RowComponent
+                                key={product.product_id}
+                                data={product}
+                                showSidebar={props.showSidebar}
+                                menuActions={props.menuActions}
+                                onSelect={props.onSelect}
+                            />
+                        )
+                    })
+            }
+            </tbody>
+        </Table>
     )
 }

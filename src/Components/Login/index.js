@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
-import axios, {dataUrl, loginUrl} from '../../API'
+import axios, {loginUrl} from '../../API'
 import { signIn } from '../../Store/Modules/LocalSettings/actions'
 import {connect} from "react-redux";
 
