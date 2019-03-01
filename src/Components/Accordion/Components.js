@@ -18,7 +18,7 @@ export const AccordionItemWrapper = styled.div`
 `;
 
 export const Title = styled.button`
-    background-color: #59c5ff;
+    background-color: ${props => props.theme.secondary};
     color: #fff;
     ${textBordered};
     cursor: pointer;

@@ -11,7 +11,7 @@ export const CardLeft = styled.div`
 `;
 
 export const CardRight = styled.div`
-    background-color: #2d2e32;
+    background-color: ${props => props.theme.primary};
     padding: 25px;
     color: #fff;
     width: 55%;
@@ -23,7 +23,7 @@ export const CardHead = styled.div`
 
 export const TypeH = styled.h5`
     margin: 0;
-    color: #46beff;
+    color: ${props => props.theme.secondary};
 `;
 
 export const TitleH = styled.h2`
@@ -32,7 +32,7 @@ export const TitleH = styled.h2`
 `;
 
 export const Model = styled.span`
-    color: darkgrey;
+    color: ${props => props.theme.secondary};
 `;
 
 export const Prices = styled.div`
@@ -41,7 +41,7 @@ export const Prices = styled.div`
 `;
 
 export const PriceTitle = styled.span`
-    color: darkgrey;
+    color: ${props => props.theme.secondary};
     font-size: 17px;
 `;
 
@@ -54,7 +54,7 @@ export const PriceValue = styled.span`
 
 export const PriceUE = styled.span`
     font-size: 23px;
-    color: darkgrey;
+    color: ${props => props.theme.secondary};
 `;
 
 export const TabsWrapper = styled.div`
@@ -74,7 +74,7 @@ export const TabsHead = styled.ul`
 export const TabItem = styled.li`
     margin-right: 45px;
     font-size: 17px;
-    color: rgb(69, 90, 100);
+    color: ${props => props.theme.secondary};
     font-weight: bold;
     cursor: pointer;
     &:after {
@@ -82,7 +82,7 @@ export const TabItem = styled.li`
         display: block;
         width: 100%;
         height: 3px;
-        background-color: rgb(69, 90, 100);
+        background-color: ${props => props.theme.secondary};
         transform: translateY(12px) scale(${props => props.active ? '1': '0'});
         transition: all 0.2s ease 0s;
         border-radius: 10px;
@@ -91,7 +91,7 @@ export const TabItem = styled.li`
 
 export const TabText = styled.span`
     font-size: 17px;
-    color: rgb(69, 90, 100);
+    color: ${props => props.theme.secondary};
     font-weight: bold;
     cursor: pointer;
 `;

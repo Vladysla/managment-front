@@ -31,7 +31,7 @@ export default RowComponent => props => {
     };
 
     return (
-        <Table striped bordered hover variant="dark">
+        <Table striped bordered hover variant="dark" responsive>
             <thead>
             <tr>
                 {

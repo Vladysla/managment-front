@@ -10,6 +10,6 @@ export const ModalBody = styled(Modal.Body)`
 `;
 
 export const Body = styled.div`
-    background-color: #2d2e32;
+    background-color: ${props => props.theme.primary};
     display: flex;
 `;

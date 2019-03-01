@@ -23,7 +23,7 @@ const Header = props => {
     }
 
     return (
-        <CustomNavbar active={props.isSidebarShown} bg="dark">
+        <CustomNavbar fixed="top" bg="dark">
             <LeftPart>
                 <img
                     src="/logo.svg"
