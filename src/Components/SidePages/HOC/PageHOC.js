@@ -135,7 +135,7 @@ export default (TableBody, options = {}) => {
                         orderAsc={this.state.orderAsc}
                     />
                     {
-                        total >= per_page &&
+                        total > per_page &&
                         <Pagination
                             currentPage={this.state.currentPage}
                             lastPage={last_page}

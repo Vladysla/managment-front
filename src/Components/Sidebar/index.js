@@ -10,16 +10,15 @@ import {
 class Sidebar extends Component {
 
     render() {
-        console.log(this.props)
         return (
             <Wrapper isSidebarShown={this.props.isSidebarShown}>
                 <ListGroupWrapper>
-                    <ListGroupItemWrapper action disabled>Cras justo odio</ListGroupItemWrapper>
-                    <Link to="/"><ListGroupItemWrapper action active>Показать все товары</ListGroupItemWrapper></Link>
-                    <Link to="/"><ListGroupItemWrapper action>Показать товары для точки</ListGroupItemWrapper></Link>
-                    <Link to="/store"><ListGroupItemWrapper action>Добавить товары</ListGroupItemWrapper></Link>
-                    <Link to="/"><ListGroupItemWrapper action>Продать товары</ListGroupItemWrapper></Link>
-                    <Link to="/"><ListGroupItemWrapper action>Переместить товары</ListGroupItemWrapper></Link>
+                    <ListGroupItemWrapper variant="dark" action>Cras justo odio</ListGroupItemWrapper>
+                    <Link to="/"><ListGroupItemWrapper  variant="dark" action active>Показать все товары</ListGroupItemWrapper></Link>
+                    <Link to="/"><ListGroupItemWrapper  variant="dark" action>Показать товары для точки</ListGroupItemWrapper></Link>
+                    <Link to="/store"><ListGroupItemWrapper  variant="dark" action>Добавить товары</ListGroupItemWrapper></Link>
+                    <Link to="/"><ListGroupItemWrapper  variant="dark" action>Продать товары</ListGroupItemWrapper></Link>
+                    <Link to="/"><ListGroupItemWrapper  variant="dark" action>Переместить товары</ListGroupItemWrapper></Link>
                 </ListGroupWrapper>
             </Wrapper>
         );

@@ -16,6 +16,7 @@ export default () => (
         <Switch>
             <Route path='/login' component={Login} />
             <Route path='/store' component={AddProduct} />
+            <Route path='/store' component={AddProduct} />
             <Route path='/' component={ProductsMainPage} exact />
             <Route component={NotFoundPage} />
         </Switch>

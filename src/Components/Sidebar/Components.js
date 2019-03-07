@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
     height: 100%;
     ${mainTransition};
     transform: translate3d(${props => props.isSidebarShown ? 0 : '-100%'}, 0, 0);
-    background-color: ${props => props.theme.tertiary};
+    background-color: ${props => props.theme.primary};
 `;
 
 export const ListGroupWrapper = styled(ListGroup)`

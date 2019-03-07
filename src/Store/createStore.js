@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import reducers from './Reducers';
 import { dispatchString } from './Middlewares'
 
-let enhancer = applyMiddleware(thunk);
+let enhancer = applyMiddleware(thunk, dispatchString);
 if (process.env.NODE_ENV === 'development') {
     enhancer = composeWithDevTools(
         applyMiddleware(thunk, dispatchString)
