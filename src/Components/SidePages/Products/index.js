@@ -7,14 +7,18 @@ import ProductsTableRow from './ProductsTableRow'
 import options from './options'
 
 import {
-    loadProducts
+    loadProducts,
+    loadPlaces
 } from '../../../Store/Modules/Products/actions'
 
 
-const mapStateToProps = state => state.products
+const mapStateToProps = state => ({
+    products: state.products
+})
 
 const mapDispatchToProps = {
-    loadData: loadProducts
+    loadData: loadProducts,
+    loadPlaces
 }
 
 export default connect(

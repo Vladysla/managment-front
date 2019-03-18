@@ -10,7 +10,9 @@ import {
     FormInput
 } from '../../Table'
 
+
 import Pagination from '../../Pagination'
+import ChoosePlate from "../../ChoosePlate";
 const Modal = React.lazy(() => import('../../Modal'));
 const ProductModal = React.lazy(() => import('../Products/ProductModal'));
 
@@ -25,15 +27,28 @@ export default (TableBody, options = {}) => {
             hasActionsMenuOpened: null,
             currentPage: 1,
             selectedProduct: null,
+            place_id: null,
             searchProduct: ''
         }
 
         componentDidMount() {
             this.loadMoreData()
+            this.props.loadPlaces()
+        }
+
+        componentWillUnmount() {
+            this.setState({
+                isDataFetching: true,
+                orderBy: '',
+                orderAsc: false,
+                place_id: null,
+                selectedProduct: null,
+                searchProduct: ''
+            })
         }
 
         componentDidUpdate(prevProps, prevState) {
-            if(this.state.currentPage !== prevState.currentPage) {
+            if(this.state.currentPage !== prevState.currentPage || this.state.place_id !== prevState.place_id) {
                 this.loadMoreData()
             }
         }
@@ -52,6 +67,8 @@ export default (TableBody, options = {}) => {
                 this.loadMoreData()
             })
         };
+
+        placeHandler = place_id => this.setState({ place_id })
 
         searchOnChange = e => {
             this.setState({
@@ -75,7 +92,8 @@ export default (TableBody, options = {}) => {
                 page: this.state.currentPage,
                 order: this.state.orderBy,
                 order_dir: this.state.orderAsc ? 'asc' : 'desc',
-                q: this.state.searchProduct
+                q: this.state.searchProduct,
+                place_id: this.state.place_id
             }
 
             this.props.loadData(queryParams)
@@ -112,49 +130,55 @@ export default (TableBody, options = {}) => {
 
 
         render() {
-            const { last_page, per_page, total, productsIsLoading } = this.props
+            console.log(this.props)
+            const { last_page, per_page, total, productsIsLoading } = this.props.products
             const { selectedProduct } = this.state
             return (
-                <ComponentWrapper>
-                    <Form
-                        inline
-                        onSubmit={this.searchOnSubmit}
-                    >
-                        <FormInput value={this.state.searchProduct} onChange={this.searchOnChange} type="text" placeholder="Найти..." className="mr-sm-2 search-input" />
-                        <Button type="submit" variant="outline-info">Поиск</Button>
-                    </Form>
-                    <TableBody
-                        menuOpenHandler={this.menuOpenHandler}
-                        hasMenuOpen={this.state.hasMenuOpen}
-                        data={this.props.data}
-                        onSelect={productId => this.setState({ selectedProduct: productId })}
-                        orderHandler={this.orderHandler}
-                        orderBy={this.state.orderBy}
-                        options={options}
-                        productsIsLoading={productsIsLoading}
-                        orderAsc={this.state.orderAsc}
-                    />
+                <div>
                     {
-                        total > per_page &&
-                        <Pagination
-                            currentPage={this.state.currentPage}
-                            lastPage={last_page}
-                            perPage={per_page}
-                            total={total}
-                            pageNeighbours={2}
-                            switchCurrentPage={this.switchCurrentPage}
-                            switchNextPageClick={this.switchNextPageClick}
+                        options.page === 'place' && <ChoosePlate data={this.props.products.places} handler={this.placeHandler} />
+                    }
+                    <ComponentWrapper>
+                        <Form
+                            inline
+                            onSubmit={this.searchOnSubmit}
+                        >
+                            <FormInput value={this.state.searchProduct} onChange={this.searchOnChange} type="text" placeholder="Найти..." className="mr-sm-2 search-input" />
+                            <Button type="submit" variant="outline-info">Поиск</Button>
+                        </Form>
+                        <TableBody
+                            menuOpenHandler={this.menuOpenHandler}
+                            hasMenuOpen={this.state.hasMenuOpen}
+                            data={this.props.products.data}
+                            onSelect={productId => this.setState({ selectedProduct: productId })}
+                            orderHandler={this.orderHandler}
+                            orderBy={this.state.orderBy}
+                            options={options}
+                            productsIsLoading={productsIsLoading}
+                            orderAsc={this.state.orderAsc}
                         />
-                    }
-                    <React.Suspense fallback={null}>
-                    {
-                        selectedProduct &&
-                        <Modal onClose={() => this.setState({ selectedProduct: null })}>
-                            <ProductModal productId={selectedProduct}/>
-                        </Modal>
-                    }
-                    </React.Suspense>
-                </ComponentWrapper>
+                        {
+                            total > per_page &&
+                            <Pagination
+                                currentPage={this.state.currentPage}
+                                lastPage={last_page}
+                                perPage={per_page}
+                                total={total}
+                                pageNeighbours={2}
+                                switchCurrentPage={this.switchCurrentPage}
+                                switchNextPageClick={this.switchNextPageClick}
+                            />
+                        }
+                        <React.Suspense fallback={null}>
+                            {
+                                selectedProduct &&
+                                <Modal onClose={() => this.setState({ selectedProduct: null })}>
+                                    <ProductModal productId={selectedProduct}/>
+                                </Modal>
+                            }
+                        </React.Suspense>
+                    </ComponentWrapper>
+                </div>
             )
         }
     }

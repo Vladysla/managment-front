@@ -55,7 +55,7 @@ const PageContainer = WrappedComponent => props => {
             : (
                 <ContainerWrapper fluid style={{padding: 0}}>
                     <Header />
-                    <Sidebar isSidebarShown={props.isSidebarShown}/>
+                    <Sidebar hideSidebar={props.hideSidebar} isSidebarShown={props.isSidebarShown}/>
                     <ComponentWrapper isSidebarShown={props.isSidebarShown}>
                         <WrappedComponent { ...otherProps } />
                     </ComponentWrapper>

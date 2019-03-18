@@ -46,7 +46,7 @@ export const PriceTitle = styled.span`
 `;
 
 export const PriceValue = styled.span`
-    font-size: 30px;
+    font-size: 1.6rem;
     font-style: italic;
     margin: 0 10px;
     color: #fff;

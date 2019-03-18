@@ -38,9 +38,9 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                     </CardLeft>
                     <CardRight key={index}>
                         <CardHead>
-                            <TypeH>CHAIRS</TypeH>
-                            <TitleH>Brand: {product[product_id].info.brand}</TitleH>
-                            <Model>Model: {product[product_id].info.model}</Model>
+                            <TypeH>{product[product_id].info.type}</TypeH>
+                            <TitleH>Бренд: {product[product_id].info.brand}</TitleH>
+                            <Model>Модель: {product[product_id].info.model}</Model>
                             <TabsWrapper>
                                 <TabsHead>
                                     <TabItem
@@ -67,7 +67,7 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                     {
                                         activeTab === 'place' &&
                                         <Places>
-                                            Magazines
+                                            Все доступные магазины
                                             <Accordion>
                                                 {Object.keys(places).map(place => {
                                                     let totalCount = 0;

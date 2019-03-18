@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import ProductsMainPage from '../Components/SidePages/Products'
+import ProductsForPlace from '../Components/SidePages/ProductsForPlace'
 import Login from '../Components/Login'
 import AddProduct from '../Components/SidePages/AddProduct'
 
@@ -16,7 +17,7 @@ export default () => (
         <Switch>
             <Route path='/login' component={Login} />
             <Route path='/store' component={AddProduct} />
-            <Route path='/store' component={AddProduct} />
+            <Route path='/place' component={ProductsForPlace} />
             <Route path='/' component={ProductsMainPage} exact />
             <Route component={NotFoundPage} />
         </Switch>

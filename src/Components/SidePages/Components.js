@@ -9,4 +9,5 @@ export const ComponentWrapper = styled.div`
     ${mainShadow};
     display: flex;
     flex-direction: column;
+    margin-bottom: 25px;
 `

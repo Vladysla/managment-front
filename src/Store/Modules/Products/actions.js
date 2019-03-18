@@ -13,7 +13,7 @@ import {
 export const loadProducts = (queryParams) => async dispatch => {
 
     for (let paramKey in queryParams) {
-        (queryParams[paramKey] === "") && delete queryParams[paramKey]
+        (queryParams[paramKey] === "" || queryParams[paramKey] === null || queryParams[paramKey] === undefined) && delete queryParams[paramKey]
     }
 
     dispatch(FETCH_PRODUCTS_SUM_START);

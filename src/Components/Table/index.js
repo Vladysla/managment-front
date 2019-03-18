@@ -40,6 +40,7 @@ export const TableRow = styled.tr`
 
 export const TableHead = styled.th`
     cursor: pointer;
+    min-width: 172px;
     &:hover {
         background-color: rgba(0,0,0,.07);
         &>span{
@@ -61,9 +62,7 @@ export const THLable = styled.span`
 `;
 
 export const Cell = styled.td`
-  padding: 8px 10px;
-  width: 100%;
-  border: 1px solid #cecccc;
+    min-width: 160px;
 `;
 
 export const Button = styled(BootsButton)`
