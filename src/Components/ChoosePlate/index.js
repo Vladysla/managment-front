@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import FormControl from 'react-bootstrap/FormControl';
+import Select from '../Select';
 
 import {ComponentWrapper} from "../SidePages/Components";
 
@@ -11,15 +11,11 @@ const ChoosePlate = props => {
         <ComponentWrapper>
             <Container>
                 <Row className="justify-content-md-center">
-                    <Col md={4}>
-                        <FormControl as="select" onChange={(e) => props.handler(e.target.value)}>
-                            <option value={null} disabled selected>Choose...</option>
-                            {
-                                props.data && props.data.map(item => (
-                                    <option value={item.id}>{item.name}</option>
-                                ))
-                            }
-                        </FormControl>
+                    <Col md={4} className="my-2">
+                        <Select data={props.places} description="Все точки" handler={props.placeHandler} />
+                    </Col>
+                    <Col md={4} className="my-2">
+                        <Select data={props.types} description="Все типы товаров" handler={props.typeHandler} />
                     </Col>
                 </Row>
             </Container>

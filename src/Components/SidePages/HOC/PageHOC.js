@@ -28,12 +28,16 @@ export default (TableBody, options = {}) => {
             currentPage: 1,
             selectedProduct: null,
             place_id: null,
+            type_id: null,
             searchProduct: ''
         }
 
         componentDidMount() {
             this.loadMoreData()
-            this.props.loadPlaces()
+            if(options.page === 'place') {
+                this.props.loadPlaces()
+                this.props.loadTypes()
+            }
         }
 
         componentWillUnmount() {
@@ -48,7 +52,9 @@ export default (TableBody, options = {}) => {
         }
 
         componentDidUpdate(prevProps, prevState) {
-            if(this.state.currentPage !== prevState.currentPage || this.state.place_id !== prevState.place_id) {
+            if(this.state.currentPage !== prevState.currentPage
+                || this.state.place_id !== prevState.place_id
+                || this.state.type_id !== prevState.type_id) {
                 this.loadMoreData()
             }
         }
@@ -69,6 +75,7 @@ export default (TableBody, options = {}) => {
         };
 
         placeHandler = place_id => this.setState({ place_id })
+        typeHandler = type_id => this.setState({ type_id })
 
         searchOnChange = e => {
             this.setState({
@@ -93,7 +100,8 @@ export default (TableBody, options = {}) => {
                 order: this.state.orderBy,
                 order_dir: this.state.orderAsc ? 'asc' : 'desc',
                 q: this.state.searchProduct,
-                place_id: this.state.place_id
+                place_id: this.state.place_id,
+                type_id: this.state.type_id
             }
 
             this.props.loadData(queryParams)
@@ -130,13 +138,18 @@ export default (TableBody, options = {}) => {
 
 
         render() {
-            console.log(this.props)
             const { last_page, per_page, total, productsIsLoading } = this.props.products
             const { selectedProduct } = this.state
             return (
                 <div>
                     {
-                        options.page === 'place' && <ChoosePlate data={this.props.products.places} handler={this.placeHandler} />
+                        options.page === 'place' &&
+                        <ChoosePlate
+                            places={this.props.products.places}
+                            types={this.props.products.types}
+                            placeHandler={this.placeHandler}
+                            typeHandler={this.typeHandler}
+                        />
                     }
                     <ComponentWrapper>
                         <Form

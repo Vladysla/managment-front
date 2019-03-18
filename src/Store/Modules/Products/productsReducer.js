@@ -70,7 +70,7 @@ const productsReducer = function (state = initialState, {type, payload}) {
         case FETCH_TYPES: {
             return {
                 ...state,
-                colors: payload
+                types: payload
             }
         }
 

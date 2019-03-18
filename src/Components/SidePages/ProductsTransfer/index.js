@@ -5,12 +5,7 @@ import PageHOC from './../HOC/PageHOC'
 import BodyWrapper from '../HOC/BodyWrapper'
 import ProductsPlaceTableRow from './ProductsPlaceTableRow'
 import options from './options'
-
-import {
-    loadProducts,
-    loadPlaces,
-    loadTypes
-} from '../../../Store/Modules/Products/actions'
+import {loadPlaces, loadProducts, loadTypes} from "../../../Store/Modules/Products/actions";
 
 
 const mapStateToProps = state => ({
