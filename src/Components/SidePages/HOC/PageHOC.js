@@ -27,6 +27,7 @@ export default (TableBody, options = {}) => {
             hasActionsMenuOpened: null,
             currentPage: 1,
             selectedProduct: null,
+            checkedProducts: [],
             place_id: null,
             type_id: null,
             searchProduct: ''
@@ -34,7 +35,7 @@ export default (TableBody, options = {}) => {
 
         componentDidMount() {
             this.loadMoreData()
-            if(options.page === 'place') {
+            if(options.page === 'place' || options.page === 'transfer') {
                 this.props.loadPlaces()
                 this.props.loadTypes()
             }
@@ -47,13 +48,13 @@ export default (TableBody, options = {}) => {
                 orderAsc: false,
                 place_id: null,
                 selectedProduct: null,
+                checkedProducts: [],
                 searchProduct: ''
             })
         }
 
         componentDidUpdate(prevProps, prevState) {
             if(this.state.currentPage !== prevState.currentPage
-                || this.state.place_id !== prevState.place_id
                 || this.state.type_id !== prevState.type_id) {
                 this.loadMoreData()
             }
@@ -74,7 +75,24 @@ export default (TableBody, options = {}) => {
             })
         };
 
-        placeHandler = place_id => this.setState({ place_id })
+        setCheckedProducts = (productId) => {
+            if (this.state.checkedProducts.includes(productId)) {
+                this.setState(prevState => ({
+                    checkedProducts: prevState.checkedProducts.filter(checkedId => checkedId !== productId)
+                }))
+            } else {
+                this.setState(prevState => ({
+                    checkedProducts: [...prevState.checkedProducts, productId]
+                }))
+            }
+        }
+
+        placeHandler = (place_id, page) => {
+            this.setState({ place_id })
+            if (page !== 'transfer') {
+                this.loadMoreData()
+            }
+        }
         typeHandler = type_id => this.setState({ type_id })
 
         searchOnChange = e => {
@@ -89,7 +107,7 @@ export default (TableBody, options = {}) => {
 
         searchOnSubmit = e => {
             e.preventDefault()
-            if (this.state.searchProduct.trim().length < 2) return;
+            if (this.state.searchProduct.trim().length < 1) return;
 
             this.loadMoreData()
         }
@@ -117,7 +135,7 @@ export default (TableBody, options = {}) => {
             switch (simbol) {
                 case 'next':
                     this.setState(nextState => {
-                        if (nextState.currentPage < this.props.last_page) {
+                        if (nextState.currentPage < this.props.products.last_page) {
                             return { currentPage: nextState.currentPage+1 }
                         }
                         return { nextDisable: true }
@@ -135,20 +153,37 @@ export default (TableBody, options = {}) => {
             }
         }
 
+        transferProducts = () => {
+            const { checkedProducts, place_id } = this.state
+            const { transferProducts, user } = this.props
+
+            if (checkedProducts.length !== 0 && place_id && user.place_id) {
+                this.props.closeAlert()
+                return transferProducts(checkedProducts, user.place_id, place_id)
+            }
+
+            this.props.showAlert('Вы должны выбрать товары и точку для перемещения!', 'transfer')
+        }
+
 
 
         render() {
             const { last_page, per_page, total, productsIsLoading } = this.props.products
             const { selectedProduct } = this.state
+
             return (
                 <div>
                     {
-                        options.page === 'place' &&
+                        ((options.page === 'place') || (options.page === 'transfer')) &&
                         <ChoosePlate
-                            places={this.props.products.places}
-                            types={this.props.products.types}
+                            places={this.props.places}
+                            types={this.props.types}
                             placeHandler={this.placeHandler}
                             typeHandler={this.typeHandler}
+                            page={options.page}
+                            transferProducts={this.transferProducts}
+                            alert={this.props.alert}
+                            closeAlert={this.props.closeAlert}
                         />
                     }
                     <ComponentWrapper>
@@ -157,7 +192,7 @@ export default (TableBody, options = {}) => {
                             onSubmit={this.searchOnSubmit}
                         >
                             <FormInput value={this.state.searchProduct} onChange={this.searchOnChange} type="text" placeholder="Найти..." className="mr-sm-2 search-input" />
-                            <Button type="submit" variant="outline-info">Поиск</Button>
+                            <Button isSearch type="submit" variant="outline-info">Поиск</Button>
                         </Form>
                         <TableBody
                             menuOpenHandler={this.menuOpenHandler}
@@ -169,19 +204,18 @@ export default (TableBody, options = {}) => {
                             options={options}
                             productsIsLoading={productsIsLoading}
                             orderAsc={this.state.orderAsc}
+                            setChecked={this.setCheckedProducts}
+                            checkedProducts={this.state.checkedProducts}
                         />
-                        {
-                            total > per_page &&
-                            <Pagination
-                                currentPage={this.state.currentPage}
-                                lastPage={last_page}
-                                perPage={per_page}
-                                total={total}
-                                pageNeighbours={2}
-                                switchCurrentPage={this.switchCurrentPage}
-                                switchNextPageClick={this.switchNextPageClick}
-                            />
-                        }
+                        <Pagination
+                            currentPage={this.state.currentPage}
+                            lastPage={last_page}
+                            perPage={per_page}
+                            total={total}
+                            pageNeighbours={2}
+                            switchCurrentPage={this.switchCurrentPage}
+                            switchNextPageClick={this.switchNextPageClick}
+                        />
                         <React.Suspense fallback={null}>
                             {
                                 selectedProduct &&

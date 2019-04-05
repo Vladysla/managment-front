@@ -9,9 +9,7 @@ import {
     FETCH_SIZES,
     FETCH_COLORS,
     FETCH_TYPES,
-    FETCH_SEPARATE_PRODUCTS,
-    FETCH_SEPARATE_PRODUCTS_START,
-    FETCH_SEPARATE_PRODUCTS_FAILURE
+    CLEAR_PRODUCTS
 } from './actionTypes'
 
 export const loadProducts = (queryParams) => async dispatch => {
@@ -66,16 +64,4 @@ export const loadTypes = () => dispatch => {
         .catch(error => Promise.reject(error))
 }
 
-export const loadSeparateProducts = (queryParams) => async dispatch => {
-    for (let paramKey in queryParams) {
-        (queryParams[paramKey] === "" || queryParams[paramKey] === null || queryParams[paramKey] === undefined) && delete queryParams[paramKey]
-    }
-
-    dispatch(FETCH_SEPARATE_PRODUCTS_START)
-
-    try {
-
-    } catch (e) {
-        const {data} = await axios.get(`${dataUrl}/products?${qs.stringify(queryParams)}`);
-    }
-}
+export const clearData = () => dispatch => dispatch(CLEAR_PRODUCTS)

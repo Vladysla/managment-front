@@ -5,12 +5,15 @@ import {
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import reducers from './Reducers';
-import { dispatchString } from './Middlewares'
+import {
+    dispatchString,
+    hideAlert
+} from './Middlewares'
 
 let enhancer = applyMiddleware(thunk, dispatchString);
 if (process.env.NODE_ENV === 'development') {
     enhancer = composeWithDevTools(
-        applyMiddleware(thunk, dispatchString)
+        applyMiddleware(thunk, dispatchString, hideAlert)
     )
 }
 
@@ -18,7 +21,6 @@ const REDUX_STORAGE_NAME = 'manage-redux-state';
 
 const localStore = localStorage.getItem(REDUX_STORAGE_NAME);
 const persistedState = localStore ? JSON.parse(localStore) : {};
-
 const store = createStore(reducers, persistedState, enhancer);
 
 store.subscribe(() => {
@@ -27,7 +29,12 @@ store.subscribe(() => {
     const localSettings = {
         authorizationToken: localSettingsState.authorizationToken,
         user: localSettingsState.user,
-        currency: localSettingsState.currency
+        currency: localSettingsState.currency,
+        alert: {
+            show: false,
+            message: '',
+            type: ''
+        }
     };
 
     localStorage.setItem(REDUX_STORAGE_NAME, JSON.stringify({ localSettings }))

@@ -14,7 +14,9 @@ import {
 import {
     showSidebar,
     hideSidebar,
-    saveCurrency
+    saveCurrency,
+    showAlert,
+    closeAlert
 } from '../Store/Modules/LocalSettings/actions'
 
 import Header from '../Components/Header'
@@ -68,13 +70,17 @@ const mapStateToProps = state => ({
     isSidebarShown: state.localSettings.isSidebarShown,
     isAuthorized: state.localSettings.authorizationToken,
     error: state.localSettings.error,
-    currency: state.localSettings.currency
+    currency: state.localSettings.currency,
+    alert: state.localSettings.alert,
+    user: state.localSettings.user
 });
 
 const mapDispatchToProps = dispatch => ({
     showSidebar: () => dispatch(showSidebar()),
     hideSidebar: () => dispatch(hideSidebar()),
     saveCurrency: (currency) => dispatch(saveCurrency(currency)),
+    showAlert: (message, type) => dispatch(showAlert(message, type)),
+    closeAlert: () => dispatch(closeAlert())
 });
 
 const pageContainer = compose(

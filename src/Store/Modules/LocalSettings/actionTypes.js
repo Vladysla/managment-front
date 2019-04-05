@@ -7,3 +7,6 @@ export const SIGN_IN = 'SIGN_IN';
 export const LOGOUT = 'LOGOUT';
 
 export const SAVE_CURRENCY = 'SAVE_CURRENCY';
+
+export const SHOW_ALERT = "SHOW_ALERT";
+export const CLOSE_ALERT = "CLOSE_ALERT";

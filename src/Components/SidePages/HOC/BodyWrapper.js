@@ -39,6 +39,7 @@ export default RowComponent => props => {
                         return <TableHead
                             key={headKey}
                             onClick={() => handleOrderClick(options.tHead[headKey].sortable, headKey)}
+                            width={"selected" in options.tHead[headKey]}
                         >
                             <THLable>{options.tHead[headKey].label}</THLable>
                             { options.tHead[headKey].sortable && renderSortIcon(headKey) }
@@ -54,16 +55,18 @@ export default RowComponent => props => {
             {
                 (!data.length && !productsIsLoading)
                     ? (
-                        <tr><EmptyRow colSpan="100">Empty row</EmptyRow></tr>
+                        <tr><EmptyRow colSpan="100">Товаров нет</EmptyRow></tr>
                     )
                     : data.map(product => {
                         return (
                             <RowComponent
-                                key={product.product_id}
+                                key={product.sum_id || product.product_id}
                                 data={product}
                                 showSidebar={props.showSidebar}
                                 menuActions={props.menuActions}
                                 onSelect={props.onSelect}
+                                setChecked={props.setChecked}
+                                checkedProducts={props.checkedProducts}
                             />
                         )
                     })

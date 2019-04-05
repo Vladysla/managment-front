@@ -15,7 +15,8 @@ import {
 
 const mapStateToProps = state => ({
     products: state.products,
-    places: state.products.places
+    places: state.products.places,
+    types: state.products.types,
 })
 
 const mapDispatchToProps = {

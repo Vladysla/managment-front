@@ -40,7 +40,7 @@ export const TableRow = styled.tr`
 
 export const TableHead = styled.th`
     cursor: pointer;
-    min-width: 172px;
+    min-width: ${props => props.width ? '50px' : '172px'};
     &:hover {
         background-color: rgba(0,0,0,.07);
         &>span{
@@ -48,7 +48,7 @@ export const TableHead = styled.th`
         }
     };
     ${mainTransition};
-`
+`;
 
 export const Row = styled.tr`
     width: 100%;
@@ -61,9 +61,7 @@ export const THLable = styled.span`
     color: ${secondaryColor};
 `;
 
-export const Cell = styled.td`
-    min-width: 160px;
-`;
+export const Cell = styled.td``;
 
 export const Button = styled(BootsButton)`
     color: ${secondaryColor};
@@ -76,8 +74,23 @@ export const Button = styled(BootsButton)`
     &:focus {
         box-shadow: 0 0 0 0.2rem rgba(27, 210, 255, .15) !important;
     }
-    position: absolute;
-    right: 0;
+    ${props => props.isSearch &&
+    `   position: absolute;
+        right: 0;`}
+`;
+
+export const TransferButton = styled(BootsButton)`
+    color: ${props => props.color};
+    border-color: ${props => props.color};
+    background-color: ${props => props.color};
+    font-weight: bold !important;
+    &:hover {
+        background-color: ${props => props.colorHover};
+        color: #fff !important;
+    }
+    &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(27, 210, 255, .15) !important;
+    }
 `;
 
 export const Form = styled(BootsForm)`

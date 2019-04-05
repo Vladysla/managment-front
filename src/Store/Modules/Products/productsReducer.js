@@ -5,7 +5,8 @@ import {
     FETCH_PRODUCTS_SUM,
     FETCH_PRODUCTS_SUM_FAILURE,
     FETCH_SIZES,
-    FETCH_TYPES
+    FETCH_TYPES,
+    CLEAR_PRODUCTS
 } from './actionTypes'
 
 const initialState = {

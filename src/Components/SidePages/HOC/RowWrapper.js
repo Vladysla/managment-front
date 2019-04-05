@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default RowComponent => props => {
     const data = props.data
@@ -13,6 +13,9 @@ export default RowComponent => props => {
             openActionsMenu={openActionsMenu}
             showSidebar={props.showSidebar}
             onSelect={props.onSelect}
+            setChecked={props.setChecked}
+            checkedProducts={props.checkedProducts}
+            clearData={props.clearData}
         />
     )
 }

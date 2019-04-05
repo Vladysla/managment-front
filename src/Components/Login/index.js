@@ -27,7 +27,7 @@ class Login extends Component
         }
 
         return axios.post(loginUrl, body)
-            .then(response => this.submitSuccess(response.data["acces_token"]))
+            .then(response => this.submitSuccess(response.data["acces_token"], response.data["user"]))
             .catch(error => this.setState({error}))
     }
 

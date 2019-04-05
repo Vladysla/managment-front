@@ -3,7 +3,9 @@ import {
     HIDE_SIDEBAR,
     SIGN_IN,
     LOGOUT,
-    SAVE_CURRENCY
+    SAVE_CURRENCY,
+    SHOW_ALERT,
+    CLOSE_ALERT
 } from "./actionTypes";
 
 const initialState = {
@@ -15,7 +17,12 @@ const initialState = {
     currency: {
         date: '',
         value: 1
-    }
+    },
+    alert: {
+        show: false,
+        message: ''
+    },
+
 }
 
 const localSettingsReducer = function (state = initialState, { type, payload }) {
@@ -40,6 +47,27 @@ const localSettingsReducer = function (state = initialState, { type, payload }) 
 
         case SAVE_CURRENCY: {
             return { ...state, ...payload }
+        }
+
+        case SHOW_ALERT: {
+            return {
+                ...state, alert: {
+                    show: true,
+                    message: payload.message,
+                    type: payload.type
+                }
+            }
+        }
+
+        case CLOSE_ALERT: {
+            return {
+                ...state,
+                alert: {
+                    show: false,
+                    message: '',
+                    type: ''
+                }
+            }
         }
 
         default:

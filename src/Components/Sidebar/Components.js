@@ -10,12 +10,16 @@ export const Wrapper = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 3;
     width: 265px;
     height: 100%;
     ${mainTransition};
     transform: translate3d(${props => props.isSidebarShown ? 0 : '-100%'}, 0, 0);
     background-color: ${props => props.theme.primary};
+    
+    @media( max-width: 500px ) {
+      width: 100%;
+    }
 `;
 
 export const ListGroupWrapper = styled(ListGroup)`
@@ -26,4 +30,12 @@ export const ListGroupItemWrapper = styled(ListGroup.Item)`
     &:first-child, &:last-child {
         border-radius: 0 !important;
     }
+`;
+
+export const SecondarySidebar = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
 `;
