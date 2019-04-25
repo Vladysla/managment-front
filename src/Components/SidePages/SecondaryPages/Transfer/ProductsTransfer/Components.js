@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {
     Cell
-} from '../../Table'
+} from '../../../../Table'
 
 export const CheckedCell = styled(Cell)`
   width: 50px !important;

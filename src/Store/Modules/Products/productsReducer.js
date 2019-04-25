@@ -75,6 +75,12 @@ const productsReducer = function (state = initialState, {type, payload}) {
             }
         }
 
+        case CLEAR_PRODUCTS: {
+            return {
+                ...initialState
+            }
+        }
+
         default:
             return state
     }

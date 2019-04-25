@@ -25,5 +25,5 @@ export const logout = () => ({ type: LOGOUT })
 
 export const saveCurrency = (currObj) => ({ type: SAVE_CURRENCY, payload: { currency: currObj || {date: '', value: 1} }})
 
-export const showAlert = (message, type) => ({ type: SHOW_ALERT, payload: {message, type} });
+export const showAlert = (message, type, variant) => ({ type: SHOW_ALERT, payload: {message, type, variant} });
 export const closeAlert = () => ({ type: CLOSE_ALERT });

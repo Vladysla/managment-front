@@ -4,9 +4,11 @@ export default {
         from : { label: 'С точки', sortable: false },
         brand: { label: 'Бренд', sortable: true },
         model: { label: 'Модель', sortable: true },
+        type: { label: 'Тип', sortable: false },
         size: { label: 'Размер', sortable: false },
         color: { label: 'Цвет', sortable: false },
         price_arrival: { label: 'Цена товара', sortable: true },
         price_sell: { label: 'Цена продажи', sortable: true }
     },
+    key: 'id'
 }

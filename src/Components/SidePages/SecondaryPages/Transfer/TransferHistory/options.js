@@ -1,6 +1,8 @@
 export default {
     tHead: {
-        id: { label: 'Выбор', sortable: false, selected: true },
+        from: { label: 'С точки', sortable: true },
+        to: { label: 'В точку', sortable: true },
+        date: { label: 'Дата', sortable: true },
         brand : { label: 'Бренд', sortable: true },
         model: { label: 'Модель', sortable: true },
         type: { label: 'Тип товара', sortable: false },
@@ -11,4 +13,6 @@ export default {
     },
 
     page: 'transfer',
+    subPage: 'history',
+    key: 'id'
 }

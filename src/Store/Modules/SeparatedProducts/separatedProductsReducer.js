@@ -1,7 +1,10 @@
 import {
     FETCH_SEPARATE_PRODUCTS_START,
     FETCH_SEPARATE_PRODUCTS,
-    FETCH_SEPARATE_PRODUCTS_FAILURE
+    FETCH_SEPARATE_PRODUCTS_FAILURE,
+    TRANSFER_PRODUCTS,
+    CLEAR_SEPARATED_PRODUCTS,
+    SELL_PRODUCTS
 } from './actionTypes';
 
 const initialState = {
@@ -33,6 +36,34 @@ const separatedProductsReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 productsError: payload.productsError,
                 productsIsLoading: false
+            }
+        }
+
+        case TRANSFER_PRODUCTS: {
+
+            const arrIds = payload.data.transferred.reduce((acc, transItem) => ([...acc, transItem.product_id]), []);
+
+            return {
+                ...state,
+                data: state.data.map(item => {
+                    if( arrIds.includes(item.sum_id) ) {
+                        alert('Запрос на перемещение отправлен!');
+                    }
+                    return item
+                })
+            }
+        }
+
+        case CLEAR_SEPARATED_PRODUCTS: {
+            return {
+                ...initialState
+            }
+        }
+
+        case SELL_PRODUCTS: {
+            return {
+                ...state,
+                data: state.data.filter(product => !payload.data.includes(product.sum_id))
             }
         }
 

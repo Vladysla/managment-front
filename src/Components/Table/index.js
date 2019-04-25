@@ -7,8 +7,7 @@ import {
     secondaryColor,
     secondaryColorRGBA,
     mainTransition,
-    liteWite,
-    mainShadow
+    liteWite
 } from '../../Mixins'
 
 export const EmptyRow = styled.td`
@@ -61,7 +60,13 @@ export const THLable = styled.span`
     color: ${secondaryColor};
 `;
 
-export const Cell = styled.td``;
+export const Cell = styled.td`
+    ${props => props.isOptions 
+    && `
+        display: flex;
+        flex-direction: column;
+    `}
+`;
 
 export const Button = styled(BootsButton)`
     color: ${secondaryColor};
@@ -74,24 +79,15 @@ export const Button = styled(BootsButton)`
     &:focus {
         box-shadow: 0 0 0 0.2rem rgba(27, 210, 255, .15) !important;
     }
-    ${props => props.isSearch &&
+    ${props => props.forsearch &&
     `   position: absolute;
         right: 0;`}
 `;
 
-export const TransferButton = styled(BootsButton)`
-    color: ${props => props.color};
-    border-color: ${props => props.color};
-    background-color: ${props => props.color};
+export const OptionButton = styled(BootsButton)`
     font-weight: bold !important;
-    &:hover {
-        background-color: ${props => props.colorHover};
-        color: #fff !important;
-    }
-    &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(27, 210, 255, .15) !important;
-    }
 `;
+
 
 export const Form = styled(BootsForm)`
     align-self: flex-end;

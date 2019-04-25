@@ -19,7 +19,9 @@ const Sidebar = props => {
         if ( page === 'sell' || page === 'transfer' ) {
             event.preventDefault();
             setSecondaryOpen(page)
+            return
         }
+        setTimeout(props.hideSidebar, 0)
     }
 
     return (
@@ -60,6 +62,7 @@ const Sidebar = props => {
                                         variant="dark"
                                         action
                                         active={props.location.pathname === item.link}
+                                        onClick={() => setTimeout(props.hideSidebar, 0)}
                                     >
                                         {item.name}
                                     </ListGroupItemWrapper>

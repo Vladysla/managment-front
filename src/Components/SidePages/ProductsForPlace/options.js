@@ -9,5 +9,6 @@ export default {
         sell_count: { label: 'Продажа', sortable: false },
         remain: { label: 'Остаток', sortable: false }
     },
-    page: 'place'
+    page: 'place',
+    key: 'product_id'
 }

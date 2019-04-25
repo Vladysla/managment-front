@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Check from 'react-bootstrap/FormCheck';
 
-import RowWrapper from '../HOC/RowWrapper';
+import RowWrapper from '../../../HOC/RowWrapper';
 
 import {
     TableRow,
     Cell
-} from '../../Table';
+} from '../../../../Table';
 import {
     CheckedCell
 } from './Components'

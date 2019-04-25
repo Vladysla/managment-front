@@ -14,6 +14,6 @@ export default {
     sell: [
         { link: '/sell/products', name: 'Продать товары' },
         { link: '/sell/history', name: 'История продаж' },
-        { link: '/sell/products', name: 'История всех продаж' }
+        { link: '/sell/allhistory', name: 'История всех продаж' }
     ]
 }

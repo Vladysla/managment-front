@@ -13,7 +13,6 @@ import {
 } from './actionTypes'
 
 export const loadProducts = (queryParams) => async dispatch => {
-
     for (let paramKey in queryParams) {
         (queryParams[paramKey] === "" || queryParams[paramKey] === null || queryParams[paramKey] === undefined) && delete queryParams[paramKey]
     }
@@ -26,16 +25,17 @@ export const loadProducts = (queryParams) => async dispatch => {
     } catch (productsError) {
         dispatch({ type: FETCH_PRODUCTS_SUM_FAILURE, payload: { productsError } })
     }
-}
+};
 
 export const loadPlaces = () => dispatch => {
     return axios.get(`${dataUrl}/places`)
         .then(response => {
             const data = response.data;
             dispatch({ type: FETCH_PLACES, payload: data })
+            return data;
         })
         .catch(error => Promise.reject(error))
-}
+};
 
 export const loadSizes = () => dispatch => {
     return axios.get(`${dataUrl}/sizes`)
@@ -44,7 +44,7 @@ export const loadSizes = () => dispatch => {
             dispatch({ type: FETCH_SIZES, payload: data })
         })
         .catch(error => Promise.reject(error))
-}
+};
 
 export const loadColors = () => dispatch => {
     return axios.get(`${dataUrl}/colors`)
@@ -53,7 +53,7 @@ export const loadColors = () => dispatch => {
             dispatch({ type: FETCH_COLORS, payload: data })
         })
         .catch(error => Promise.reject(error))
-}
+};
 
 export const loadTypes = () => dispatch => {
     return axios.get(`${dataUrl}/types`)
@@ -62,6 +62,6 @@ export const loadTypes = () => dispatch => {
             dispatch({ type: FETCH_TYPES, payload: data })
         })
         .catch(error => Promise.reject(error))
-}
+};
 
-export const clearData = () => dispatch => dispatch(CLEAR_PRODUCTS)
+export const clearData = () => dispatch => dispatch(CLEAR_PRODUCTS);

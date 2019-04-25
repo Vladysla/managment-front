@@ -52,13 +52,13 @@ class AddProduct extends Component {
     }
 
     render() {
-        const { places, colors, sizes, types } = this.props
-        const { product_exist } = this.state
+        // const { places, colors, sizes, types } = this.props
+        // const { product_exist } = this.state
         return (
             <Wrapper>
                 Add new Product
 
-                <h2>1. Укажите товар</h2>
+                {/*<h2>1. Укажите товар</h2>
                 <input type="radio" name="product_exist" value={1} onChange={this.radioHandle} checked={product_exist === 1} />
                 <input type="radio" name="product_exist" value={0} onChange={this.radioHandle} checked={product_exist === 0} />
                 {this.renderTabs(product_exist)}
@@ -69,7 +69,7 @@ class AddProduct extends Component {
                             <option key={place.id} value={place.id}>{place.name}</option>
                         ))
                     }
-                </select>
+                </select>*/}
             </Wrapper>
         );
     }

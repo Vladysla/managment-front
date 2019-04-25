@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 
 import {
     ComponentWrapper
@@ -10,14 +12,23 @@ import {
     FormInput
 } from '../../Table'
 
+import {
+    clearSeparatedData
+} from '../../../Store/Modules/SeparatedProducts/actions'
+
+import {
+    clearSeparatedProductsStorage
+} from '../../../Store/Modules/SeparatedProductsStorage/actions'
+
 
 import Pagination from '../../Pagination'
 import ChoosePlate from "../../ChoosePlate";
+import Alert from "../../Alert";
 const Modal = React.lazy(() => import('../../Modal'));
 const ProductModal = React.lazy(() => import('../Products/ProductModal'));
 
 
-export default (TableBody, options = {}) => {
+const PageHOC = (TableBody, options = {}) => {
     return class extends Component {
         state = {
             isDataFetching: true,
@@ -34,14 +45,24 @@ export default (TableBody, options = {}) => {
         }
 
         componentDidMount() {
-            this.loadMoreData()
-            if(options.page === 'place' || options.page === 'transfer') {
+            this.loadMoreData();
+            if(options.page === 'place' || options.page === 'transfer' || options.page === 'sell') {
+                this.props.loadTypes();
                 this.props.loadPlaces()
-                this.props.loadTypes()
+                    .then((resp) => {
+                        if(resp.length !== 0 && options.page === 'transfer') {
+                            const filtered = resp.filter(place => (this.props.user.place_id !== place.id));
+                            this.setState({ place_id: filtered[0].id })
+                        }
+                    })
             }
         }
 
         componentWillUnmount() {
+
+            this.props.clearSeparatedData();
+            this.props.clearSeparatedProductsStorage();
+
             this.setState({
                 isDataFetching: true,
                 orderBy: '',
@@ -62,7 +83,7 @@ export default (TableBody, options = {}) => {
 
         menuOpenHandler = (key, value) => {
             this.setState(prevState => ({[key]: (prevState[key] !== value) ? value : null}));
-        }
+        };
 
         orderHandler = key => {
             this.setState(prevState => ({
@@ -85,15 +106,17 @@ export default (TableBody, options = {}) => {
                     checkedProducts: [...prevState.checkedProducts, productId]
                 }))
             }
-        }
+        };
 
         placeHandler = (place_id, page) => {
-            this.setState({ place_id })
-            if (page !== 'transfer') {
-                this.loadMoreData()
-            }
-        }
-        typeHandler = type_id => this.setState({ type_id })
+            this.setState({ place_id }, () => {
+                if (page !== 'transfer') {
+                    this.loadMoreData()
+                }
+            })
+
+        };
+        typeHandler = type_id => this.setState({ type_id });
 
         searchOnChange = e => {
             this.setState({
@@ -103,14 +126,14 @@ export default (TableBody, options = {}) => {
                     this.loadMoreData()
                 }
             })
-        }
+        };
 
         searchOnSubmit = e => {
-            e.preventDefault()
+            e.preventDefault();
             if (this.state.searchProduct.trim().length < 1) return;
 
             this.loadMoreData()
-        }
+        };
 
         loadMoreData = () => {
             const queryParams = {
@@ -120,16 +143,16 @@ export default (TableBody, options = {}) => {
                 q: this.state.searchProduct,
                 place_id: this.state.place_id,
                 type_id: this.state.type_id
-            }
+            };
 
             this.props.loadData(queryParams)
-        }
+        };
 
         switchCurrentPage = pageNumber => {
             if(typeof pageNumber === 'number') {
                 this.setState({ currentPage: pageNumber })
             }
-        }
+        };
 
         switchNextPageClick = simbol => {
             switch (simbol) {
@@ -139,42 +162,58 @@ export default (TableBody, options = {}) => {
                             return { currentPage: nextState.currentPage+1 }
                         }
                         return { nextDisable: true }
-                    })
-                    break
+                    });
+                    break;
                 case 'prev':
                     this.setState(nextState => {
                         if(nextState.currentPage > 1) {
                             return { currentPage: nextState.currentPage-1 }
                         }
-                    })
-                    break
+                    });
+                    break;
                 default:
                     break
             }
-        }
+        };
 
         transferProducts = () => {
-            const { checkedProducts, place_id } = this.state
-            const { transferProducts, user } = this.props
+            const { checkedProducts, place_id } = this.state;
+            const { transferProducts, user } = this.props;
 
             if (checkedProducts.length !== 0 && place_id && user.place_id) {
-                this.props.closeAlert()
+                this.props.closeAlert();
                 return transferProducts(checkedProducts, user.place_id, place_id)
             }
 
-            this.props.showAlert('Вы должны выбрать товары и точку для перемещения!', 'transfer')
-        }
+            this.props.showAlert('Вы должны выбрать товары и точку для перемещения!', 'transfer', 'danger')
+        };
+
+        sellProducts = () => {
+            const { checkedProducts } = this.state;
+            if (checkedProducts.length !== 0) {
+                this.props.closeAlert();
+                return this.props.sellProducts(checkedProducts, this.props.user.place_id)
+                    .then((data) => {
+                        if(data.length > 1) {
+                            this.props.showAlert('Продукты проданы!', 'sell', 'success');
+                        }
+                        this.props.showAlert('Продукт продан!', 'sell', 'success');
+                    })
+            }
+
+            this.props.showAlert('Вы должны выбрать товар(ы) для продажи!', 'sell', 'danger')
+        };
 
 
 
         render() {
-            const { last_page, per_page, total, productsIsLoading } = this.props.products
-            const { selectedProduct } = this.state
-
+            const { last_page, per_page, total, productsIsLoading } = this.props.products;
+            const { alert, closeAlert } = this.props;
+            const { selectedProduct } = this.state;
             return (
                 <div>
                     {
-                        ((options.page === 'place') || (options.page === 'transfer')) &&
+                        (((options.page === 'place') || (options.page === 'transfer') || (options.page === 'sell')) && (options.subPage !== 'history')) &&
                         <ChoosePlate
                             places={this.props.places}
                             types={this.props.types}
@@ -184,7 +223,12 @@ export default (TableBody, options = {}) => {
                             transferProducts={this.transferProducts}
                             alert={this.props.alert}
                             closeAlert={this.props.closeAlert}
+                            sellProducts={this.sellProducts}
                         />
+                    }
+                    {
+                        (alert.show && (alert.type === 'sell')) &&
+                            <Alert alert={alert} closeAlert={closeAlert}/>
                     }
                     <ComponentWrapper>
                         <Form
@@ -192,7 +236,7 @@ export default (TableBody, options = {}) => {
                             onSubmit={this.searchOnSubmit}
                         >
                             <FormInput value={this.state.searchProduct} onChange={this.searchOnChange} type="text" placeholder="Найти..." className="mr-sm-2 search-input" />
-                            <Button isSearch type="submit" variant="outline-info">Поиск</Button>
+                            <Button forsearch='true' type="submit" variant="outline-info">Поиск</Button>
                         </Form>
                         <TableBody
                             menuOpenHandler={this.menuOpenHandler}
@@ -207,15 +251,18 @@ export default (TableBody, options = {}) => {
                             setChecked={this.setCheckedProducts}
                             checkedProducts={this.state.checkedProducts}
                         />
-                        <Pagination
-                            currentPage={this.state.currentPage}
-                            lastPage={last_page}
-                            perPage={per_page}
-                            total={total}
-                            pageNeighbours={2}
-                            switchCurrentPage={this.switchCurrentPage}
-                            switchNextPageClick={this.switchNextPageClick}
-                        />
+                        {
+                            total > per_page &&
+                            <Pagination
+                                currentPage={this.state.currentPage}
+                                lastPage={last_page}
+                                perPage={per_page}
+                                total={total}
+                                pageNeighbours={2}
+                                switchCurrentPage={this.switchCurrentPage}
+                                switchNextPageClick={this.switchNextPageClick}
+                            />
+                        }
                         <React.Suspense fallback={null}>
                             {
                                 selectedProduct &&
@@ -230,3 +277,11 @@ export default (TableBody, options = {}) => {
         }
     }
 }
+
+const mapDispatchToProps = {
+    clearSeparatedProductsStorage,
+    clearSeparatedData
+};
+
+export default compose(connect(null, mapDispatchToProps), PageHOC);
+

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 
-import pageContainer from '../../../../Containers/PageContainer'
-import PageHOC from '../../HOC/PageHOC'
-import BodyWrapper from '../../HOC/BodyWrapper'
+import pageContainer from '../../../../../Containers/PageContainer'
+import PageHOC from '../../../HOC/PageHOC'
+import BodyWrapper from '../../../HOC/BodyWrapper'
 import TransferIncomeRow from './TransferIncomeRow'
 import options from './options'
 
 import {
     loadTransferIncomeProducts
-} from "../../../../Store/Modules/SeparatedProductsStorage/actions";
+} from "../../../../../Store/Modules/SeparatedProductsStorage/actions";
 
 
 const mapStateToProps = state => ({

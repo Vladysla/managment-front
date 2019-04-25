@@ -33,7 +33,7 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                     <CardLeft>
                         <img
                             src="https://www.rei.com/media/product/119294"
-                            alt="Product image"
+                            alt="Some pict"
                         />
                     </CardLeft>
                     <CardRight key={index}>
@@ -71,8 +71,8 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                             <Accordion>
                                                 {Object.keys(places).map(place => {
                                                     let totalCount = 0;
-                                                    Object.keys(places[place]).map(size => {
-                                                        Object.keys(places[place][size]).map(color => {
+                                                    Object.keys(places[place]).forEach(size => {
+                                                        Object.keys(places[place][size]).forEach(color => {
                                                             totalCount+= places[place][size][color]
                                                         })
                                                     });
@@ -83,7 +83,7 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                                                     {
                                                                         Object.keys(places[place]).map(size => {
                                                                             let sizeCount = 0;
-                                                                            Object.keys(places[place][size]).map(color => {
+                                                                            Object.keys(places[place][size]).forEach(color => {
                                                                                 sizeCount+= places[place][size][color]
                                                                             })
                                                                             return (

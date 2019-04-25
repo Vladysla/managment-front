@@ -51,10 +51,12 @@ const localSettingsReducer = function (state = initialState, { type, payload }) 
 
         case SHOW_ALERT: {
             return {
-                ...state, alert: {
+                ...state,
+                alert: {
                     show: true,
                     message: payload.message,
-                    type: payload.type
+                    type: payload.type,
+                    variant: payload.variant
                 }
             }
         }
@@ -65,8 +67,17 @@ const localSettingsReducer = function (state = initialState, { type, payload }) 
                 alert: {
                     show: false,
                     message: '',
-                    type: ''
+                    type: '',
+                    variant: ''
                 }
+            }
+        }
+
+        case LOGOUT: {
+            return {
+                ...state,
+                authorizationToken: null,
+                user: null
             }
         }
 

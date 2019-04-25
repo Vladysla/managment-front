@@ -79,7 +79,7 @@ const mapDispatchToProps = dispatch => ({
     showSidebar: () => dispatch(showSidebar()),
     hideSidebar: () => dispatch(hideSidebar()),
     saveCurrency: (currency) => dispatch(saveCurrency(currency)),
-    showAlert: (message, type) => dispatch(showAlert(message, type)),
+    showAlert: (message, type, variant) => dispatch(showAlert(message, type, variant)),
     closeAlert: () => dispatch(closeAlert())
 });
 
