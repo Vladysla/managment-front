@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+
+import Form from 'react-bootstrap/Form';
+
 import pageContainer from '../../../Containers/PageContainer'
 
 import {
@@ -23,11 +26,11 @@ class AddProduct extends Component {
     }
     state ={
         product_exist: 0
-    }
+    };
 
     radioHandle = e => {
         this.setState({ product_exist: +e.target.value })
-    }
+    };
 
     renderTabs = ifExist => {
         if (ifExist) {
@@ -49,18 +52,18 @@ class AddProduct extends Component {
             </div>
         )
 
-    }
+    };
 
     render() {
-        // const { places, colors, sizes, types } = this.props
-        // const { product_exist } = this.state
+        const { places, colors, sizes, types } = this.props
+        const { product_exist } = this.state
         return (
             <Wrapper>
                 Add new Product
 
-                {/*<h2>1. Укажите товар</h2>
-                <input type="radio" name="product_exist" value={1} onChange={this.radioHandle} checked={product_exist === 1} />
-                <input type="radio" name="product_exist" value={0} onChange={this.radioHandle} checked={product_exist === 0} />
+                <h2>1. Укажите товар</h2>
+                <Form.Check custom type="radio" id="1" label="" name="product_exist" value={1} onChange={this.radioHandle} />
+                <Form.Check custom type="radio" id="0" label="" name="product_exist" value={0} onChange={this.radioHandle} />
                 {this.renderTabs(product_exist)}
                 <h2>2. Укажите точку: </h2>
                 <select name="place">
@@ -69,7 +72,7 @@ class AddProduct extends Component {
                             <option key={place.id} value={place.id}>{place.name}</option>
                         ))
                     }
-                </select>*/}
+                </select>
             </Wrapper>
         );
     }
@@ -87,7 +90,7 @@ const mapDispatchToProps = {
     loadColors,
     loadSizes,
     loadTypes
-}
+};
 
 export default connect(
     mapStateToProps,

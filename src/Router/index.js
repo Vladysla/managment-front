@@ -15,6 +15,7 @@ import TransferHistory from '../Components/SidePages/SecondaryPages/Transfer/Tra
 import ProductsSell from '../Components/SidePages/SecondaryPages/Selling/SellProducts'
 import ProductsSellHistory from '../Components/SidePages/SecondaryPages/Selling/SellHistryPlace'
 import ProductSellHistoryAll from '../Components/SidePages/SecondaryPages/Selling/SellhistoryAll'
+import ProductSellPerDay from '../Components/SidePages/SecondaryPages/Selling/SellForDay'
 
 import NotFoundPage from '../Components/NotFoundPage'
 
@@ -30,6 +31,7 @@ export default () => (
             <Route path='/sell/products' component={ProductsSell} />
             <Route path='/sell/history' component={ProductsSellHistory} />
             <Route path='/sell/allhistory' component={ProductSellHistoryAll} />
+            <Route path='/sell/day/:date' component={ProductSellPerDay} />
             <Route path='/' component={ProductsMainPage} exact />
             <Route component={NotFoundPage} />
         </Switch>

@@ -57,7 +57,7 @@ export default RowComponent => props => {
                     ? (
                         <tr><EmptyRow colSpan="100">Товаров нет</EmptyRow></tr>
                     )
-                    : data.map(product => {
+                    : data && data.map(product => {
                         return (
                             <RowComponent
                                 key={product[options.key]}

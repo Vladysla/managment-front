@@ -61,6 +61,7 @@ export const THLable = styled.span`
 `;
 
 export const Cell = styled.td`
+    position: relative;
     ${props => props.isOptions 
     && `
         display: flex;

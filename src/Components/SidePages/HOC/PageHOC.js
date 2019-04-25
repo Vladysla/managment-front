@@ -59,7 +59,6 @@ const PageHOC = (TableBody, options = {}) => {
         }
 
         componentWillUnmount() {
-
             this.props.clearSeparatedData();
             this.props.clearSeparatedProductsStorage();
 
@@ -136,7 +135,7 @@ const PageHOC = (TableBody, options = {}) => {
         };
 
         loadMoreData = () => {
-            const queryParams = {
+            let queryParams = {
                 page: this.state.currentPage,
                 order: this.state.orderBy,
                 order_dir: this.state.orderAsc ? 'asc' : 'desc',
@@ -144,6 +143,15 @@ const PageHOC = (TableBody, options = {}) => {
                 place_id: this.state.place_id,
                 type_id: this.state.type_id
             };
+
+            if(options.subPage === 'perDay') {
+                queryParams = {
+                    ...queryParams,
+                    place: this.props.location.state.place
+                };
+                this.props.loadData(this.props.match.params.date, queryParams)
+                return
+            }
 
             this.props.loadData(queryParams)
         };
@@ -213,7 +221,7 @@ const PageHOC = (TableBody, options = {}) => {
             return (
                 <div>
                     {
-                        (((options.page === 'place') || (options.page === 'transfer') || (options.page === 'sell')) && (options.subPage !== 'history')) &&
+                        (((options.page === 'place') || (options.page === 'transfer') || (options.page === 'sell')) && (options.subPage !== 'history') && (options.subPage !== 'perDay')) &&
                         <ChoosePlate
                             places={this.props.places}
                             types={this.props.types}

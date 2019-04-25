@@ -4,7 +4,8 @@ import {
     TRANSFER_CANCEL,
     TRANSFER_APPLY,
     CLEAR_SEPARATED_PRODUCTS_STORAGE,
-    FETCH_SELL_HISTORY
+    FETCH_SELL_HISTORY,
+    FETCH_SELL_PER_DAY
 } from './actionTypes'
 
 
@@ -48,6 +49,13 @@ const separatedProductsStorageReducer = function (state = inintialState, { type,
             };
 
         case FETCH_SELL_HISTORY:
+            return {
+                ...state,
+                ...payload.data,
+                productsIsLoading: false
+            };
+
+        case FETCH_SELL_PER_DAY:
             return {
                 ...state,
                 ...payload.data,

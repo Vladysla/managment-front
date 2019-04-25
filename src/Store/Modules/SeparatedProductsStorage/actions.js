@@ -7,7 +7,8 @@ import {
     TRANSFER_APPLY,
     TRANSFER_CANCEL,
     CLEAR_SEPARATED_PRODUCTS_STORAGE,
-    FETCH_SELL_HISTORY
+    FETCH_SELL_HISTORY,
+    FETCH_SELL_PER_DAY
 } from './actionTypes'
 
 
@@ -28,7 +29,7 @@ export const loadTransferHistoryProducts = queryParams => dispatch => {
         .then(({ data }) => {
             dispatch({ type: FETCH_TRANSFER_HISTORY, payload: {data} })
         })
-}
+};
 
 export const applyTransfer = transfer_id => dispatch => {
     return axios.post(`${dataUrl}/my/transfer/apply`, { transfer_id })
@@ -51,6 +52,19 @@ export const loadSoldHistoryProducts = (queryParams) => dispatch => {
 
     return axios.get(`${dataUrl}/my/sell/history?${qs.stringify(queryParams)}`)
         .then(({data}) => dispatch({ type: FETCH_SELL_HISTORY, payload: { data } }))
+};
+
+export const loadSoldPerDay = (date, queryParams) => dispatch => {
+    for (let paramKey in queryParams) {
+        (queryParams[paramKey] === ""
+            || queryParams[paramKey] === null
+            || queryParams[paramKey] === undefined
+        ) && delete queryParams[paramKey]
+    }
+
+    return axios.get(`${dataUrl}/my/sell/history/${date}?${qs.stringify(queryParams)}`)
+        .then(({ data }) => dispatch({ type: FETCH_SELL_PER_DAY, payload: { data } }))
+        .catch(console.warn)
 };
 
 export const clearSeparatedProductsStorage = () => dispatch => dispatch(CLEAR_SEPARATED_PRODUCTS_STORAGE);

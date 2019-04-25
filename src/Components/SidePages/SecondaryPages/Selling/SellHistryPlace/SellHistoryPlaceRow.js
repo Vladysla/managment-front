@@ -13,10 +13,14 @@ import {
 const ProductsTransferTableRow = props => {
     const {data, USA} = props;
     const date = moment(data.sold_at).format("YYYY.MM.DD");
+    const linkParams = {
+        pathname: `/sell/day/${date}`,
+        state: { place: data.id }
+    };
     return (
         <TableRow>
-            <Cell><WrappedLink to={`/sell/${date}`}>{data.sum_id}</WrappedLink></Cell>
-            <Cell><WrappedLink to={`/sell/${date}`}>{date}</WrappedLink></Cell>
+            <Cell><WrappedLink to={linkParams}>{data.sum_id}</WrappedLink></Cell>
+            <Cell><WrappedLink to={linkParams}>{date}</WrappedLink></Cell>
             <Cell>{`${data.sum_price} грн.  (${(data.sum_price / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
     )
