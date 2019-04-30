@@ -14,7 +14,7 @@ export const CardRight = styled.div`
     background-color: ${props => props.theme.primary};
     padding: 25px;
     color: #fff;
-    width: 55%;
+    width: 100%;
 `;
 
 export const CardHead = styled.div`
@@ -112,4 +112,8 @@ export const PlaceTitle = styled.span`
 export const PlaceCount = styled.span`
     color: #fff;
     font-size: 20px;
+`;
+
+export const Image = styled.img`
+    width: 100%;
 `;

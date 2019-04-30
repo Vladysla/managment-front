@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
+import Image from 'react-bootstrap/Image'
 
-import { CardLeft, CardRight,
+import { CardRight,
     CardHead, TypeH, TitleH, Model,
     Prices, PriceTitle, PriceValue, PriceUE,
     TabsWrapper, TabsHead, TabItem, TabText,
@@ -30,12 +31,6 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
 
             return (
                 <Fragment key={index}>
-                    <CardLeft>
-                        <img
-                            src="https://www.rei.com/media/product/119294"
-                            alt="Some pict"
-                        />
-                    </CardLeft>
                     <CardRight key={index}>
                         <CardHead>
                             <TypeH>{product[product_id].info.type}</TypeH>
@@ -55,13 +50,21 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                     >
                                         <TabText>Магазин</TabText>
                                     </TabItem>
+                                    <TabItem
+                                        onClick={() => handleTabChange('photo')}
+                                        active={activeTab === 'photo'}
+                                    >
+                                        <TabText>Фото</TabText>
+                                    </TabItem>
                                 </TabsHead>
                                 <TabsBody>
                                     {
                                         activeTab === 'price' &&
                                         <Prices>
-                                            <PriceTitle>Цена закупа: <PriceValue>{`${product[product_id].info.price_arrival} грн. `}<PriceUE>{`(${(product[product_id].info.price_arrival / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
-                                            <PriceTitle>Цена продажи: <PriceValue>{`${product[product_id].info.price_sell} грн. `}<PriceUE>{`(${(product[product_id].info.price_sell / USA).toFixed(1)} $)`}</PriceUE></PriceValue></PriceTitle>
+                                            <PriceTitle>Цена закупа: </PriceTitle>
+                                            <PriceValue>{`${product[product_id].info.price_arrival} грн. `}<PriceUE>{`(${(product[product_id].info.price_arrival / USA).toFixed(1)} $)`}</PriceUE></PriceValue>
+                                            <PriceTitle>Цена продажи: </PriceTitle>
+                                            <PriceValue>{`${product[product_id].info.price_sell} грн. `}<PriceUE>{`(${(product[product_id].info.price_sell / USA).toFixed(1)} $)`}</PriceUE></PriceValue>
                                         </Prices>
                                     }
                                     {
@@ -107,6 +110,16 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                                     )
                                                 })}
                                             </Accordion>
+                                        </Places>
+                                    }
+                                    {
+                                        activeTab === 'photo' &&
+                                        <Places>
+                                            <Image
+                                                thumbnail
+                                                src="https://www.rei.com/media/product/119294"
+                                                alt="Product picture"
+                                            />
                                         </Places>
                                     }
                                 </TabsBody>

@@ -5,9 +5,7 @@ export default {
         model: { label: 'Модель', sortable: true },
         type: { label: 'Тип товара', sortable: false },
         color: { label: 'Цвет', sortable: false },
-        size: { label: 'Размер', sortable: false },
-        price_arrival: { label: 'Цена товара', sortable: true },
-        price_sell: { label: 'Цена продажи', sortable: true }
+        size: { label: 'Размер', sortable: false }
     },
 
     page: 'transfer',

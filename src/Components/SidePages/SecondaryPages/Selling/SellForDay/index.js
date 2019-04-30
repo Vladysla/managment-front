@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import pageContainer from '../../../../../Containers/PageContainer'
@@ -11,18 +10,6 @@ import {
     loadSoldPerDay
 } from "../../../../../Store/Modules/SeparatedProductsStorage/actions";
 import { loadPlaces, loadTypes } from "../../../../../Store/Modules/Products/actions";
-
-class SellForDay extends Component
-{
-
-    componentDidMount() {
-        console.log('SELL')
-    }
-
-    render() {
-        return SellForDayRow
-    }
-}
 
 
 const mapStateToProps = state => ({

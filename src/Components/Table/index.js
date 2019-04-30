@@ -39,7 +39,6 @@ export const TableRow = styled.tr`
 
 export const TableHead = styled.th`
     cursor: pointer;
-    min-width: ${props => props.width ? '50px' : '172px'};
     &:hover {
         background-color: rgba(0,0,0,.07);
         &>span{

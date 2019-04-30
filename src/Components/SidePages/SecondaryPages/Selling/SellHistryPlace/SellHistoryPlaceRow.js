@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import { WrappedLink } from './Components';
 
@@ -26,8 +25,5 @@ const ProductsTransferTableRow = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    USA: state.localSettings.currency.value
-})
 
-export default RowWrapper(connect(mapStateToProps, null)(ProductsTransferTableRow))
+export default RowWrapper(ProductsTransferTableRow)

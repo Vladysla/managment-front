@@ -26,7 +26,7 @@ const TransferIncomeRow = props => {
             .then(() => alert('Отмена передачи'))
     }
 
-    const {data, onSelect, USA} = props;
+    const {data, onSelect} = props;
     return (
         <TableRow>
             <Cell isOptions>
@@ -39,8 +39,6 @@ const TransferIncomeRow = props => {
             <Cell onClick={() => onSelect(data.product_sum_transfer.product_id)}>{data.product_sum_transfer.product.type.name}</Cell>
             <Cell onClick={() => onSelect(data.product_sum_transfer.product_id)}>{data.product_sum_transfer.size.name}</Cell>
             <Cell onClick={() => onSelect(data.product_sum_transfer.product_id)}>{data.product_sum_transfer.color.name}</Cell>
-            <Cell>{`${data.product_sum_transfer.product.price_arrival} грн.  (${(data.product_sum_transfer.product.price_arrival / USA).toFixed(1)} $)`}</Cell>
-            <Cell>{`${data.product_sum_transfer.product.price_sell} грн.  (${(data.product_sum_transfer.product.price_sell / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
     )
 }

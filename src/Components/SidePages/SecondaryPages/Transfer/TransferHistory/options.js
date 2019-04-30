@@ -1,15 +1,14 @@
 export default {
     tHead: {
-        from: { label: 'С точки', sortable: true },
-        to: { label: 'В точку', sortable: true },
-        date: { label: 'Дата', sortable: true },
-        brand : { label: 'Бренд', sortable: true },
-        model: { label: 'Модель', sortable: true },
+        from_place: { label: 'С точки', sortable: true },
+        to_place: { label: 'В точку', sortable: true },
+        created_at: { label: 'Дата', sortable: true },
+        brand : { label: 'Бренд', sortable: false },
+        model: { label: 'Модель', sortable: false },
         type: { label: 'Тип товара', sortable: false },
         color: { label: 'Цвет', sortable: false },
         size: { label: 'Размер', sortable: false },
-        price_arrival: { label: 'Цена товара', sortable: true },
-        price_sell: { label: 'Цена продажи', sortable: true }
+        status: { label: 'Статус', sortable: true }
     },
 
     page: 'transfer',

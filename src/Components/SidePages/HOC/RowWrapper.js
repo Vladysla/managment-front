@@ -16,6 +16,7 @@ export default RowComponent => props => {
             setChecked={props.setChecked}
             checkedProducts={props.checkedProducts}
             clearData={props.clearData}
+            USA={props.USA}
         />
     )
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Check from 'react-bootstrap/FormCheck';
 
 import RowWrapper from '../../../HOC/RowWrapper';
@@ -13,7 +12,7 @@ import {
 } from './Components'
 
 const ProductsTransferTableRow = props => {
-    const {data, onSelect, USA} = props;
+    const {data, onSelect} = props;
     const isChecked = props.checkedProducts.includes(data.sum_id)
     return (
         <TableRow>
@@ -32,14 +31,9 @@ const ProductsTransferTableRow = props => {
             <Cell onClick={() => onSelect(data.product_id)}>{data.type.name}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.color.name}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.size.name}</Cell>
-            <Cell>{`${data.price_arrival} грн.  (${(data.price_arrival / USA).toFixed(1)} $)`}</Cell>
-            <Cell>{`${data.price_sell} грн.  (${(data.price_sell / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
     )
 }
 
-const mapStateToProps = state => ({
-    USA: state.localSettings.currency.value
-})
 
-export default RowWrapper(connect(mapStateToProps, null)(ProductsTransferTableRow))
+export default RowWrapper(ProductsTransferTableRow)

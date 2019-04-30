@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Check from 'react-bootstrap/FormCheck';
 
 import RowWrapper from '../../../HOC/RowWrapper';
@@ -38,8 +37,5 @@ const ProductsTransferTableRow = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    USA: state.localSettings.currency.value
-})
 
-export default RowWrapper(connect(mapStateToProps, null)(ProductsTransferTableRow))
+export default RowWrapper(ProductsTransferTableRow)

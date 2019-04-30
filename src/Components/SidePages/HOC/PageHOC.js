@@ -258,6 +258,7 @@ const PageHOC = (TableBody, options = {}) => {
                             orderAsc={this.state.orderAsc}
                             setChecked={this.setCheckedProducts}
                             checkedProducts={this.state.checkedProducts}
+                            USA={this.props.USA}
                         />
                         {
                             total > per_page &&
@@ -284,12 +285,16 @@ const PageHOC = (TableBody, options = {}) => {
             )
         }
     }
-}
+};
+
+const mapStateToProps = state => ({
+    USA: state.localSettings.currency.value
+})
 
 const mapDispatchToProps = {
     clearSeparatedProductsStorage,
     clearSeparatedData
 };
 
-export default compose(connect(null, mapDispatchToProps), PageHOC);
+export default compose(connect(mapStateToProps, mapDispatchToProps), PageHOC);
 
