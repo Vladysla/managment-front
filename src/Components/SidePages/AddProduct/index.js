@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import Form from 'react-bootstrap/Form';
+import Check from 'react-bootstrap/FormCheck';
 
 import pageContainer from '../../../Containers/PageContainer'
 
@@ -59,11 +59,9 @@ class AddProduct extends Component {
         const { product_exist } = this.state
         return (
             <Wrapper>
-                Add new Product
-
                 <h2>1. Укажите товар</h2>
-                <Form.Check custom type="radio" id="1" label="" name="product_exist" value={1} onChange={this.radioHandle} />
-                <Form.Check custom type="radio" id="0" label="" name="product_exist" value={0} onChange={this.radioHandle} />
+                <Check custom type="radio" id="1" label="" name="product_exist" value={1} onChange={this.radioHandle} />
+                <Check custom type="radio" id="0" label="" name="product_exist" value={0} onChange={this.radioHandle} />
                 {this.renderTabs(product_exist)}
                 <h2>2. Укажите точку: </h2>
                 <select name="place">
