@@ -9,7 +9,7 @@ import {
     FETCH_SIZES,
     FETCH_COLORS,
     FETCH_TYPES,
-    CLEAR_PRODUCTS
+    CLEAR_PRODUCTS, FETCH_MODELS
 } from './actionTypes'
 
 export const loadProducts = (queryParams) => async dispatch => {
@@ -63,5 +63,14 @@ export const loadTypes = () => dispatch => {
         })
         .catch(error => Promise.reject(error))
 };
+
+export const loadModels = () => dispatch => {
+    return axios.get(`${dataUrl}/models`)
+        .then(response => {
+            const data = response.data
+            dispatch({ type: FETCH_MODELS, payload: data })
+        })
+        .catch(console.warn)
+}
 
 export const clearData = () => dispatch => dispatch(CLEAR_PRODUCTS);

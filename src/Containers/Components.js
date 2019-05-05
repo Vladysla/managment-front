@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import { mainTransition } from '../Mixins'
 
 export const ComponentWrapper = styled.div`
-  padding: 25px;
+  padding: 25px 10px;
   margin-left: ${props => props.isSidebarShown ? '265px' : 0};
   ${mainTransition};
   @media(max-width: 1380px) {

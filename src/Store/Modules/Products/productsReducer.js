@@ -6,7 +6,7 @@ import {
     FETCH_PRODUCTS_SUM_FAILURE,
     FETCH_SIZES,
     FETCH_TYPES,
-    CLEAR_PRODUCTS
+    CLEAR_PRODUCTS, FETCH_MODELS
 } from './actionTypes'
 
 const initialState = {
@@ -72,6 +72,13 @@ const productsReducer = function (state = initialState, {type, payload}) {
             return {
                 ...state,
                 types: payload
+            }
+        }
+
+        case FETCH_MODELS: {
+            return {
+                ...state,
+                models: payload
             }
         }
 
