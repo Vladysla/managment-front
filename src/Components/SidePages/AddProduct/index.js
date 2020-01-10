@@ -6,6 +6,9 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Autocomplete from 'react-autocomplete';
 
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
+
 import pageContainer from '../../../Containers/PageContainer'
 
 import {
@@ -20,6 +23,7 @@ import {
     loadTypes,
     loadModels
 } from '../../../Store/Modules/Products/actions'
+import { addProduct } from '../../../Store/Modules/Product/actions';
 
 import './styles.css'
 
@@ -40,10 +44,10 @@ class AddProduct extends Component {
         model: '',
         price_arrival: '',
         price_sell: '',
-        product_type: '',
+        type_id: '',
         product_color_size: {},
         product_place: '',
-        product_photo: null
+        photo: null
     };
 
     radioHandle = e => {
@@ -65,7 +69,7 @@ class AddProduct extends Component {
 
     changeFieldHandle = e => this.setState({ [e.target.name]: e.target.value });
 
-    photoChange = e => this.setState({ product_photo: e.target.files[0] });
+    photoChange = e => this.setState({ photo: e.target.files[0] });
 
     selectProductHandle = (value, item) => {
         this.setState({
@@ -75,13 +79,19 @@ class AddProduct extends Component {
     };
 
     selectColorSizeChange = e => {
-        const val = e.target.value
-        this.setState(prevState => ({
-            product_color_size: {
-                ...prevState.product_color_size,
-                [val]: {}
+        const val = e.target.value;
+        this.setState(prevState => {
+            if (prevState.product_color_size.hasOwnProperty(val)) {
+                return;
             }
-        }))
+
+            return {
+                product_color_size: {
+                    ...prevState.product_color_size,
+                    [val]: {}
+                }
+            };
+        })
     };
 
     changeColorSize = (color, size, value) => {
@@ -95,7 +105,12 @@ class AddProduct extends Component {
                 }
             }
         })
-    }
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.addProduct(this.state);
+    };
 
     renderTabs = ifExist => {
         const { types } = this.props
@@ -199,7 +214,7 @@ class AddProduct extends Component {
                     <div className="col-12">
                         <Form.Group>
                             <Form.Label>Выберите тип товара:</Form.Label>
-                            <Form.Control value={this.state.product_type} onChange={this.changeFieldHandle} name="product_type" as="select" >
+                            <Form.Control value={this.state.type_id} onChange={this.changeFieldHandle} name="type_id" as="select" >
                                 <option selected disabled value="">Выберите тип товара</option>
                                 {
                                     types.map(type => (
@@ -212,7 +227,7 @@ class AddProduct extends Component {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <input onChange={this.photoChange} name="product_photo" type="file"/>
+                        <input onChange={this.photoChange} name="photo" type="file"/>
                     </div>
                 </div>
             </>
@@ -221,11 +236,11 @@ class AddProduct extends Component {
     };
 
     render() {
-        const { places, colors, sizes } = this.props
-        const { product_exist } = this.state
-        console.log(this.state)
+        const { places, colors, sizes } = this.props;
+        const { product_exist } = this.state;
+        console.log(this.state);
         return (
-            <Wrapper enctype="multipart/form-data" >
+            <Wrapper onSubmit={this.handleSubmit}>
                 <h2>1. Укажите товар</h2>
                 <Form.Check checked={product_exist === 1} custom type="radio" id="1" label="Товар есть на складе" name="product_exist" value={1} onChange={this.radioHandle} />
                 <Form.Check checked={product_exist === 0} custom type="radio" id="0" label="Новый товар" name="product_exist" value={0} onChange={this.radioHandle} />
@@ -302,7 +317,8 @@ const mapDispatchToProps = {
     loadColors,
     loadSizes,
     loadTypes,
-    loadModels
+    loadModels,
+    addProduct
 };
 
 export default connect(

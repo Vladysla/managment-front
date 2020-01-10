@@ -4,18 +4,18 @@ import {
 } from './Store/Modules/LocalSettings/actions'
 import axios from 'axios'
 
-export const loginUrl = 'api/auth/login'
-export const dataUrl = 'api'
+export const loginUrl = 'api/auth/login';
+export const dataUrl = 'api';
 
 const headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer'
-}
+};
 
 const API = axios.create({
     baseURL: 'http://laravel.home/',
     headers
-})
+});
 
 API.interceptors.request.use(
     config => {
@@ -23,7 +23,7 @@ API.interceptors.request.use(
         return config
     },
     error => Promise.reject(error)
-)
+);
 
 API.interceptors.response.use(
     response => response,
@@ -35,6 +35,6 @@ API.interceptors.response.use(
 
         return Promise.reject(error)
     }
-)
+);
 
 export default API

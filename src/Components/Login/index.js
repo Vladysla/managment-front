@@ -48,7 +48,7 @@ class Login extends Component
             <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div className="card card-signin my-5">
                     <div className="card-body">
-                        <h5 className="card-title text-center">Вхот в кабинет</h5>
+                        <h5 className="card-title text-center">Вход в кабинет</h5>
                         <form className="form-signin" onSubmit={this.handleSubmit}>
                             <div className="form-label-group">
                                 <input
