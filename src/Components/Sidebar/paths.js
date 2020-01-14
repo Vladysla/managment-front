@@ -1,19 +1,63 @@
 export default {
     default: [
-        { link: '/', name: 'Показать все товары' },
-        { link: '/place', name: 'Показать товары для точки' },
-        { link: '/store', name: 'Добавить товары' },
-        { link: 'transfer', name: 'Перемещение' },
-        { link: 'sell', name: 'Продажа' }
+        {
+            link: '/',
+            name: 'Показать все товары',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/place',
+            name: 'Показать товары для точки',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/store',
+            name: 'Добавить товары',
+            protectedBy: 'admin',
+        },
+        {
+            link: 'transfer',
+            name: 'Перемещение',
+            protectedBy: 'manager',
+        },
+        {
+            link: 'sell',
+            name: 'Продажа',
+            protectedBy: 'manager',
+        }
     ],
     transfer: [
-        { link: '/transfer/products', name: 'Переместить товары' },
-        { link: '/transfer/income', name: 'Входящие перемещения' },
-        { link: '/transfer/history', name: 'История перемещений' }
+        {
+            link: '/transfer/products',
+            name: 'Переместить товары',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/transfer/income',
+            name: 'Входящие перемещения',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/transfer/history',
+            name: 'История перемещений',
+            protectedBy: 'manager',
+        }
     ],
     sell: [
-        { link: '/sell/products', name: 'Продать товары' },
-        { link: '/sell/history', name: 'История продаж' },
-        { link: '/sell/allhistory', name: 'История всех продаж' }
+        {
+            link: '/sell/products',
+            name: 'Продать товары',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/sell/history',
+            name: 'История продаж',
+            protectedBy: 'manager',
+        },
+        {
+            link: '/sell/allhistory',
+            name: 'История всех продаж',
+            protectedBy: 'admin',
+        }
     ]
 }

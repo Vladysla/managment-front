@@ -6,9 +6,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Autocomplete from 'react-autocomplete';
 
-import isEmpty from 'lodash/isEmpty';
-import omit from 'lodash/omit';
-
 import pageContainer from '../../../Containers/PageContainer'
 
 import {

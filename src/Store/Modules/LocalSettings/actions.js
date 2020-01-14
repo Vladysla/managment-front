@@ -1,4 +1,4 @@
-
+import axios, { dataUrl } from '../../../API';
 import {
     HIDE_SIDEBAR,
     SHOW_SIDEBAR,
@@ -21,7 +21,10 @@ export const signIn = (token, user) => ({
     }
 })
 
-export const logout = () => ({ type: LOGOUT })
+export const logout = () => dispatch =>
+    axios.get(`${dataUrl}/logout`)
+        .then(resp => dispatch({ type: LOGOUT }))
+        .catch(console.warn);
 
 export const saveCurrency = (currObj) => ({ type: SAVE_CURRENCY, payload: { currency: currObj || {date: '', value: 1} }})
 

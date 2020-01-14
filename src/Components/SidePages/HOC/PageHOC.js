@@ -129,9 +129,8 @@ const PageHOC = (TableBody, options = {}) => {
 
         searchOnSubmit = e => {
             e.preventDefault();
-            if (this.state.searchProduct.trim().length < 1) return;
 
-            this.loadMoreData()
+            this.setState({ currentPage: 1 }, () => this.loadMoreData());
         };
 
         loadMoreData = () => {
@@ -216,14 +215,14 @@ const PageHOC = (TableBody, options = {}) => {
 
         render() {
             const { last_page, per_page, total, productsIsLoading } = this.props.products;
-            const { alert, closeAlert } = this.props;
+            const { alert, closeAlert, user } = this.props;
             const { selectedProduct } = this.state;
             return (
                 <div>
                     {
                         (((options.page === 'place') || (options.page === 'transfer') || (options.page === 'sell')) && (options.subPage !== 'history') && (options.subPage !== 'perDay')) &&
                         <ChoosePlate
-                            places={this.props.places}
+                            places={(options.page !== 'sell' && user.role === 'manager') && this.props.places}
                             types={this.props.types}
                             placeHandler={this.placeHandler}
                             typeHandler={this.typeHandler}

@@ -54,6 +54,7 @@ export const sellProducts = (products = [], user_place_id) => dispatch => {
         product_sum_ids: products,
         user_place: user_place_id
     };
+    console.log({ params })
     if (products.length !== 0 && user_place_id) {
         return axios.post(`${dataUrl}/my/sell`, params)
             .then(({data}) => {

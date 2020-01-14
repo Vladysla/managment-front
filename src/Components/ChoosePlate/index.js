@@ -12,6 +12,7 @@ import {ComponentWrapper} from "../SidePages/Components";
 import Alert from '../Alert';
 
 const ChoosePlate = props => {
+    console.log(props.page)
     return (
         <ComponentWrapper>
             <Container>

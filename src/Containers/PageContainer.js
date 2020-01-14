@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {
-    compose
+    compose,
+    bindActionCreators
 } from 'redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -16,7 +17,8 @@ import {
     hideSidebar,
     saveCurrency,
     showAlert,
-    closeAlert
+    closeAlert,
+    logout,
 } from '../Store/Modules/LocalSettings/actions'
 
 import Header from '../Components/Header'
@@ -57,7 +59,12 @@ const PageContainer = WrappedComponent => props => {
             : (
                 <ContainerWrapper fluid style={{padding: 0}}>
                     <Header />
-                    <Sidebar hideSidebar={props.hideSidebar} isSidebarShown={props.isSidebarShown}/>
+                    <Sidebar
+                        logout={props.logout}
+                        hideSidebar={props.hideSidebar}
+                        isSidebarShown={props.isSidebarShown}
+                        userRole={props.user.role}
+                    />
                     <ComponentWrapper isSidebarShown={props.isSidebarShown}>
                         <WrappedComponent { ...otherProps } />
                     </ComponentWrapper>
@@ -80,7 +87,10 @@ const mapDispatchToProps = dispatch => ({
     hideSidebar: () => dispatch(hideSidebar()),
     saveCurrency: (currency) => dispatch(saveCurrency(currency)),
     showAlert: (message, type, variant) => dispatch(showAlert(message, type, variant)),
-    closeAlert: () => dispatch(closeAlert())
+    closeAlert: () => dispatch(closeAlert()),
+    ...bindActionCreators({
+        logout
+    }, dispatch),
 });
 
 const pageContainer = compose(

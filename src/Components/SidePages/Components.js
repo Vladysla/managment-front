@@ -10,4 +10,7 @@ export const ComponentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 25px;
-`
+    @media(max-width: 500px) {
+      padding: 30px 5px;
+    }
+`;

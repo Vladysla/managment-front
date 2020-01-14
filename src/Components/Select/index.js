@@ -9,13 +9,13 @@ const Select = ({ handler = () => ({}), description = 'Описание', data =
             {
                 data && data.map(item => {
                     if (isTransferPage && userPlace === item.id) {
-                        return
+                        return null;
                     }
                     return <option key={item.id} value={item.id}>{item.name}</option>
                 })
             }
         </FormControl>
     )
-}
+};
 
 export default Select

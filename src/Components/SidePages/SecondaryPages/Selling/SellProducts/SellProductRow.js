@@ -13,7 +13,7 @@ import {
 
 const ProductsTransferTableRow = props => {
     const {data, onSelect, USA} = props;
-    const isChecked = props.checkedProducts.includes(data.sum_id)
+    const isChecked = props.checkedProducts.includes(data.sum_id);
     return (
         <TableRow>
             <CheckedCell>
@@ -35,7 +35,7 @@ const ProductsTransferTableRow = props => {
             <Cell>{`${data.price_sell} грн.  (${(data.price_sell / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
     )
-}
+};
 
 
 export default RowWrapper(ProductsTransferTableRow)
