@@ -4,8 +4,6 @@ import BootsForm from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 
 import {
-    secondaryColor,
-    secondaryColorRGBA,
     mainTransition,
     liteWite
 } from '../../Mixins'
@@ -39,6 +37,7 @@ export const TableRow = styled.tr`
 
 export const TableHead = styled.th`
     cursor: pointer;
+    min-width: 112px;
     &:hover {
         background-color: rgba(0,0,0,.07);
         &>span{
@@ -46,6 +45,11 @@ export const TableHead = styled.th`
         }
     };
     ${mainTransition};
+    @media(max-width: 940px) {
+      && {
+        padding: .75rem 5px;
+      }
+    }
 `;
 
 export const Row = styled.tr`
@@ -56,7 +60,7 @@ export const Row = styled.tr`
 
 export const THLable = styled.span`
     margin-right: 15px;
-    color: ${secondaryColor};
+    color: ${props => props.theme.secondary};
 `;
 
 export const Cell = styled.td`
@@ -65,15 +69,28 @@ export const Cell = styled.td`
     && `
         display: flex;
         flex-direction: column;
-    `}
+    `};
+`;
+
+export const ImageCell = styled(Cell)`
+  && {
+      width: 150px;
+      & > img {
+          height: 100px;
+          width: 150px;
+      }
+      @media(max-width: 940px) {
+        padding: 0;
+      }
+  }
 `;
 
 export const Button = styled(BootsButton)`
-    color: ${secondaryColor};
-    border-color: ${secondaryColor};
+    color: ${props => props.theme.secondary};
+    border-color: ${props => props.theme.secondary};
     font-weight: bold !important;
     &:hover {
-        background-color: ${secondaryColorRGBA};
+        background-color: ${props => props.theme.secondaryRGBA};
         color: #fff !important;
     }
     &:focus {
@@ -104,7 +121,7 @@ export const FormInput = styled(FormControl)`
     width: 250px !important;
     background-color: ${liteWite};
     &:focus {
-        border-color: ${secondaryColor};
+        border-color: ${props => props.theme.secondary};
         box-shadow: 0 0 0 0.2rem rgba(27, 210, 255, .15) !important;
     }
     @media(max-width: 360px) {

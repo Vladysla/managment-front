@@ -2,28 +2,36 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import Router from './Router'
 import store from './Store/createStore'
-import { ThemeProvider } from 'styled-components'
 import {
     backGroundColor,
     primaryColor,
     secondaryColor,
-    tertiaryColor
+    secondaryColorRGBA,
+    tertiaryColor,
 } from './Mixins'
 
 const theme = {
-    primary: primaryColor,
-    secondary: secondaryColor,
-    tertiary: tertiaryColor,
-    backGroundColor
-}
+    night: {
+        primary: primaryColor,
+        secondary: secondaryColor,
+        secondaryRGBA: secondaryColorRGBA,
+        tertiary: tertiaryColor,
+        backGroundColor
+    },
+    light: {
+        primary: 'red',
+        secondary: 'green',
+        secondaryRGBA: 'green',
+        tertiary: 'blue',
+        backGroundColor: 'yellow'
+    }
+};
 
 const App = () => (
     <Provider store={store}>
-        <ThemeProvider theme={theme}>
-            <Router />
-        </ThemeProvider>
+        <Router themeConfig={theme} />
     </Provider>
-)
+);
 
 export default App
 

@@ -4,6 +4,9 @@ import {
     Switch,
     Route
 } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
+import PageLoading from '../Components/Loading/PageLoading'
 
 const Login = lazy(() => import('../Components/Login'));
 const ProductsMainPage = lazy(() => import('../Components/SidePages/Products'));
@@ -18,23 +21,29 @@ const ProductSellHistoryAll = lazy(() => import('../Components/SidePages/Seconda
 const ProductSellPerDay = lazy(() => import('../Components/SidePages/SecondaryPages/Selling/SellForDay'));
 const NotFoundPage = lazy(() => import('../Components/NotFoundPage'));
 
-export default () => (
+const RouterComponent = ({ theme, themeConfig }) => (
     <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
-                <Route path='/login' component={Login} />
-                <Route path='/store' component={AddProduct} />
-                <Route path='/place' component={ProductsForPlace} />
-                <Route path='/transfer/products' component={ProductsTransfer} />
-                <Route path='/transfer/income' component={TransferIncome} />
-                <Route path='/transfer/history' component={TransferHistory} />
-                <Route path='/sell/products' component={ProductsSell} />
-                <Route path='/sell/history' component={ProductsSellHistory} />
-                <Route path='/sell/allhistory' component={ProductSellHistoryAll} />
-                <Route path='/sell/day/:date' component={ProductSellPerDay} />
-                <Route path='/' component={ProductsMainPage} exact />
-                <Route component={NotFoundPage} />
-            </Switch>
+        <Suspense fallback={<PageLoading />}>
+            <ThemeProvider theme={themeConfig[theme]}>
+                <Switch>
+                    <Route path='/login' component={Login} />
+                    <Route path='/store' component={AddProduct} />
+                    <Route path='/place' component={ProductsForPlace} />
+                    <Route path='/transfer/products' component={ProductsTransfer} />
+                    <Route path='/transfer/income' component={TransferIncome} />
+                    <Route path='/transfer/history' component={TransferHistory} />
+                    <Route path='/sell/products' component={ProductsSell} />
+                    <Route path='/sell/history' component={ProductsSellHistory} />
+                    <Route path='/sell/allhistory' component={ProductSellHistoryAll} />
+                    <Route path='/sell/day/:date/:place?' component={ProductSellPerDay} />
+                    <Route path='/' component={ProductsMainPage} exact />
+                    <Route component={NotFoundPage} />
+                </Switch>
+            </ThemeProvider>
         </Suspense>
     </Router>
-)
+);
+
+export default connect((state) => ({
+    theme: state.localSettings.theme
+}), null)(RouterComponent);

@@ -5,11 +5,13 @@ import RowWrapper from '../../../HOC/RowWrapper';
 
 import {
     TableRow,
-    Cell
+    Cell,
+    ImageCell
 } from '../../../../Table';
 import {
     CheckedCell
 } from '../../Transfer/ProductsTransfer/Components'
+import { getImage } from '../../../../../API';
 
 const ProductsTransferTableRow = props => {
     const {data, onSelect, USA} = props;
@@ -26,6 +28,9 @@ const ProductsTransferTableRow = props => {
                     onChange={() => props.setChecked(data.sum_id)}
                 />
             </CheckedCell>
+            <ImageCell>
+                <img src={getImage(data.photo)} alt="Product detail"/>
+            </ImageCell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.brand}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.model}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.type.name}</Cell>

@@ -9,17 +9,18 @@ import { CardRight,
     TabsBody, Places
 } from './Components'
 
-import {Accordion, AccordionItem} from "../../../Accordion";
-import {clearProduct, loadProduct} from "../../../../Store/Modules/Product/actions";
+import {Accordion, AccordionItem} from '../../../Accordion';
+import {clearProduct, loadProduct} from '../../../../Store/Modules/Product/actions';
+import { changeTheme } from '../../../../Store/Modules/LocalSettings/actions';
 
+import { getImage } from '../../../../API';
 
-
-const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) => {
+const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, ...props }) => {
     useEffect(() => {
         loadProduct(productId)
 
         return () => clearProduct()
-    }, [])
+    }, [productId, loadProduct, clearProduct]);
 
     const [ activeTab, setActiveTab ] = useState('price')
 
@@ -117,9 +118,19 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
                                         <Places>
                                             <Image
                                                 thumbnail
-                                                src="https://www.rei.com/media/product/119294"
+                                                src={getImage(product[product_id].info.photo)}
                                                 alt="Product picture"
                                             />
+                                            <button
+                                                onClick={() => {
+                                                    if  (props.theme === 'night') {
+                                                        return props.changeTheme('light');
+                                                    }
+                                                    return props.changeTheme('night');
+                                                }}
+                                            >
+                                                Change
+                                            </button>
                                         </Places>
                                     }
                                 </TabsBody>
@@ -130,16 +141,18 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId }) =
             )
         })
     )
-}
+};
 
 const mapStateToProps = state => ({
     product: state.product,
-    USA: state.localSettings.currency.value
+    USA: state.localSettings.currency.value,
+    theme: state.localSettings.theme,
 })
 
 const mapDispatchToProps = {
     loadProduct,
-    clearProduct
+    clearProduct,
+    changeTheme
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductModal)

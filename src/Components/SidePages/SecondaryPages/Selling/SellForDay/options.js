@@ -1,6 +1,7 @@
 export default {
     tHead: {
         sum_id : { label: 'ID', sortable: false },
+        photo: { label: 'Фото', sortable: false },
         brand : { label: 'Бренд', sortable: true },
         model : { label: 'Модель', sortable: true },
         type : { label: 'Тип', sortable: false },

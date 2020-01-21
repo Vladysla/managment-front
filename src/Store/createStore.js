@@ -27,6 +27,7 @@ store.subscribe(() => {
     const localSettingsState = store.getState().localSettings;
 
     const localSettings = {
+        ...localSettingsState,
         authorizationToken: localSettingsState.authorizationToken,
         user: localSettingsState.user,
         currency: localSettingsState.currency,

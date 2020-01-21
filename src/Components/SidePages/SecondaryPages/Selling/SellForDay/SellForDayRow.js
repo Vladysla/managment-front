@@ -1,20 +1,27 @@
 import React from 'react';
-import moment from 'moment'
+import DateTime from 'luxon/src/datetime';
 
 import RowWrapper from '../../../HOC/RowWrapper';
 
 import {
     TableRow,
-    Cell
+    Cell,
+    ImageCell
 } from '../../../../Table';
+import { getImage } from '../../../../../API';
+import { dateFormatLuxon, dateFormatLuxonFormated } from '../../../../../Constants';
 
 const ProductsTransferTableRow = props => {
     const {data, onSelect, USA} = props;
-    const date = moment(data.sold_at).format("DD-MM-YYYY HH:mm");
+    const date = DateTime.fromFormat(data.sold_at, dateFormatLuxon).toFormat(dateFormatLuxonFormated);
+
     return (
         (data && data.brand) ?
         <TableRow>
             <Cell onClick={() => onSelect(data.product_id)}>{data.sum_id}</Cell>
+            <ImageCell>
+                <img src={getImage(data.photo)} alt="Product detail"/>
+            </ImageCell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.product.brand}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.product.model}</Cell>
             <Cell onClick={() => onSelect(data.product_id)}>{data.product.type.name}</Cell>
@@ -24,9 +31,13 @@ const ProductsTransferTableRow = props => {
             <Cell>{`${data.product.price_arrival} грн.  (${(data.product.price_arrival / USA).toFixed(1)} $)`}</Cell>
             <Cell>{`${data.product.price_sell} грн.  (${(data.product.price_sell / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
-            : <td>123</td>
+            : (
+                <TableRow>
+                    <Cell>Пусто</Cell>
+                </TableRow>
+            )
     )
-}
+};
 
 
 export default RowWrapper(ProductsTransferTableRow)

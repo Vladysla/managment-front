@@ -3,14 +3,14 @@ import Table from 'react-bootstrap/Table'
 
 import {
     SortASC,
-    SortDESC,
-    Loader
+    SortDESC
 } from '../../Icons'
 import {
     EmptyRow,
     THLable,
     TableHead
 } from '../../Table'
+import TableLoading from '../../Loading/TableLoading';
 
 
 export default RowComponent => props => {
@@ -22,7 +22,7 @@ export default RowComponent => props => {
         }
 
         return <SortDESC height="18px" />
-    }
+    };
 
     const handleOrderClick = (isSortable, orderKey) => {
         if (isSortable) {
@@ -30,8 +30,18 @@ export default RowComponent => props => {
         }
     };
 
+    if (productsIsLoading) {
+        return <TableLoading />;
+    }
+
     return (
-        <Table striped bordered hover variant="dark" responsive>
+        <Table
+            striped
+            bordered
+            hover
+            variant="dark"
+            responsive
+        >
             <thead>
             <tr>
                 {
@@ -49,9 +59,6 @@ export default RowComponent => props => {
             </tr>
             </thead>
             <tbody>
-            {
-                productsIsLoading && <Loader  />
-            }
             {
                 (!data.length && !productsIsLoading)
                     ? (

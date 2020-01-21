@@ -10,3 +10,5 @@ export const SAVE_CURRENCY = 'SAVE_CURRENCY';
 
 export const SHOW_ALERT = "SHOW_ALERT";
 export const CLOSE_ALERT = "CLOSE_ALERT";
+
+export const CHANGE_THEME = 'CHANGE_THEME';

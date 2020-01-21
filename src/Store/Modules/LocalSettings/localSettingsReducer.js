@@ -5,10 +5,12 @@ import {
     LOGOUT,
     SAVE_CURRENCY,
     SHOW_ALERT,
-    CLOSE_ALERT
+    CLOSE_ALERT,
+    CHANGE_THEME
 } from "./actionTypes";
 
 const initialState = {
+    theme: 'night',
     isSidebarShown: false,
     sidebarType: null,
     id: null,
@@ -58,6 +60,13 @@ const localSettingsReducer = function (state = initialState, { type, payload }) 
                     type: payload.type,
                     variant: payload.variant
                 }
+            }
+        }
+
+        case CHANGE_THEME: {
+            return {
+                ...state,
+                theme: payload.theme
             }
         }
 

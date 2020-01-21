@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment'
+import DateTime from 'luxon/src/datetime';
 
 import RowWrapper from '../../../HOC/RowWrapper';
 
@@ -11,18 +11,17 @@ import {
     WrappedLink
 } from '../SellHistryPlace/Components'
 
+import { dateFormatLuxon, dateFormatLuxonFormatedSell } from '../../../../../Constants';
+
 const ProductsTransferTableRow = props => {
     const {data, USA} = props;
-    const date = moment(data.sold_at).format("YYYY.MM.DD");
-    const linkParams = {
-        pathname: `/sell/day/${date}`,
-        state: { place: data.id }
-    };
+    const date = DateTime.fromFormat(data.sold_at, dateFormatLuxon).toFormat(dateFormatLuxonFormatedSell);
+
     return (
         <TableRow>
-            <Cell><WrappedLink to={linkParams}>{data.sum_id}</WrappedLink></Cell>
-            <Cell><WrappedLink to={linkParams}>{date}</WrappedLink></Cell>
-            <Cell><WrappedLink to={linkParams}>{data.name}</WrappedLink></Cell>
+            <Cell><WrappedLink to={`/sell/day/${date}/${data.id}`}>{data.sum_id}</WrappedLink></Cell>
+            <Cell><WrappedLink to={`/sell/day/${date}/${data.id}`}>{date}</WrappedLink></Cell>
+            <Cell><WrappedLink to={`/sell/day/${date}/${data.id}`}>{data.name}</WrappedLink></Cell>
             <Cell>{`${data.sum_price} грн.  (${(data.sum_price / USA).toFixed(1)} $)`}</Cell>
         </TableRow>
     )

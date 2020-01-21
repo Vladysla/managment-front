@@ -92,7 +92,6 @@ class AddProduct extends Component {
     };
 
     changeColorSize = (color, size, value) => {
-        console.log(color, size, value)
         this.setState({
             product_color_size: {
                 ...this.state.product_color_size,
@@ -211,8 +210,8 @@ class AddProduct extends Component {
                     <div className="col-12">
                         <Form.Group>
                             <Form.Label>Выберите тип товара:</Form.Label>
-                            <Form.Control value={this.state.type_id} onChange={this.changeFieldHandle} name="type_id" as="select" >
-                                <option selected disabled value="">Выберите тип товара</option>
+                            <Form.Control defaultValue="0" onChange={this.changeFieldHandle} name="type_id" as="select" >
+                                <option value="0" disabled>Выберите тип товара</option>
                                 {
                                     types.map(type => (
                                         <option key={type.id} value={type.id}>{type.name}</option>
@@ -235,7 +234,7 @@ class AddProduct extends Component {
     render() {
         const { places, colors, sizes } = this.props;
         const { product_exist } = this.state;
-        console.log(this.state);
+
         return (
             <Wrapper onSubmit={this.handleSubmit}>
                 <h2>1. Укажите товар</h2>
@@ -247,8 +246,8 @@ class AddProduct extends Component {
                         <h2>2. Укажите цвет и размер: </h2>
                         <Form.Group>
                             <Form.Label>Выберите цвет:</Form.Label>
-                            <Form.Control onChange={this.selectColorSizeChange} as="select" >
-                                <option selected disabled>Выберите цвет</option>
+                            <Form.Control defaultValue="0" onChange={this.selectColorSizeChange} as="select" >
+                                <option value="0" disabled>Выберите цвет</option>
                                 {
                                     colors.map(color => (
                                         <option key={color.id} value={color.id}>{color.name}</option>
@@ -281,8 +280,8 @@ class AddProduct extends Component {
                 <h2>2. Укажите точку: </h2>
                 <Form.Group>
                     <Form.Label>Точка:</Form.Label>
-                    <Form.Control name="product_place" onChange={this.changeFieldHandle} as="select" >
-                        <option selected disabled>Выберите точку</option>
+                    <Form.Control defaultValue="0" name="product_place" onChange={this.changeFieldHandle} as="select" >
+                        <option value="0" disabled>Выберите точку</option>
                         {
                             places.map(place => (
                                 <option key={place.id} value={place.id}>{place.name}</option>

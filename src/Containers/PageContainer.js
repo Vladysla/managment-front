@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Component } from 'react'
 import {
     compose,
     bindActionCreators
@@ -24,8 +24,12 @@ import {
 import Header from '../Components/Header'
 import Sidebar from '../Components/Sidebar'
 
-const PageContainer = WrappedComponent => props => {
-    const setCurrency = async date => {
+const PageContainer = WrappedComponent => class extends Component {
+    componentDidMount() {
+        this.loadCurrency(this.props.currency);
+    }
+
+    setCurrency = async date => {
         try {
             const response = await axios.get(`${dataUrl}/currency`);
             return { date, value: +response.data };
@@ -34,44 +38,43 @@ const PageContainer = WrappedComponent => props => {
         }
     };
 
-    const loadCurrency = (currency) => {
+    loadCurrency = (currency) => {
         const now = new Date().toLocaleDateString();
 
         if(currency && (currency.date === now)) {
             return;
         }
 
-        setCurrency(now).then(data => props.saveCurrency(data))
+        this.setCurrency(now).then(data => this.props.saveCurrency(data))
     };
-    const {
-        isAuthorized,
-        error,
-        ...otherProps
-    } = props;
 
-    useEffect(() => {
-        loadCurrency(props.currency);
-    }, [])
+    render() {
+        const {
+            isAuthorized,
+            error,
+            ...otherProps
+        } = this.props;
 
-    return (
-        !isAuthorized
-            ? <Redirect to='/login' />
-            : (
-                <ContainerWrapper fluid style={{padding: 0}}>
-                    <Header />
-                    <Sidebar
-                        logout={props.logout}
-                        hideSidebar={props.hideSidebar}
-                        isSidebarShown={props.isSidebarShown}
-                        userRole={props.user.role}
-                    />
-                    <ComponentWrapper isSidebarShown={props.isSidebarShown}>
-                        <WrappedComponent { ...otherProps } />
-                    </ComponentWrapper>
-                </ContainerWrapper>
-            )
-    )
-}
+        return (
+            !isAuthorized
+                ? <Redirect to='/login' />
+                : (
+                    <ContainerWrapper fluid style={{padding: 0}}>
+                        <Header />
+                        <Sidebar
+                            logout={this.props.logout}
+                            hideSidebar={this.props.hideSidebar}
+                            isSidebarShown={this.props.isSidebarShown}
+                            userRole={this.props.user.role}
+                        />
+                        <ComponentWrapper isSidebarShown={this.props.isSidebarShown}>
+                            <WrappedComponent { ...otherProps } />
+                        </ComponentWrapper>
+                    </ContainerWrapper>
+                )
+        )
+    }
+};
 
 const mapStateToProps = state => ({
     isSidebarShown: state.localSettings.isSidebarShown,

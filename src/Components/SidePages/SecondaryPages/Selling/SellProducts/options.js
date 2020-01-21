@@ -1,6 +1,7 @@
 export default {
     tHead: {
         id: { label: 'Выбор', sortable: false, selected: true },
+        photo: { label: 'Фото', sortable: false },
         brand : { label: 'Бренд', sortable: true },
         model: { label: 'Модель', sortable: true },
         type: { label: 'Тип товара', sortable: false },

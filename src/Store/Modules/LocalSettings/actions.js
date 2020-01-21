@@ -6,7 +6,8 @@ import {
     LOGOUT,
     SAVE_CURRENCY,
     SHOW_ALERT,
-    CLOSE_ALERT
+    CLOSE_ALERT,
+    CHANGE_THEME
 } from "./actionTypes";
 
 export const hideSidebar = () => ({ type: HIDE_SIDEBAR })
@@ -30,3 +31,5 @@ export const saveCurrency = (currObj) => ({ type: SAVE_CURRENCY, payload: { curr
 
 export const showAlert = (message, type, variant) => ({ type: SHOW_ALERT, payload: {message, type, variant} });
 export const closeAlert = () => ({ type: CLOSE_ALERT });
+
+export const changeTheme = (theme) => dispatch => dispatch({ type: CHANGE_THEME, payload: { theme } });

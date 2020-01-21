@@ -1,6 +1,5 @@
 import React from 'react';
-import moment from 'moment';
-import { dateFormat } from '../../../../../Constants';
+import DateTime from 'luxon/src/datetime';
 import Badge from 'react-bootstrap/Badge';
 
 import RowWrapper from '../../../HOC/RowWrapper';
@@ -10,9 +9,11 @@ import {
     Cell
 } from '../../../../Table';
 
+import { dateFormatLuxon, dateFormatLuxonFormated } from '../../../../../Constants';
+
 const ProductsTransferTableRow = props => {
     const {data, onSelect} = props;
-    const date = moment(data.updated_at, dateFormat).format("YYYY-MM-DD HH:mm");
+    const date = DateTime.fromFormat(data.updated_at, dateFormatLuxon).toFormat(dateFormatLuxonFormated);
     const isSuccess = !!data.status;
     return (
         <TableRow>
@@ -29,7 +30,7 @@ const ProductsTransferTableRow = props => {
             </Cell>
         </TableRow>
     )
-}
+};
 
 
 export default RowWrapper(ProductsTransferTableRow)

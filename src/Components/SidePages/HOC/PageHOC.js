@@ -22,8 +22,9 @@ import {
 
 
 import Pagination from '../../Pagination'
-import ChoosePlate from "../../ChoosePlate";
-import Alert from "../../Alert";
+import ChoosePlate from '../../ChoosePlate';
+import Alert from '../../Alert';
+import ScrollButton from '../../ScrollButton';
 const Modal = React.lazy(() => import('../../Modal'));
 const ProductModal = React.lazy(() => import('../Products/ProductModal'));
 
@@ -42,7 +43,7 @@ const PageHOC = (TableBody, options = {}) => {
             place_id: null,
             type_id: null,
             searchProduct: ''
-        }
+        };
 
         componentDidMount() {
             this.loadMoreData();
@@ -61,16 +62,6 @@ const PageHOC = (TableBody, options = {}) => {
         componentWillUnmount() {
             this.props.clearSeparatedData();
             this.props.clearSeparatedProductsStorage();
-
-            this.setState({
-                isDataFetching: true,
-                orderBy: '',
-                orderAsc: false,
-                place_id: null,
-                selectedProduct: null,
-                checkedProducts: [],
-                searchProduct: ''
-            })
         }
 
         componentDidUpdate(prevProps, prevState) {
@@ -146,7 +137,7 @@ const PageHOC = (TableBody, options = {}) => {
             if(options.subPage === 'perDay') {
                 queryParams = {
                     ...queryParams,
-                    place: this.props.location.state.place
+                    place: this.props.match.params.place
                 };
                 this.props.loadData(this.props.match.params.date, queryParams)
                 return
@@ -238,6 +229,7 @@ const PageHOC = (TableBody, options = {}) => {
                             <Alert alert={alert} closeAlert={closeAlert}/>
                     }
                     <ComponentWrapper>
+                        <ScrollButton top />
                         <Form
                             inline
                             onSubmit={this.searchOnSubmit}
