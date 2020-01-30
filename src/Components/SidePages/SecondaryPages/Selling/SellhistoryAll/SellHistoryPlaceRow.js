@@ -1,5 +1,6 @@
 import React from 'react';
 import DateTime from 'luxon/src/datetime';
+import isEmpty from 'lodash/isEmpty';
 
 import RowWrapper from '../../../HOC/RowWrapper';
 
@@ -14,7 +15,12 @@ import {
 import { dateFormatLuxon, dateFormatLuxonFormatedSell } from '../../../../../Constants';
 
 const ProductsTransferTableRow = props => {
-    const {data, USA} = props;
+    const { data, USA } = props;
+
+    if (isEmpty(data) || !data.sold_at) {
+        return null;
+    }
+
     const date = DateTime.fromFormat(data.sold_at, dateFormatLuxon).toFormat(dateFormatLuxonFormatedSell);
 
     return (

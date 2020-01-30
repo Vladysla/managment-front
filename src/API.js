@@ -3,7 +3,7 @@ import {
     logout
 } from './Store/Modules/LocalSettings/actions'
 import axios from 'axios'
-export const baseURL = 'http://laravel.home/';
+export const baseURL = process.env.NODE_ENV === 'production' ? 'http://manage.konkurentshop.com/' : 'http://laravel.home/';
 export const loginUrl = 'api/auth/login';
 export const dataUrl = 'api';
 export const imgPath = `${baseURL}uploads/images`;

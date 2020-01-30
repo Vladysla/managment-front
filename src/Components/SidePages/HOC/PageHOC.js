@@ -229,7 +229,7 @@ const PageHOC = (TableBody, options = {}) => {
                             <Alert alert={alert} closeAlert={closeAlert}/>
                     }
                     <ComponentWrapper>
-                        <ScrollButton top />
+                        {total >= 10 && <ScrollButton top />}
                         <Form
                             inline
                             onSubmit={this.searchOnSubmit}

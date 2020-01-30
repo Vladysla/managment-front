@@ -1,6 +1,7 @@
 import React from 'react';
 import DateTime from 'luxon/src/datetime';
 import Badge from 'react-bootstrap/Badge';
+import isEmpty from 'lodash/isEmpty';
 
 import RowWrapper from '../../../HOC/RowWrapper';
 
@@ -13,6 +14,10 @@ import { dateFormatLuxon, dateFormatLuxonFormated } from '../../../../../Constan
 
 const ProductsTransferTableRow = props => {
     const {data, onSelect} = props;
+    if (isEmpty(data) || !data.updated_at) {
+        return <div/>;
+    }
+
     const date = DateTime.fromFormat(data.updated_at, dateFormatLuxon).toFormat(dateFormatLuxonFormated);
     const isSuccess = !!data.status;
     return (

@@ -20,8 +20,9 @@ const ProductsSellHistory = lazy(() => import('../Components/SidePages/Secondary
 const ProductSellHistoryAll = lazy(() => import('../Components/SidePages/SecondaryPages/Selling/SellhistoryAll'));
 const ProductSellPerDay = lazy(() => import('../Components/SidePages/SecondaryPages/Selling/SellForDay'));
 const NotFoundPage = lazy(() => import('../Components/NotFoundPage'));
+const Test = lazy(() => import('../Components/SidePages/Test'));
 
-const RouterComponent = ({ theme, themeConfig }) => (
+const RouterComponent = ({ theme = 'night', themeConfig }) => (
     <Router>
         <Suspense fallback={<PageLoading />}>
             <ThemeProvider theme={themeConfig[theme]}>
@@ -36,6 +37,7 @@ const RouterComponent = ({ theme, themeConfig }) => (
                     <Route path='/sell/history' component={ProductsSellHistory} />
                     <Route path='/sell/allhistory' component={ProductSellHistoryAll} />
                     <Route path='/sell/day/:date/:place?' component={ProductSellPerDay} />
+                    <Route path='/test' component={Test} />
                     <Route path='/' component={ProductsMainPage} exact />
                     <Route component={NotFoundPage} />
                 </Switch>
