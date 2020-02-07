@@ -5,7 +5,7 @@ import {
     Route
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { ThemeProvider } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import PageLoading from '../Components/Loading/PageLoading'
 
 const Login = lazy(() => import('../Components/Login'));
@@ -22,10 +22,17 @@ const ProductSellPerDay = lazy(() => import('../Components/SidePages/SecondaryPa
 const NotFoundPage = lazy(() => import('../Components/NotFoundPage'));
 const Test = lazy(() => import('../Components/SidePages/Test'));
 
-const RouterComponent = ({ theme = 'night', themeConfig }) => (
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${props => props.theme.backGroundColor};
+  }
+`;
+
+const RouterComponent = ({ theme = 'dark', themeConfig }) => (
     <Router>
         <Suspense fallback={<PageLoading />}>
-            <ThemeProvider theme={themeConfig[theme]}>
+            <ThemeProvider theme={themeConfig[theme] || themeConfig.dark}>
+                <GlobalStyle />
                 <Switch>
                     <Route path='/login' component={Login} />
                     <Route path='/store' component={AddProduct} />

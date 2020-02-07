@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Autocomplete from 'react-autocomplete';
 
 import pageContainer from '../../../Containers/PageContainer'
 
 import {
     Wrapper,
-    ProductWrapper
+    ProductWrapper,
+    AutoCompleteMenu
 } from './Components'
 
 import {
@@ -23,6 +25,10 @@ import {
 import { addProduct } from '../../../Store/Modules/Product/actions';
 
 import './styles.css'
+
+function isNumeric (x) {
+    return ((typeof x === 'number' || typeof x === 'string') && !isNaN(Number(x)));
+}
 
 class AddProduct extends Component {
 
@@ -44,7 +50,8 @@ class AddProduct extends Component {
         type_id: '',
         product_color_size: {},
         product_place: '',
-        photo: null
+        photo: null,
+        fieldError: []
     };
 
     radioHandle = e => {
@@ -64,7 +71,10 @@ class AddProduct extends Component {
         });
     };
 
-    changeFieldHandle = e => this.setState({ [e.target.name]: e.target.value });
+    changeFieldHandle = e => {
+        this.setState({ [e.target.name]: e.target.value });
+        this.checkOnError(e.target.name, e.target.value);
+    };
 
     photoChange = e => this.setState({ photo: e.target.files[0] });
 
@@ -108,8 +118,29 @@ class AddProduct extends Component {
         this.props.addProduct(this.state);
     };
 
+    checkOnError = (field = '', value = '') => {
+
+        this.setState(({ fieldError }) => ({
+            fieldError: value.length < 2 ? [...fieldError, field] : fieldError.filter(f => f !== field)
+        }));
+
+        if (field === 'price_sell' || field === 'price_arrival') {
+            this.setState(({ fieldError }) => ({
+                fieldError: isNumeric(value) ? fieldError.filter(f => f !== field) : [...fieldError, field]
+            }));
+        }
+
+        if (field === 'model') {
+            const modelExist = this.props.models.find(item => item.model === value);
+            this.setState(({ fieldError }) => ({
+                fieldError: modelExist ? [...fieldError, field] : fieldError.filter(f => f !== field)
+            }));
+        }
+
+    };
+
     renderTabs = ifExist => {
-        const { types } = this.props
+        const { types } = this.props;
         const { product_value, productSelected } = this.state;
         const productFields = [
             {
@@ -146,9 +177,9 @@ class AddProduct extends Component {
                         onChange={this.changeProductHandle}
                         onSelect={this.selectProductHandle}
                         renderMenu={children => (
-                            <div className="menu">
+                            <AutoCompleteMenu>
                                 {children}
-                            </div>
+                            </AutoCompleteMenu>
                         )}
                         renderItem={(item, isHighlighted) => (
                             <div
@@ -160,7 +191,7 @@ class AddProduct extends Component {
                     <ProductWrapper>
                         {
                             productSelected &&
-                            <Table striped bordered hover variant="dark" responsive>
+                            <Table striped bordered hover variant={this.props.theme} responsive>
                                 <thead>
                                     <tr>
                                         <th>Бренд</th>
@@ -199,6 +230,7 @@ class AddProduct extends Component {
                                             placeholder={field.label}
                                             value={this.state[field.name]}
                                             onChange={e => this.changeFieldHandle(e)}
+                                            isInvalid={this.state.fieldError.includes(field.name)}
                                         />
                                     </Form.Group>
                                 </div>
@@ -236,65 +268,67 @@ class AddProduct extends Component {
         const { product_exist } = this.state;
 
         return (
-            <Wrapper onSubmit={this.handleSubmit}>
-                <h2>1. Укажите товар</h2>
-                <Form.Check checked={product_exist === 1} custom type="radio" id="1" label="Товар есть на складе" name="product_exist" value={1} onChange={this.radioHandle} />
-                <Form.Check checked={product_exist === 0} custom type="radio" id="0" label="Новый товар" name="product_exist" value={0} onChange={this.radioHandle} />
-                {this.renderTabs(product_exist)}
-                <div className="row">
-                    <div className="col-12">
-                        <h2>2. Укажите цвет и размер: </h2>
-                        <Form.Group>
-                            <Form.Label>Выберите цвет:</Form.Label>
-                            <Form.Control defaultValue="0" onChange={this.selectColorSizeChange} as="select" >
-                                <option value="0" disabled>Выберите цвет</option>
+            <Container>
+                <Wrapper onSubmit={this.handleSubmit}>
+                    <h2>1. Укажите товар</h2>
+                    <Form.Check checked={product_exist === 1} custom type="radio" id="1" label="Товар есть на складе" name="product_exist" value={1} onChange={this.radioHandle} />
+                    <Form.Check checked={product_exist === 0} custom type="radio" id="0" label="Новый товар" name="product_exist" value={0} onChange={this.radioHandle} />
+                    {this.renderTabs(product_exist)}
+                    <div className="row">
+                        <div className="col-12">
+                            <h2>2. Укажите цвет и размер: </h2>
+                            <Form.Group>
+                                <Form.Label>Выберите цвет:</Form.Label>
+                                <Form.Control defaultValue="0" onChange={this.selectColorSizeChange} as="select" >
+                                    <option value="0" disabled>Выберите цвет</option>
+                                    {
+                                        colors.map(color => (
+                                            <option key={color.id} value={color.id}>{color.name}</option>
+                                        ))
+                                    }
+                                </Form.Control>
+                            </Form.Group>
+                            <Table striped bordered hover variant={this.props.theme} responsive>
+                                <thead>
+                                <tr>
+                                    <th>Цвет</th>
+                                    {
+                                        sizes.map(size => <th key={size.id} >{size.name}</th>)
+                                    }
+                                </tr>
+                                </thead>
+                                <tbody>
                                 {
-                                    colors.map(color => (
-                                        <option key={color.id} value={color.id}>{color.name}</option>
+                                    Object.keys(this.state.product_color_size).map(color => (
+                                        <tr key={color}>
+                                            <td>{colors.find(colorProps => colorProps.id === +color).name}</td>
+                                            {sizes.map(size => <td key={size.id} contentEditable onKeyUp={e => this.changeColorSize(color, size.id, e.target.innerText)} />)}
+                                        </tr>
                                     ))
                                 }
-                            </Form.Control>
-                        </Form.Group>
-                        <Table striped bordered hover variant="dark" responsive>
-                            <thead>
-                            <tr>
-                                <th>Цвет</th>
-                                {
-                                    sizes.map(size => <th key={size.id} >{size.name}</th>)
-                                }
-                            </tr>
-                            </thead>
-                            <tbody>
+                                </tbody>
+                            </Table>
+                        </div>
+                    </div>
+                    <h2>2. Укажите точку: </h2>
+                    <Form.Group>
+                        <Form.Label>Точка:</Form.Label>
+                        <Form.Control defaultValue="0" name="product_place" onChange={this.changeFieldHandle} as="select" >
+                            <option value="0" disabled>Выберите точку</option>
                             {
-                                Object.keys(this.state.product_color_size).map(color => (
-                                    <tr key={color}>
-                                        <td>{colors.find(colorProps => colorProps.id === +color).name}</td>
-                                        {sizes.map(size => <td key={size.id} contentEditable onKeyUp={e => this.changeColorSize(color, size.id, e.target.innerText)} />)}
-                                    </tr>
+                                places.map(place => (
+                                    <option key={place.id} value={place.id}>{place.name}</option>
                                 ))
                             }
-                            </tbody>
-                        </Table>
+                        </Form.Control>
+                    </Form.Group>
+                    <div className="row">
+                        <div className="col-12">
+                            <Button variant="outline-success" type="submit" size="lg" block>Добавить</Button>
+                        </div>
                     </div>
-                </div>
-                <h2>2. Укажите точку: </h2>
-                <Form.Group>
-                    <Form.Label>Точка:</Form.Label>
-                    <Form.Control defaultValue="0" name="product_place" onChange={this.changeFieldHandle} as="select" >
-                        <option value="0" disabled>Выберите точку</option>
-                        {
-                            places.map(place => (
-                                <option key={place.id} value={place.id}>{place.name}</option>
-                            ))
-                        }
-                    </Form.Control>
-                </Form.Group>
-                <div className="row">
-                    <div className="col-12">
-                        <Button variant="outline-success" type="submit" size="lg" block>Добавить</Button>
-                    </div>
-                </div>
-            </Wrapper>
+                </Wrapper>
+            </Container>
         );
     }
 }
@@ -305,7 +339,8 @@ const mapStateToProps = state => ({
     types: state.products.types,
     sizes: state.products.sizes,
     models: state.products.models,
-    USA: state.localSettings.currency.value
+    USA: state.localSettings.currency.value,
+    theme: state.localSettings.theme,
 });
 
 const mapDispatchToProps = {

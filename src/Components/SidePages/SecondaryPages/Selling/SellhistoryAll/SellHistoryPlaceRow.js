@@ -14,7 +14,7 @@ import {
 
 import { dateFormatLuxon, dateFormatLuxonFormatedSell } from '../../../../../Constants';
 
-const ProductsTransferTableRow = props => {
+const SellHistoryAllPlaceRow = props => {
     const { data, USA } = props;
 
     if (isEmpty(data) || !data.sold_at) {
@@ -34,4 +34,4 @@ const ProductsTransferTableRow = props => {
 };
 
 
-export default RowWrapper(ProductsTransferTableRow)
+export default RowWrapper(SellHistoryAllPlaceRow)

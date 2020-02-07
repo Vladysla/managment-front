@@ -8,5 +8,6 @@ export default {
         size: { label: 'Размер', sortable: false },
         color: { label: 'Цвет', sortable: false }
     },
-    key: 'id'
+    key: 'id',
+    page: 'transfer_income'
 }

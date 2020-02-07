@@ -11,6 +11,8 @@ import {
     FETCH_SELL_PER_DAY
 } from './actionTypes'
 
+import { showAlert } from '../LocalSettings/actions';
+
 
 export const loadTransferIncomeProducts = queryParams => async dispatch => {
     try {
@@ -34,14 +36,16 @@ export const loadTransferHistoryProducts = queryParams => dispatch => {
 export const applyTransfer = transfer_id => dispatch => {
     return axios.post(`${dataUrl}/my/transfer/apply`, { transfer_id })
         .then(({ data }) => {
-            dispatch({ type: TRANSFER_APPLY, payload: {data} })
+            dispatch({ type: TRANSFER_APPLY, payload: {data} });
+            dispatch(showAlert('Товар успешно перемещен!', 'transfer', 'success'));
         })
 };
 
 export const cancelTransfer = transfer_id => dispatch => {
     return axios.post(`${dataUrl}/my/transfer/cancel`, { transfer_id })
         .then(({ data }) => {
-            dispatch({ type: TRANSFER_CANCEL, payload: {data} })
+            dispatch({ type: TRANSFER_CANCEL, payload: {data} });
+            dispatch(showAlert('Товар успешно отклонен!', 'transfer', 'success'));
         })
 };
 

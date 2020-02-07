@@ -26,6 +26,7 @@ export const loadSeparateProducts = (queryParams, sold) => async dispatch => {
         dispatch({ type: FETCH_SEPARATE_PRODUCTS, payload: { data } });
     } catch (productsError) {
         dispatch({ type: FETCH_SEPARATE_PRODUCTS_FAILURE, payload: { productsError } });
+        dispatch(showAlert('Ошибка при загрузки товаров!', 'fetch', 'danger'));
     }
 };
 
@@ -37,14 +38,16 @@ export const transferProducts = (products, placeFrom, placeTo) => async dispatch
             place_to: placeTo
         };
         try {
-            const {data} = await axios.post(`${dataUrl}/my/transfer`, params)
+            const {data} = await axios.post(`${dataUrl}/my/transfer`, params);
             if (data.transferred.length === 0) {
-                dispatch(showAlert('Запись уже существует!', 'transfer'))
+                dispatch(showAlert('Запись уже существует!', 'transfer', 'danger'));
                 return
             }
-            dispatch({ type: TRANSFER_PRODUCTS, payload: { data } })
+            dispatch({ type: TRANSFER_PRODUCTS, payload: { data } });
+            dispatch(showAlert('Товары были перемещены!', 'transfer', 'success'));
         } catch (e) {
-            console.error(e)
+            console.error(e);
+            dispatch(showAlert('Ошибка при перемещении товара!', 'transfer', 'danger'));
         }
     }
 };
@@ -54,14 +57,18 @@ export const sellProducts = (products = [], user_place_id) => dispatch => {
         product_sum_ids: products,
         user_place: user_place_id
     };
-    console.log({ params })
+
     if (products.length !== 0 && user_place_id) {
         return axios.post(`${dataUrl}/my/sell`, params)
             .then(({data}) => {
-                dispatch({ type: SELL_PRODUCTS, payload: {data} })
+                dispatch({ type: SELL_PRODUCTS, payload: {data} });
+                dispatch(showAlert('Товары были проданы!', 'sell', 'success'));
                 return data
             })
-            .catch(console.warn)
+            .catch((e) => {
+                console.warn(e);
+                dispatch(showAlert('Ошибка при добавлении товаров!', 'sell', 'danger'));
+            })
     }
 };
 

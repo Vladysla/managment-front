@@ -18,13 +18,11 @@ const TransferIncomeRow = props => {
 
     const transferApply = (id) => {
         props.applyTransfer(id)
-            .then(() => alert('Передача прошла успешно!'))
-    }
+    };
 
     const transferCancel = (id) => {
         props.cancelTransfer(id)
-            .then(() => alert('Отмена передачи'))
-    }
+    };
 
     const {data, onSelect} = props;
     return (

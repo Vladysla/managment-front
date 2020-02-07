@@ -10,7 +10,7 @@ import {
 } from "./actionTypes";
 
 const initialState = {
-    theme: 'night',
+    theme: 'dark',
     isSidebarShown: false,
     sidebarType: null,
     id: null,

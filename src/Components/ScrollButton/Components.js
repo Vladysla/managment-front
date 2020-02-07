@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { setSecondaryColorRGBA } from '../../Mixins';
 
 export const Wrapper = styled.div`
-  bottom: ${props => props.top ? '7%' : '1%'};
+  bottom: ${props => props.top ? '16%' : '1%'};
   right: 4%;
   position: fixed;
   cursor: pointer;

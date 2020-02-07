@@ -5,54 +5,66 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from '../Table'
 import Select from '../Select';
-// import { Loader } from '../Icons';
+import ChoosePlateLoading from '../Loading/ChoosePlateLoading';
 
-import {ComponentWrapper} from "../SidePages/Components";
-
-import Alert from '../Alert';
+import { ComponentWrapper } from "../SidePages/Components";
 
 const ChoosePlate = props => {
-    console.log(props.page)
+    const {
+        user_place_id,
+        places,
+        types,
+        page,
+        placeHandler,
+        typeHandler,
+        transferProducts,
+        sellProducts,
+        placesLoading,
+        typesLoading,
+    } = props;
+
+    if (placesLoading || typesLoading) {
+        return <ChoosePlateLoading />
+    }
+
     return (
         <ComponentWrapper>
             <Container>
-                {
-                    (props.alert.show && props.alert.type === 'transfer') &&
-                        <Alert alert={props.alert} closeAlert={props.closeAlert} />
-                }
                 <Row className="justify-content-center">
                     {
-                        props.places &&
+                        places &&
                         <Col className="my-2">
-                            <Select userPlace={props.user_place_id} data={props.places} description="Все точки" handler={(e) => props.placeHandler(e, props.page)} isTransferPage={props.page === 'transfer'} />
+                            <Select userPlace={user_place_id} data={places} description="Все точки" handler={(e) => placeHandler(e, page)} isTransferPage={page === 'transfer'} />
                         </Col>
                     }
                     {
-                        props.types &&
+                        types &&
                         <Col className="my-2">
-                            <Select data={props.types} description="Все типы товаров" handler={props.typeHandler} />
+                            <Select data={types} description="Все типы товаров" handler={typeHandler} />
                         </Col>
                     }
                 </Row>
                 {
-                    props.page === 'transfer' &&
+                    page === 'transfer' &&
                     <Row className="row justify-content-center mt-3">
-                        <Button onClick={props.transferProducts} variant="outline-info">Переместить</Button>
+                        <Button onClick={transferProducts} variant="outline-info">Переместить</Button>
                     </Row>
                 }
                 {
-                    props.page === 'sell' &&
+                    page === 'sell' &&
                     <Row className="row justify-content-center mt-3">
-                        <Button onClick={props.sellProducts} variant="outline-info">Продать</Button>
+                        <Button onClick={sellProducts} variant="outline-info">Продать</Button>
                     </Row>
                 }
             </Container>
         </ComponentWrapper>
     )
-}
+};
 
 const mapStateToProps = state => ({
-    user_place_id: state.localSettings.user.place_id
-})
+    user_place_id: state.localSettings.user.place_id,
+    placesLoading: state.products.placesLoading,
+    typesLoading: state.products.typesLoading,
+});
 
 export default connect(mapStateToProps, null)(ChoosePlate)

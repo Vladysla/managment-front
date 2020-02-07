@@ -1,5 +1,6 @@
 import React from 'react';
 import DateTime from 'luxon/src/datetime';
+import isEmpty from 'lodash/isEmpty';
 import { WrappedLink } from './Components';
 
 import RowWrapper from '../../../HOC/RowWrapper';
@@ -13,6 +14,9 @@ import { dateFormatLuxon, dateFormatLuxonFormatedSell } from '../../../../../Con
 
 const ProductsTransferTableRow = props => {
     const {data, USA} = props;
+    if (isEmpty(data) || !data.sold_at) {
+        return null;
+    }
     const date = DateTime.fromFormat(data.sold_at, dateFormatLuxon).toFormat(dateFormatLuxonFormatedSell);
     const linkParams = {
         pathname: `/sell/day/${date}`,

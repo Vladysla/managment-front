@@ -39,7 +39,7 @@ export default RowComponent => props => {
             striped
             bordered
             hover
-            variant="dark"
+            variant={props.theme}
             responsive
         >
             <thead>

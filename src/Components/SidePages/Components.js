@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { mainShadow } from '../../Mixins'
 
 export const ComponentWrapper = styled.div`
-    background-color: #343a40;
+    background-color: ${props => props.theme.primary};
     box-shadow: 0 0 5px rgba(15, 20, 23, 0.55);
     padding: 30px;
     ${mainShadow};

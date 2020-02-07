@@ -9,7 +9,9 @@ import {
     FETCH_SIZES,
     FETCH_COLORS,
     FETCH_TYPES,
-    CLEAR_PRODUCTS, FETCH_MODELS
+    CLEAR_PRODUCTS, FETCH_MODELS,
+    FETCH_TYPES_START,
+    FETCH_PLACES_START,
 } from './actionTypes'
 
 export const loadProducts = (queryParams) => async dispatch => {
@@ -28,6 +30,7 @@ export const loadProducts = (queryParams) => async dispatch => {
 };
 
 export const loadPlaces = () => dispatch => {
+    dispatch(FETCH_PLACES_START);
     return axios.get(`${dataUrl}/places`)
         .then(response => {
             const data = response.data;
@@ -56,6 +59,7 @@ export const loadColors = () => dispatch => {
 };
 
 export const loadTypes = () => dispatch => {
+    dispatch(FETCH_TYPES_START);
     return axios.get(`${dataUrl}/types`)
         .then(response => {
             const data = response.data;

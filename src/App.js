@@ -11,7 +11,7 @@ import {
 } from './Mixins'
 
 const theme = {
-    night: {
+    dark: {
         primary: primaryColor,
         secondary: secondaryColor,
         secondaryRGBA: secondaryColorRGBA,

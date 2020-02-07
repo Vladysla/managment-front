@@ -8,7 +8,7 @@ import {
 class Pagination extends Component
 {
     constructor(props){
-        super(props)
+        super(props);
         this.pageNeighbours = typeof this.props.pageNeighbours === 'number'
             ? Math.max(0, Math.min(this.props.pageNeighbours, 2))
             : 0;
@@ -24,12 +24,12 @@ class Pagination extends Component
         }
 
         return range;
-    }
+    };
 
 
     handlePage = () => {
-        const { currentPage } = this.props
-        const totalPages = parseInt(this.props.lastPage)
+        const { currentPage } = this.props;
+        const totalPages = parseInt(this.props.lastPage);
         const totalBlocks = (this.pageNeighbours * 2) + 2;
         if(totalPages > totalBlocks) {
             const startPage = Math.max(2, currentPage - this.pageNeighbours);
@@ -63,11 +63,11 @@ class Pagination extends Component
             return [1, ...pages, totalPages];
         }
         return this.range(1, totalPages);
-    }
+    };
 
     render() {
         return(
-            <PaginatorWrapper>
+            <PaginatorWrapper {...this.props}>
                 <Page
                     onClick={() => this.props.switchNextPageClick("prev")}
                     disabled={this.props.currentPage === 1}

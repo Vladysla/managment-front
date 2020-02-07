@@ -6,7 +6,9 @@ import {
     FETCH_PRODUCTS_SUM_FAILURE,
     FETCH_SIZES,
     FETCH_TYPES,
-    CLEAR_PRODUCTS, FETCH_MODELS
+    CLEAR_PRODUCTS, FETCH_MODELS,
+    FETCH_PLACES_START,
+    FETCH_TYPES_START,
 } from './actionTypes'
 
 const initialState = {
@@ -17,8 +19,10 @@ const initialState = {
     colors: [],
     products: [],
     productsIsLoading: true,
-    productsError: false
-}
+    productsError: false,
+    placesLoading: true,
+    typesLoading: true,
+};
 
 const productsReducer = function (state = initialState, {type, payload}) {
     switch (type) {
@@ -47,10 +51,19 @@ const productsReducer = function (state = initialState, {type, payload}) {
             }
         }
 
+        case FETCH_PLACES_START: {
+            return {
+                ...state,
+                places: [],
+                placesLoading: true,
+            }
+        }
+
         case FETCH_PLACES: {
             return {
                 ...state,
-                places: payload
+                places: payload,
+                placesLoading: false,
             }
         }
 
@@ -68,10 +81,19 @@ const productsReducer = function (state = initialState, {type, payload}) {
             }
         }
 
+        case FETCH_TYPES_START: {
+            return {
+                ...state,
+                types: [],
+                typesLoading: true,
+            }
+        }
+
         case FETCH_TYPES: {
             return {
                 ...state,
-                types: payload
+                types: payload,
+                typesLoading: false,
             }
         }
 
@@ -91,6 +113,6 @@ const productsReducer = function (state = initialState, {type, payload}) {
         default:
             return state
     }
-}
+};
 
 export default productsReducer

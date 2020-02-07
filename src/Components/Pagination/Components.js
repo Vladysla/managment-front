@@ -4,26 +4,31 @@ export const PaginatorWrapper = styled.ul`
     list-style: none;
     display: flex;
     margin: 0;
-`
+    background-color: #e5e5e5;
+    width: 400px;
+    padding: 0 20px;
+    border-radius: 30px;
+    @media(max-width: 500px) {
+      width: 310px;
+    }
+`;
 
 export const Page = styled.li`
     display: flex;
+    color: ${props => props.active ? 'white' : 'rgba(31,32,41,0.4)'};
+    font-weight: 500;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    height: 10px;
-    width: 10px;
+    height: 40px;
+    width: 40px;
     text-align: center;
-    border-radius: 3px;
+    border-radius: 8px;
     cursor: pointer;
     -webkit-transition: all .4s;
     transition: all .4s;
-    box-shadow: 0px 0px 3px 2px rgba(191, 191, 191, 0.66);
-    background-color: ${props => props.active ? 'rgba(175,203,239,0.84)' : 'transparent'};
-    ${ props => props.disabled && `
+    box-shadow: ${props => props.active ? '0px 0px 1px 3px rgba(0, 98, 204, 0.1)' : 'none'};
+    background-color: ${props => props.active ? '#29bdfb' : 'transparent'};
+    ${props => props.disabled && `
         color: grey
     `}
-    &:hover {
-        background-color: #afcbef66;
-    }
-`
+`;

@@ -23,11 +23,25 @@ import {
 
 import Header from '../Components/Header'
 import Sidebar from '../Components/Sidebar'
+import Alert from '../Components/Alert';
 
 const PageContainer = WrappedComponent => class extends Component {
-    componentDidMount() {
+    intervalTimer = null;
+
+    async componentDidMount() {
         this.loadCurrency(this.props.currency);
+        this.showIncomeCount();
+        this.intervalTimer = setInterval(this.showIncomeCount, 7000);
     }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalTimer);
+    }
+
+    state = {
+        transferCount: 0,
+        transferLoading: true,
+    };
 
     setCurrency = async date => {
         try {
@@ -35,6 +49,20 @@ const PageContainer = WrappedComponent => class extends Component {
             return { date, value: +response.data };
         } catch (e) {
             console.warn(e)
+        }
+    };
+
+    showIncomeCount = async () => {
+        if (!this.props.user) return;
+        this.setState({ transferLoading: true });
+        try {
+            const response = await axios.post(`${dataUrl}/my/transfer/count`, {
+                place_id: this.props.user.place_id
+            });
+            this.setState({ transferCount: +response.data, transferLoading: false });
+        } catch (e) {
+            this.setState({ transferLoading: false });
+            console.warn(e);
         }
     };
 
@@ -61,14 +89,23 @@ const PageContainer = WrappedComponent => class extends Component {
                 : (
                     <ContainerWrapper fluid style={{padding: 0}}>
                         <Header />
+                        {otherProps.alert.show && (
+                            <Alert alert={otherProps.alert} closeAlert={otherProps.closeAlert} />
+                        )}
                         <Sidebar
                             logout={this.props.logout}
                             hideSidebar={this.props.hideSidebar}
                             isSidebarShown={this.props.isSidebarShown}
                             userRole={this.props.user.role}
+                            transferCount={this.state.transferCount}
+                            theme={this.props.theme}
                         />
                         <ComponentWrapper isSidebarShown={this.props.isSidebarShown}>
-                            <WrappedComponent { ...otherProps } />
+                            <WrappedComponent
+                                { ...otherProps }
+                                transferCount={this.state.transferCount}
+                                transferLoading={this.state.transferLoading}
+                            />
                         </ComponentWrapper>
                     </ContainerWrapper>
                 )
@@ -82,7 +119,8 @@ const mapStateToProps = state => ({
     error: state.localSettings.error,
     currency: state.localSettings.currency,
     alert: state.localSettings.alert,
-    user: state.localSettings.user
+    user: state.localSettings.user,
+    theme: state.localSettings.theme,
 });
 
 const mapDispatchToProps = dispatch => ({

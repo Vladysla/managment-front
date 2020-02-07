@@ -23,7 +23,7 @@ const Header = props => {
     }
 
     return (
-        <CustomNavbar fixed="top" bg="dark">
+        <CustomNavbar fixed="top" bg={props.theme}>
             <LeftPart>
                 <img
                     src="/logo.svg"
@@ -39,7 +39,8 @@ const Header = props => {
 };
 
 const mapStateToProps = state => ({
-    isSidebarShown: state.localSettings.isSidebarShown
+    isSidebarShown: state.localSettings.isSidebarShown,
+    theme: state.localSettings.theme,
 });
 
 const mapDispatchToProps = dispatch => ({

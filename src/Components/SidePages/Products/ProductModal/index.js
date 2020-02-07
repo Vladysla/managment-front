@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Image from 'react-bootstrap/Image'
+import isEmpty from 'lodash/isEmpty';
 
 import { CardRight,
     CardHead, TypeH, TitleH, Model,
@@ -25,6 +26,9 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, ...
     const [ activeTab, setActiveTab ] = useState('price')
 
     const handleTabChange = tab => setActiveTab(tab)
+    if (isEmpty(product)) {
+        return null;
+    }
 
     return (
         product && Object.keys(product).map((product_id, index) => {
@@ -123,10 +127,10 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, ...
                                             />
                                             <button
                                                 onClick={() => {
-                                                    if  (props.theme === 'night') {
+                                                    if  (props.theme === 'dark') {
                                                         return props.changeTheme('light');
                                                     }
-                                                    return props.changeTheme('night');
+                                                    return props.changeTheme('dark');
                                                 }}
                                             >
                                                 Change

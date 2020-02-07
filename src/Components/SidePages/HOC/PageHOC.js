@@ -23,7 +23,6 @@ import {
 
 import Pagination from '../../Pagination'
 import ChoosePlate from '../../ChoosePlate';
-import Alert from '../../Alert';
 import ScrollButton from '../../ScrollButton';
 const Modal = React.lazy(() => import('../../Modal'));
 const ProductModal = React.lazy(() => import('../Products/ProductModal'));
@@ -67,6 +66,13 @@ const PageHOC = (TableBody, options = {}) => {
         componentDidUpdate(prevProps, prevState) {
             if(this.state.currentPage !== prevState.currentPage
                 || this.state.type_id !== prevState.type_id) {
+                this.loadMoreData()
+            }
+            if (options.page === 'transfer_income'
+                && !this.props.products.productsIsLoading
+                && !this.props.transferLoading
+                && (this.props.products.total !== this.props.transferCount)) {
+                alert('Список входящих перемещений обновлен!');
                 this.loadMoreData()
             }
         }
@@ -120,6 +126,7 @@ const PageHOC = (TableBody, options = {}) => {
 
         searchOnSubmit = e => {
             e.preventDefault();
+            if (!this.state.searchProduct || this.state.searchProduct.length <= 1) return null;
 
             this.setState({ currentPage: 1 }, () => this.loadMoreData());
         };
@@ -206,14 +213,14 @@ const PageHOC = (TableBody, options = {}) => {
 
         render() {
             const { last_page, per_page, total, productsIsLoading } = this.props.products;
-            const { alert, closeAlert, user } = this.props;
+            const { user } = this.props;
             const { selectedProduct } = this.state;
             return (
                 <div>
                     {
                         (((options.page === 'place') || (options.page === 'transfer') || (options.page === 'sell')) && (options.subPage !== 'history') && (options.subPage !== 'perDay')) &&
                         <ChoosePlate
-                            places={(options.page !== 'sell' && user.role === 'manager') && this.props.places}
+                            places={(options.page !== 'sell' || user.role === 'admin') && this.props.places}
                             types={this.props.types}
                             placeHandler={this.placeHandler}
                             typeHandler={this.typeHandler}
@@ -223,10 +230,6 @@ const PageHOC = (TableBody, options = {}) => {
                             closeAlert={this.props.closeAlert}
                             sellProducts={this.sellProducts}
                         />
-                    }
-                    {
-                        (alert.show && (alert.type === 'sell')) &&
-                            <Alert alert={alert} closeAlert={closeAlert}/>
                     }
                     <ComponentWrapper>
                         {total >= 10 && <ScrollButton top />}
@@ -250,6 +253,7 @@ const PageHOC = (TableBody, options = {}) => {
                             setChecked={this.setCheckedProducts}
                             checkedProducts={this.state.checkedProducts}
                             USA={this.props.USA}
+                            theme={this.props.theme}
                         />
                         {
                             total > per_page &&
@@ -280,7 +284,7 @@ const PageHOC = (TableBody, options = {}) => {
 
 const mapStateToProps = state => ({
     USA: state.localSettings.currency.value
-})
+});
 
 const mapDispatchToProps = {
     clearSeparatedProductsStorage,

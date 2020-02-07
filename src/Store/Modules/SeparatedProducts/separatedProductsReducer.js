@@ -46,9 +46,6 @@ const separatedProductsReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 data: state.data.map(item => {
-                    if( arrIds.includes(item.sum_id) ) {
-                        alert('Запрос на перемещение отправлен!');
-                    }
                     return item
                 })
             }
