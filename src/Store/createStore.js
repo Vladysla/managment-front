@@ -10,7 +10,7 @@ import {
     hideAlert
 } from './Middlewares'
 
-let enhancer = applyMiddleware(thunk, dispatchString);
+let enhancer = applyMiddleware(thunk, dispatchString, hideAlert);
 if (process.env.NODE_ENV === 'development') {
     enhancer = composeWithDevTools(
         applyMiddleware(thunk, dispatchString, hideAlert)
