@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import BootsButton from 'react-bootstrap/Button';
 
 import {
     ComponentWrapper
@@ -13,11 +14,13 @@ import {
 } from '../../Table'
 
 import {
-    clearSeparatedData
+    clearSeparatedData,
 } from '../../../Store/Modules/SeparatedProducts/actions'
 
 import {
-    clearSeparatedProductsStorage
+    clearSeparatedProductsStorage,
+    transferApplyAll,
+    transferCancelAll
 } from '../../../Store/Modules/SeparatedProductsStorage/actions'
 
 
@@ -64,14 +67,16 @@ const PageHOC = (TableBody, options = {}) => {
         }
 
         componentDidUpdate(prevProps, prevState) {
+            const transferIncomePageChanges = options.page === 'transfer_income'
+                && !this.props.products.productsIsLoading
+                && !this.props.transferLoading
+                && (this.props.products.total !== this.props.transferCount);
+
             if(this.state.currentPage !== prevState.currentPage
                 || this.state.type_id !== prevState.type_id) {
                 this.loadMoreData()
             }
-            if (options.page === 'transfer_income'
-                && !this.props.products.productsIsLoading
-                && !this.props.transferLoading
-                && (this.props.products.total !== this.props.transferCount)) {
+            if (transferIncomePageChanges) {
                 alert('Список входящих перемещений обновлен!');
                 this.loadMoreData()
             }
@@ -209,6 +214,31 @@ const PageHOC = (TableBody, options = {}) => {
             this.props.showAlert('Вы должны выбрать товар(ы) для продажи!', 'sell', 'danger')
         };
 
+        renderAllTransferButtons = (transferApply, transferCancel) => {
+            if (options.page === 'transfer_income' && this.props.products.total > 1) {
+                return (
+                    <>
+                        <BootsButton
+                            variant="outline-success"
+                            className="font-weight-bold mb-2"
+                            onClick={transferApply}
+                        >
+                            Принять все
+                        </BootsButton>
+                        <BootsButton
+                            variant="outline-danger"
+                            className="font-weight-bold mb-2"
+                            onClick={transferCancel}
+                        >
+                            Отклонить все
+                        </BootsButton>
+                    </>
+                )
+            }
+
+            return null;
+        };
+
 
 
         render() {
@@ -240,6 +270,7 @@ const PageHOC = (TableBody, options = {}) => {
                             <FormInput value={this.state.searchProduct} onChange={this.searchOnChange} type="text" placeholder="Найти..." className="mr-sm-2 search-input" />
                             <Button forsearch='true' type="submit" variant="outline-info">Поиск</Button>
                         </Form>
+                        {this.renderAllTransferButtons(this.props.transferApplyAll, this.props.transferCancelAll)}
                         <TableBody
                             menuOpenHandler={this.menuOpenHandler}
                             hasMenuOpen={this.state.hasMenuOpen}
@@ -288,7 +319,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     clearSeparatedProductsStorage,
-    clearSeparatedData
+    clearSeparatedData,
+    transferApplyAll,
+    transferCancelAll
 };
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), PageHOC);

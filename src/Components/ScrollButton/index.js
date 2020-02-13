@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 import Circle from './Circle';
 import {
@@ -10,9 +11,13 @@ import {
 } from './Components';
 
 class ScrollButton extends Component {
-    state = {
-        circleProgress: this.props.top ? 0 : 100,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            circleProgress: this.props.top ? 0 : 100,
+        };
+        this.clientScroll = debounce(this.clientScroll, 60);
+    }
 
     componentDidMount() {
         window.addEventListener('scroll', this.clientScroll);

@@ -8,7 +8,9 @@ import {
     TRANSFER_CANCEL,
     CLEAR_SEPARATED_PRODUCTS_STORAGE,
     FETCH_SELL_HISTORY,
-    FETCH_SELL_PER_DAY
+    FETCH_SELL_PER_DAY,
+    TRANSFER_APPLY_ALL,
+    TRANSFER_CANCEL_ALL
 } from './actionTypes'
 
 import { showAlert } from '../LocalSettings/actions';
@@ -72,3 +74,24 @@ export const loadSoldPerDay = (date, queryParams) => dispatch => {
 };
 
 export const clearSeparatedProductsStorage = () => dispatch => dispatch(CLEAR_SEPARATED_PRODUCTS_STORAGE);
+
+export const transferApplyAll = () => dispatch => {
+    return axios.put(`${dataUrl}/my/transfer/all`)
+        .then(({ data }) => {
+            dispatch({ type: TRANSFER_APPLY_ALL, payload: { data } });
+            dispatch(showAlert('Товары успешно переданы!', 'transfer', 'success'));
+        })
+        .catch(console.warn);
+};
+
+export const transferCancelAll = () => dispatch => {
+    return axios.delete(`${dataUrl}/my/transfer/all/cancel`)
+        .then(({ data }) => {
+            console.log(data);
+            dispatch({ type: TRANSFER_CANCEL_ALL, payload: { data } });
+            dispatch(showAlert('Запрос успешно отклонен!', 'transfer', 'success'));
+        })
+        .catch((e) => {
+            console.warn(e);
+        });
+};

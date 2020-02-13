@@ -40,14 +40,14 @@ export const transferProducts = (products, placeFrom, placeTo) => async dispatch
         try {
             const {data} = await axios.post(`${dataUrl}/my/transfer`, params);
             if (data.transferred.length === 0) {
-                dispatch(showAlert('Запись уже существует!', 'transfer', 'danger'));
+                dispatch(showAlert(`Невозможно переместить товар${products.length > 1 ? 'ы' : ''}!`, 'transfer', 'danger'));
                 return
             }
             dispatch({ type: TRANSFER_PRODUCTS, payload: { data } });
-            dispatch(showAlert('Товары были перемещены!', 'transfer', 'success'));
+            dispatch(showAlert(`Товар${products.length > 1 ? 'ы' : ''} были перемещены!`, 'transfer', 'success'));
         } catch (e) {
             console.error(e);
-            dispatch(showAlert('Ошибка при перемещении товара!', 'transfer', 'danger'));
+            dispatch(showAlert(`Ошибка при перемещении товар${products.length > 1 ? 'ов' : 'а'}!`, 'transfer', 'danger'));
         }
     }
 };
@@ -62,7 +62,7 @@ export const sellProducts = (products = [], user_place_id) => dispatch => {
         return axios.post(`${dataUrl}/my/sell`, params)
             .then(({data}) => {
                 dispatch({ type: SELL_PRODUCTS, payload: {data} });
-                dispatch(showAlert('Товары были проданы!', 'sell', 'success'));
+                dispatch(showAlert('Товар были проданы!', 'sell', 'success'));
                 return data
             })
             .catch((e) => {
