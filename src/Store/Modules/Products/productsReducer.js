@@ -10,6 +10,7 @@ import {
     FETCH_PLACES_START,
     FETCH_TYPES_START,
 } from './actionTypes'
+import { EDIT_PRODUCT } from '../Product/actionTypes';
 
 const initialState = {
     data: [],
@@ -107,6 +108,28 @@ const productsReducer = function (state = initialState, {type, payload}) {
         case CLEAR_PRODUCTS: {
             return {
                 ...initialState
+            }
+        }
+
+        case EDIT_PRODUCT: {
+            return {
+                ...state,
+                data: state.data.map(product => {
+                    if (product.product_id === payload.data.id) {
+                        const { brand, model, photo, price_arrival, price_sell, type } = payload.data;
+                        return {
+                            ...product,
+                            brand,
+                            model,
+                            photo,
+                            price_arrival,
+                            price_sell,
+                            type_name: type.name
+                        }
+                    }
+
+                    return product;
+                })
             }
         }
 

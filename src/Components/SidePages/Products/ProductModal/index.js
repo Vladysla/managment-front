@@ -1,31 +1,31 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
-import Image from 'react-bootstrap/Image'
 import isEmpty from 'lodash/isEmpty';
 
 import { CardRight,
     CardHead, TypeH, TitleH, Model,
-    Prices, PriceTitle, PriceValue, PriceUE,
     TabsWrapper, TabsHead, TabItem, TabText,
-    TabsBody, Places
+    TabsBody
 } from './Components'
 
-import {Accordion, AccordionItem} from '../../../Accordion';
 import {clearProduct, loadProduct} from '../../../../Store/Modules/Product/actions';
 import { changeTheme } from '../../../../Store/Modules/LocalSettings/actions';
 
-import { getImage } from '../../../../API';
+import Photo from './screens/Photo';
+import Price from './screens/Price';
+import Place from './screens/Place';
+import Edit from './screens/Edit';
 
-const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, ...props }) => {
+const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, closeModal, ...props }) => {
     useEffect(() => {
-        loadProduct(productId)
+        loadProduct(productId);
 
         return () => clearProduct()
     }, [productId, loadProduct, clearProduct]);
 
-    const [ activeTab, setActiveTab ] = useState('price')
+    const [ activeTab, setActiveTab ] = useState('price');
 
-    const handleTabChange = tab => setActiveTab(tab)
+    const handleTabChange = tab => setActiveTab(tab);
     if (isEmpty(product)) {
         return null;
     }
@@ -61,82 +61,37 @@ const ProductModal =  ({ product, USA, loadProduct, clearProduct, productId, ...
                                     >
                                         <TabText>Фото</TabText>
                                     </TabItem>
+                                    <TabItem
+                                        onClick={() => handleTabChange('edit')}
+                                        active={activeTab === 'edit'}
+                                    >
+                                        <TabText>Изменить</TabText>
+                                    </TabItem>
                                 </TabsHead>
                                 <TabsBody>
-                                    {
-                                        activeTab === 'price' &&
-                                        <Prices>
-                                            <PriceTitle>Цена закупа: </PriceTitle>
-                                            <PriceValue>{`${product[product_id].info.price_arrival} грн. `}<PriceUE>{`(${(product[product_id].info.price_arrival / USA).toFixed(1)} $)`}</PriceUE></PriceValue>
-                                            <PriceTitle>Цена продажи: </PriceTitle>
-                                            <PriceValue>{`${product[product_id].info.price_sell} грн. `}<PriceUE>{`(${(product[product_id].info.price_sell / USA).toFixed(1)} $)`}</PriceUE></PriceValue>
-                                        </Prices>
-                                    }
-                                    {
-                                        activeTab === 'place' &&
-                                        <Places>
-                                            Все доступные магазины
-                                            <Accordion>
-                                                {Object.keys(places).map(place => {
-                                                    let totalCount = 0;
-                                                    Object.keys(places[place]).forEach(size => {
-                                                        Object.keys(places[place][size]).forEach(color => {
-                                                            totalCount+= places[place][size][color]
-                                                        })
-                                                    });
-                                                    return (
-                                                        <AccordionItem key={place} title={`${place}: ${totalCount} шт.`}>
-                                                            <div>
-                                                                <Accordion>
-                                                                    {
-                                                                        Object.keys(places[place]).map(size => {
-                                                                            let sizeCount = 0;
-                                                                            Object.keys(places[place][size]).forEach(color => {
-                                                                                sizeCount+= places[place][size][color]
-                                                                            })
-                                                                            return (
-                                                                                <AccordionItem key={size} title={`${size}: ${sizeCount} шт.`}>
-                                                                                    <div>
-                                                                                        {
-                                                                                            Object.keys(places[place][size]).map(color => (
-                                                                                                <div key={color}>
-                                                                                                    <div>{`${color}: ${places[place][size][color]}`}</div>
-                                                                                                </div>
-                                                                                            ))
-                                                                                        }
-                                                                                    </div>
-                                                                                </AccordionItem>
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                </Accordion>
-                                                            </div>
-                                                        </AccordionItem>
-                                                    )
-                                                })}
-                                            </Accordion>
-                                        </Places>
-                                    }
-                                    {
-                                        activeTab === 'photo' &&
-                                        <Places>
-                                            <Image
-                                                thumbnail
-                                                src={getImage(product[product_id].info.photo)}
-                                                alt="Product picture"
-                                            />
-                                            <button
-                                                onClick={() => {
-                                                    if  (props.theme === 'dark') {
-                                                        return props.changeTheme('light');
-                                                    }
-                                                    return props.changeTheme('dark');
-                                                }}
-                                            >
-                                                Change
-                                            </button>
-                                        </Places>
-                                    }
+                                    {activeTab === 'price' && (
+                                        <Price
+                                            product={product}
+                                            product_id={product_id}
+                                            usa={USA}
+                                        />
+                                    )}
+                                    {activeTab === 'place' && <Place places={places} />}
+                                    {activeTab === 'photo' && (
+                                        <Photo
+                                            product={product}
+                                            product_id={product_id}
+                                            theme={props.theme}
+                                            changeTheme={props.changeTheme}
+                                        />
+                                    )}
+                                    {activeTab === 'edit' && (
+                                        <Edit
+                                            product={product[product_id].info}
+                                            productId={product_id}
+                                            closeModal={closeModal}
+                                        />
+                                    )}
                                 </TabsBody>
                             </TabsWrapper>
                         </CardHead>

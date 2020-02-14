@@ -54,6 +54,25 @@ class AddProduct extends Component {
         fieldError: []
     };
 
+    productFields = [
+        {
+            name: 'brand',
+            label: 'Бренд'
+        },
+        {
+            name: 'model',
+            label: 'Модель'
+        },
+        {
+            name: 'price_arrival',
+            label: 'Цена закупа'
+        },
+        {
+            name: 'price_sell',
+            label: 'Цена продажи'
+        }
+    ];
+
     radioHandle = e => {
         this.setState({
             product_exist: +e.target.value
@@ -113,8 +132,22 @@ class AddProduct extends Component {
         })
     };
 
+    isFieldsEmpty = (arrayFields = []) => {
+        const stateFields = arrayFields.map(field => this.state[field]);
+        return stateFields.some(field => field.length === 0);
+    };
+
     handleSubmit = e => {
         e.preventDefault();
+        const { fieldError } = this.state;
+        const isEmpty = this.isFieldsEmpty(this.productFields.map(f => f.name));
+        if (fieldError.length || isEmpty) {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+            return;
+        }
         this.props.addProduct(this.state);
     };
 
@@ -142,24 +175,6 @@ class AddProduct extends Component {
     renderTabs = ifExist => {
         const { types } = this.props;
         const { product_value, productSelected } = this.state;
-        const productFields = [
-            {
-                name: 'brand',
-                label: 'Бренд'
-            },
-            {
-                name: 'model',
-                label: 'Модель'
-            },
-            {
-                name: 'price_arrival',
-                label: 'Цена закупа'
-            },
-            {
-                name: 'price_sell',
-                label: 'Цена продажи'
-            }
-        ];
         if (ifExist) {
             if(!this.props.models) return <div>Товаров нет!</div>
             return (
@@ -220,7 +235,7 @@ class AddProduct extends Component {
             <>
                 <div className='row'>
                     {
-                        productFields.map(field => {
+                        this.productFields.map(field => {
                             return (
                                 <div key={field.name} className="col-md-3 col-sm">
                                     <Form.Group>

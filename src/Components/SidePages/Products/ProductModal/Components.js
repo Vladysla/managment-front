@@ -67,8 +67,10 @@ export const TabsHead = styled.ul`
     width: 100%;
     border-bottom: 1px solid rgb(228, 228, 228);
     list-style: none;
-    margin: 0px;
-    padding: 0px 0px 10px;
+    margin: 0;
+    padding: 0 0 11px;
+    overflow: hidden;
+    overflow-x: auto;
 `;
 
 export const TabItem = styled.li`

@@ -2,8 +2,10 @@ import axios, { dataUrl } from '../../../API'
 import {
     FETCH_PRODUCT,
     CLEAR_PRODUCT,
-    ADD_PRODUCT
+    ADD_PRODUCT,
+    EDIT_PRODUCT
 } from './actionTypes'
+import { showAlert } from '../LocalSettings/actions';
 
 export const loadProduct = productId => dispatch => {
     return axios.get(`${dataUrl}/product/${productId}`)
@@ -37,4 +39,25 @@ export const addProduct = (productData) => dispatch => {
             dispatch({ type: ADD_PRODUCT, payload: data })
         })
         .catch(error => Promise.reject(error))
+};
+
+export const editProduct = (productData) => dispatch => {
+    let settings = { headers: { 'Content-Type': 'multipart/form-data' } };
+    let formData = new FormData();
+    formData.append('product_id', productData.id);
+    formData.append('brand', productData.brand);
+    formData.append('model', productData.model);
+    formData.append('price_arrival', productData.price_arrival);
+    formData.append('price_sell', productData.price_sell);
+    formData.append('type_id', productData.type_id);
+    formData.append('product_photo', productData.photo);
+
+    return axios.post(`${dataUrl}/products/edit`, formData, settings)
+        .then(response => {
+            dispatch({ type: EDIT_PRODUCT, payload: response });
+            dispatch(showAlert('Товар успешно изменен!', 'productEdit', 'success'));
+        })
+        .catch(error => {
+            dispatch(showAlert('Ошибка при измене товара!', 'productEdit', 'danger'))
+        });
 };

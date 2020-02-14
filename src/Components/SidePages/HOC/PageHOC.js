@@ -302,7 +302,7 @@ const PageHOC = (TableBody, options = {}) => {
                             {
                                 selectedProduct &&
                                 <Modal onClose={() => this.setState({ selectedProduct: null })}>
-                                    <ProductModal productId={selectedProduct}/>
+                                    <ProductModal closeModal={() => this.setState({ selectedProduct: null })} productId={selectedProduct}/>
                                 </Modal>
                             }
                         </React.Suspense>
